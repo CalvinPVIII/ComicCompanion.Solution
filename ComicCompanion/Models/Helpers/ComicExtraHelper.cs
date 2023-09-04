@@ -1,9 +1,8 @@
-using HtmlAgilityPack;
 using AngleSharp;
 
 namespace ComicCompanion.Models;
 
-public class ComicExtraHelper : ComicHelper
+public class ComicExtraHelper : ComicHelper, IHelperAsync
 {
 
     private static AngleSharp.IConfiguration _config = Configuration.Default.WithDefaultLoader();
