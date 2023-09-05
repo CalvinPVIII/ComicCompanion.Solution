@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ComicCompanion.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AngleSharp.Text;
 
@@ -22,29 +23,28 @@ namespace Project.Tests
         [TestMethod]
         public async Task Search_OneWordSearchParameter_ComicList()
         {
-            Comic[] searchResults = await ComicExtraHelper.Search("batman");
-            System.Console.WriteLine(searchResults.Length);
-            Assert.IsTrue(searchResults.Length >= 25);
+            List<Comic> searchResults = await ComicExtraHelper.Search("batman");
+            Assert.IsTrue(searchResults.Count >= 25);
         }
         [TestMethod]
         public async Task Search_MultipleWordSearchParameter_ComicList()
         {
-            Comic[] searchResults = await ComicExtraHelper.Search("man without fear");
-            Assert.IsTrue(searchResults.Length >= 4);
+            List<Comic> searchResults = await ComicExtraHelper.Search("man without fear");
+            Assert.IsTrue(searchResults.Count >= 4);
         }
 
         [TestMethod]
         public async Task Search_KeywordAndPageNumber_ComicList()
         {
-            Comic[] searchResults = await ComicExtraHelper.Search("ghost rider", 3);
-            Assert.IsTrue(searchResults.Length >= 3);
+            List<Comic> searchResults = await ComicExtraHelper.Search("ghost rider", 3);
+            Assert.IsTrue(searchResults.Count >= 3);
         }
 
         [TestMethod]
         public async Task Search_WordWithParenthesis_ComicList()
         {
-            Comic[] searchResults = await ComicExtraHelper.Search("batman (2011)");
-            Assert.IsTrue(searchResults.Length >= 9);
+            List<Comic> searchResults = await ComicExtraHelper.Search("batman (2011)");
+            Assert.IsTrue(searchResults.Count >= 9);
         }
 
         [TestMethod]
