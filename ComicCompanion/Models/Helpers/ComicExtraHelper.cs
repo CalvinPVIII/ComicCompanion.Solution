@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using AngleSharp;
 
 namespace ComicCompanion.Models;
@@ -8,7 +9,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
     private static AngleSharp.IConfiguration _config = Configuration.Default.WithDefaultLoader();
     private static IBrowsingContext _context = BrowsingContext.New(_config);
 
-    public async static Task<Comic[]> Search(string keyword, int? pageNumber = 1)
+    public async static Task<List<Comic>> Search(string keyword, int? pageNumber = 1)
     {
 
         keyword = FormatSearchKeyword(keyword);
@@ -31,7 +32,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
         {
             // do nothing
         }
-        return results.ToArray();
+        return results;
 
     }
 
@@ -57,12 +58,35 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
         var doc = await _context.OpenAsync($"https://comicextra.net/comic/{comicId}");
         var img = doc.QuerySelector("body > main > div > div > div > div.col-lg-8 > div:nth-child(1) > div.movie-info > div.block-movie-info.movie-info-box > div > div.col-5.movie-image > div > img").Attributes["src"].Value;
         var name = doc.QuerySelector("body > main > div > div > div > div.col-lg-8 > div:nth-child(1) > div.movie-info > div.block-movie-info.movie-info-box > div > h1 > span").TextContent;
-        return new Comic() { CoverImg = img, ComicId = comicId, Name = name };
+        var issueNodes = doc.QuerySelectorAll("#list > tr > td:nth-child(1) > a");
+        List<string> issueIds = new List<string>();
+        foreach (var node in issueNodes)
+        {
+
+            issueIds.Add(GetIssueIdFromHref(node.Attributes["href"].Value));
+        }
+        return new Comic() { CoverImg = img, ComicId = comicId, Name = name, IssueIds = issueIds };
     }
 
 
     private static string GetIdFromUrl(string url)
     {
         return url.Replace("https://comicextra.net/comic/", "");
+    }
+
+    private static string GetIssueIdFromHref(string href)
+    {
+
+        string pattern = @"issue-(.+)";
+        Match match = Regex.Match(href, pattern);
+
+        if (match.Success)
+        {
+            return match.Groups[1].Value;
+        }
+        else
+        {
+            return href;
+        }
     }
 }
