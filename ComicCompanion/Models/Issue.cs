@@ -5,7 +5,7 @@ public class Issue
 
     public string IssueId { get; set; }
     public string ComicId { get; set; }
-    public string[] Pages { get; set; }
+    public string[]? Pages { get; set; }
 
     public async Task<string[]> GetPagesAsync(int? serverNumber)
     {
