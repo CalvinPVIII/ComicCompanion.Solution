@@ -6,9 +6,9 @@ namespace ComicCompanion.Models;
 [ApiController]
 public class ReadingListController : Controller
 {
-    private readonly ComicCompanionDbContext _db;
+    private readonly ComicCompanionContext _db;
 
-    public ReadingListController(ComicCompanionDbContext db)
+    public ReadingListController(ComicCompanionContext db)
     {
         _db = db;
     }

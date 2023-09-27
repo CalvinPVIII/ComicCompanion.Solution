@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace ComicCompanion.Models;
-
-public class ComicCompanionDbContext : IdentityDbContext<ApplicationUser>
+namespace ComicCompanion.Models
 {
-    public DbSet<ReadingList> ReadingLists { get; set; }
+    public class ComicCompanionContext : IdentityDbContext<ApplicationUser>
+    {
+        public DbSet<ReadingList> ReadingLists { get; set; }
+        public ComicCompanionContext(DbContextOptions options) : base(options) { }
+    }
 }

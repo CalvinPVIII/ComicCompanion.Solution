@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicCompanion", "ComicCompanion.csproj", "{83F2CD74-00B0-425F-9BB2-2569F4C5FA91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicCompanion", "ComicCompanion.csproj", "{E83F283E-7DE3-4999-8954-4F5EB6D7A1E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{83F2CD74-00B0-425F-9BB2-2569F4C5FA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83F2CD74-00B0-425F-9BB2-2569F4C5FA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83F2CD74-00B0-425F-9BB2-2569F4C5FA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83F2CD74-00B0-425F-9BB2-2569F4C5FA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E83F283E-7DE3-4999-8954-4F5EB6D7A1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E83F283E-7DE3-4999-8954-4F5EB6D7A1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E83F283E-7DE3-4999-8954-4F5EB6D7A1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E83F283E-7DE3-4999-8954-4F5EB6D7A1E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DB636028-83FF-4BCF-A13B-399C0783B7FA}
+		SolutionGuid = {62D0AD04-5B39-4052-8194-E357963B687A}
 	EndGlobalSection
 EndGlobal
