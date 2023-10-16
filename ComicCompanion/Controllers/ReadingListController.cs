@@ -30,11 +30,14 @@ public class ReadingListController : Controller
     }
 
 
-    // [HttpPatch("ReadingLists/{id}")]
-    // public IActionResult Update(ReadingList list)
-    // {
+    [HttpPut("ReadingLists/{id}")]
+    public IActionResult Update(ReadingList list)
+    {
+        _db.ReadingLists.Update(list);
+        _db.SaveChanges();
+        return Ok(list);
 
-    // }
+    }
 
 
 

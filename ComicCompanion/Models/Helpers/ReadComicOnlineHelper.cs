@@ -19,18 +19,20 @@ public class ReadComicOnlineHelper : ComicHelper, IHelperAsync
 
         var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            SlowMo = 100
+            SlowMo = 100,
+
+
         });
         string url;
         int number;
-        if(Int32.TryParse(issue.IssueId, out number))
+        if (Int32.TryParse(issue.IssueId, out number))
         {
             url = $"https://readcomiconline.li/Comic/{issue.ComicId}/issue-{issue.IssueId}?readType=1";
         }
         else
         {
             url = $"https://readcomiconline.li/Comic/{issue.ComicId}/{issue.IssueId}?readType=1";
-        } 
+        }
         var page = await browser.NewPageAsync();
         try
         {
@@ -45,13 +47,13 @@ public class ReadComicOnlineHelper : ComicHelper, IHelperAsync
             }
             ");
 
-             return pages;
+            return pages;
         }
-        catch(Exception)
+        catch (Exception)
         {
-            return new string[]{};
+            return new string[] { };
         }
-       
+
     }
 
     public async static Task<List<Comic>> Search(string keyword, int? pageNumber = 1)

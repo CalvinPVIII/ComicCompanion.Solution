@@ -20,6 +20,16 @@ namespace ToDoList
       builder.Services.AddSwaggerGen();
 
 
+      builder.Services.AddCors(options =>
+{
+  options.AddDefaultPolicy(
+      policy =>
+      {
+        policy.WithOrigins("*");
+      });
+});
+
+
       builder.Services.AddDbContext<ComicCompanionContext>(
                         dbContextOptions => dbContextOptions
                           .UseNpgsql(
@@ -69,7 +79,7 @@ namespace ToDoList
         app.UseSwagger();
         app.UseSwaggerUI();
       }
-
+      app.UseCors();
       // app.UseDeveloperExceptionPage();
       app.UseHttpsRedirection();
       app.UseStaticFiles();

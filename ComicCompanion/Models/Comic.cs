@@ -6,7 +6,7 @@ public class Comic
     public string ComicId { get; set; }
     public string Name { get; set; }
     public string CoverImg { get; set; }
-    public List<string> IssueIds { get; set; }
+    public List<string>? IssueIds { get; set; }
 
 
     public async static Task<Comic> GetComicById(string comicId, int? serverNumber)

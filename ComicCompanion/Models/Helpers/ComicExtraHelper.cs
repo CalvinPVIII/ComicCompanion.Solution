@@ -58,7 +58,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
         var doc = await _context.OpenAsync($"https://comicextra.net/comic/{comicId}");
         var img = doc.QuerySelector("body > main > div > div > div > div.col-lg-8 > div:nth-child(1) > div.movie-info > div.block-movie-info.movie-info-box > div > div.col-5.movie-image > div > img").Attributes["src"].Value;
         var name = doc.QuerySelector("body > main > div > div > div > div.col-lg-8 > div:nth-child(1) > div.movie-info > div.block-movie-info.movie-info-box > div > h1 > span").TextContent;
-        var issueNodes = doc.QuerySelectorAll("#list > tr > td:nth-child(1) > a");
+        var issueNodes = doc.QuerySelectorAll("#list > tr> td:nth-child(1) > a");
         List<string> issueIds = new List<string>();
         foreach (var node in issueNodes)
         {
@@ -67,6 +67,11 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
         }
         return new Comic() { CoverImg = img, ComicId = comicId, Name = name, IssueIds = issueIds };
     }
+
+    // public static List<string> GetComicIssueIds(string comicId)
+    // {
+
+    // }
 
 
     private static string GetIdFromUrl(string url)
