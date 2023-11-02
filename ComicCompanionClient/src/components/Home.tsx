@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <>
-      <h1>Comic Companion</h1>
+      <h1>Comic Companion Home</h1>
     </>
   );
 }

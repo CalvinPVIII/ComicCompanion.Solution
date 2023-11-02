@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 import { IComic } from "../types";
 
+import { Link } from "react-router-dom";
+
 export default function SearchResults() {
   const { query } = useParams();
 
@@ -10,7 +12,7 @@ export default function SearchResults() {
   const [searchResult, setSearchResult] = useState<IComic[] | null>();
 
   const search = async (): Promise<IComic[]> => {
-    return fetch(`${import.meta.env.VITE_API_URL}/comics/search?keyword=${query}&pageNumber=1`).then((r) => r.json().then((data) => data));
+    return fetch(`${import.meta.env.VITE_API_URL}/comics/search?keyword=${query}`).then((r) => r.json().then((data) => data));
   };
 
   useEffect(() => {
@@ -32,7 +34,9 @@ export default function SearchResults() {
           {searchResult.map((comic) => (
             <>
               <p>{comic.name}</p>
-              <img src={comic.coverImg} alt={`Cover for ${comic.name}`} />
+              <Link to={`/comics/${comic.comicId}`}>
+                <img src={comic.coverImg} alt={`Cover for ${comic.name}`} />
+              </Link>
             </>
           ))}
         </>
