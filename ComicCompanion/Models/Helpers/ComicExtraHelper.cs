@@ -1,22 +1,29 @@
 using System.Text.RegularExpressions;
 using AngleSharp;
-
+using AngleSharp.Io.Network;
 namespace ComicCompanion.Models;
 
 public class ComicExtraHelper : ComicHelper, IHelperAsync
 {
 
-    private static AngleSharp.IConfiguration _config = Configuration.Default.WithDefaultLoader();
+    private static HttpClient _client = new HttpClient { Timeout = new TimeSpan(0, 0, 5) };
+
+    private static HttpClientRequester _requester = new HttpClientRequester(_client);
+    private static AngleSharp.IConfiguration _config = Configuration.Default.With(_requester).WithDefaultLoader();
     private static IBrowsingContext _context = BrowsingContext.New(_config);
 
-    public async static Task<List<Comic>> Search(string keyword, int? pageNumber = 1)
+    public async static Task<List<Comic>> Search(string keyword, int? pageNumber)
     {
 
+        if (pageNumber == 0 || pageNumber == null)
+        {
+            pageNumber = 1;
+        }
         keyword = FormatSearchKeyword(keyword);
         List<Comic> results = new List<Comic>();
         try
         {
-            var document = await _context.OpenAsync($"https://comicextra.net/comic-search?key={keyword}&page={pageNumber}");
+            var document = await _context.OpenAsync($"https://comicextra.me/comic-search?key={keyword}&page={pageNumber}");
             var cells = document.QuerySelectorAll(".cartoon-box");
             foreach (var node in cells)
             {
@@ -28,9 +35,9 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
             }
 
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // do nothing
+
         }
         return results;
 
@@ -38,7 +45,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
 
     public async static Task<string[]> GetPagesFromIssue(Issue issue)
     {
-        var document = await _context.OpenAsync($"https://comicextra.net/comic/{issue.ComicId}/issue-{issue.IssueId}/full");
+        var document = await _context.OpenAsync($"https://comicextra.me/{issue.ComicId}/issue-{issue.IssueId}/full");
         List<string> pages = new List<string>();
         try
         {
@@ -55,7 +62,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
 
     public async static Task<Comic> GetComicFromId(string comicId)
     {
-        var doc = await _context.OpenAsync($"https://comicextra.net/comic/{comicId}");
+        var doc = await _context.OpenAsync($"https://comicextra.me/comic/{comicId}");
         var img = doc.QuerySelector("body > main > div > div > div > div.col-lg-8 > div:nth-child(1) > div.movie-info > div.block-movie-info.movie-info-box > div > div.col-5.movie-image > div > img").Attributes["src"].Value;
         var name = doc.QuerySelector("body > main > div > div > div > div.col-lg-8 > div:nth-child(1) > div.movie-info > div.block-movie-info.movie-info-box > div > h1 > span").TextContent;
         var issueNodes = doc.QuerySelectorAll("#list > tr> td:nth-child(1) > a");
@@ -76,7 +83,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
 
     private static string GetIdFromUrl(string url)
     {
-        return url.Replace("https://comicextra.net/comic/", "");
+        return url.Replace("https://comicextra.me/comic/", "");
     }
 
     private static string GetIssueIdFromHref(string href)

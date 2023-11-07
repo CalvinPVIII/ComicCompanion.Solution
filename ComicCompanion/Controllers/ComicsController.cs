@@ -12,9 +12,18 @@ public class ComicsController : Controller
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<List<Comic>>> Search(string keyword, int? serverNumber, int? pageNumber = 1)
+    public async Task<ActionResult<List<Comic>>> Search(string keyword, int? serverNumber, int? pageNumber)
     {
-        return Ok(await Comic.Search(keyword, serverNumber, pageNumber));
+
+        try
+        {
+            return Ok(await Comic.Search(keyword, serverNumber, pageNumber));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
     }
 
 }

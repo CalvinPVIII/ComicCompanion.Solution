@@ -20,7 +20,7 @@ public class ReadComicOnlineHelper : ComicHelper, IHelperAsync
         var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             SlowMo = 100,
-
+            Timeout = 1000,
 
         });
         string url;
@@ -49,9 +49,9 @@ public class ReadComicOnlineHelper : ComicHelper, IHelperAsync
 
             return pages;
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return new string[] { };
+            return new string[] { e.Message };
         }
 
     }

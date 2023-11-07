@@ -11,7 +11,7 @@ public class Comic
 
     public async static Task<Comic> GetComicById(string comicId, int? serverNumber)
     {
-        if (serverNumber == 2)
+        if (serverNumber == 1)
         {
             return await ReadComicOnlineHelper.GetComicFromId(comicId);
         }
@@ -21,9 +21,9 @@ public class Comic
         }
     }
 
-    public async static Task<List<Comic>> Search(string keyword, int? serverNumber, int? pageNumber = 1)
+    public async static Task<List<Comic>> Search(string keyword, int? serverNumber, int? pageNumber)
     {
-        if (serverNumber == 2)
+        if (serverNumber == 1)
         {
             return await ReadComicOnlineHelper.Search(keyword);
         }
