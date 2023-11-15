@@ -4,15 +4,15 @@ import ComicList from "./ComicList";
 
 import "../styles/SearchResults.css";
 
-import { IComic } from "../types";
+import { ISearchResultDto } from "../types";
 
 export default function SearchResults() {
   const { query } = useParams();
 
   const [apiLoading, setApiLoading] = useState<boolean>(true);
-  const [searchResult, setSearchResult] = useState<IComic[] | null>();
+  const [searchResult, setSearchResult] = useState<ISearchResultDto | null>();
 
-  const search = async (): Promise<IComic[]> => {
+  const search = async (): Promise<ISearchResultDto> => {
     return fetch(`${import.meta.env.VITE_API_URL}/comics/search?keyword=${query}`).then((r) => r.json().then((data) => data));
   };
 
@@ -31,7 +31,7 @@ export default function SearchResults() {
       <h1 className="search-results-header">Results for: {query}</h1>
       {!apiLoading && searchResult ? (
         <>
-          <ComicList comics={searchResult} />
+          <ComicList comics={searchResult.comics} />
         </>
       ) : (
         <>

@@ -10,3 +10,9 @@ export interface IIssue {
   comicId: string;
   pages: string[] | null;
 }
+
+export interface ISearchResultDto {
+  comics: IComic[];
+  currentPage: number;
+  maxPage: number;
+}
