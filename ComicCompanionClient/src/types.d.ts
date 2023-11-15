@@ -4,3 +4,9 @@ export interface IComic {
   coverImg: string;
   issueIds?: string[];
 }
+
+export interface IIssue {
+  issueId: string;
+  comicId: string;
+  pages: string[] | null;
+}

@@ -1,0 +1,19 @@
+.comic-info {
+  width: 50%;
+}
+.comic-info-display {
+  text-align: center;
+}
+
+.comic-info-display > img {
+  width: 300px;
+  margin: auto;
+}
+
+.comic-info-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.comic-info-issues {
+}

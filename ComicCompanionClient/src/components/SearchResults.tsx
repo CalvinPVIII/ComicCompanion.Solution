@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ComicList from "./ComicList";
+
+import "../styles/SearchResults.css";
 
 import { IComic } from "../types";
-
-import { Link } from "react-router-dom";
 
 export default function SearchResults() {
   const { query } = useParams();
@@ -18,6 +19,7 @@ export default function SearchResults() {
   useEffect(() => {
     const getComics = async () => {
       const comics = await search();
+      console.log(comics);
       setApiLoading(false);
       setSearchResult(comics);
     };
@@ -26,19 +28,10 @@ export default function SearchResults() {
 
   return (
     <>
-      <h1>Search</h1>
-      <h2>{query}</h2>
+      <h1 className="search-results-header">Results for: {query}</h1>
       {!apiLoading && searchResult ? (
         <>
-          <h2>Results</h2>
-          {searchResult.map((comic) => (
-            <>
-              <p>{comic.name}</p>
-              <Link to={`/comics/${comic.comicId}`}>
-                <img src={comic.coverImg} alt={`Cover for ${comic.name}`} />
-              </Link>
-            </>
-          ))}
+          <ComicList comics={searchResult} />
         </>
       ) : (
         <>

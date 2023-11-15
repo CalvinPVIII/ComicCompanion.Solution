@@ -1,0 +1,17 @@
+.comic-in-list {
+  width: fit-content;
+  text-align: center;
+  width: 75%;
+}
+
+.comic-in-list > img {
+  width: 250px;
+  margin: auto;
+}
+
+.comic-list {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

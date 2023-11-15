@@ -33,8 +33,8 @@ export default function Header() {
       <div id="menu">
         <Menu closeOnSelect={false}>
           <MenuButton as={IconButton} icon={<HamburgerIcon />} />
-          <MenuList backgroundColor={"blackAlpha.100"}>
-            <MenuItem backgroundColor={"blackAlpha.100"}>
+          <MenuList backgroundColor={"black.100"}>
+            <MenuItem backgroundColor={"black.100"}>
               <Box>
                 <form style={{ display: "flex" }} onSubmit={handleSearch}>
                   <Input placeholder="Search Comics" size="sm" variant="filled" onClick={stopClickPropagation} onChange={handleSearchInput} />
@@ -42,10 +42,10 @@ export default function Header() {
                 </form>
               </Box>
             </MenuItem>
-            <MenuItem backgroundColor={"blackAlpha.100"}>
+            <MenuItem backgroundColor={"black.100"}>
               <Box px="3">Log In</Box>
             </MenuItem>
-            <MenuItem backgroundColor={"blackAlpha.100"}>
+            <MenuItem backgroundColor={"black.100"}>
               <Box px="3">Browse Reading Lists</Box>
             </MenuItem>
           </MenuList>
