@@ -1,5 +1,10 @@
 .comic-info {
-  width: 50%;
+  width: fit-content;
+  display: flex;
+  border: 1px solid white;
+  background-color: #102b3f;
+  font-family: "Mulish", sans-serif;
+  flex-wrap: wrap;
 }
 .comic-info-display {
   text-align: center;
@@ -7,7 +12,8 @@
 
 .comic-info-display > img {
   width: 300px;
-  margin: auto;
+  /* margin: auto; */
+  height: auto;
 }
 
 .comic-info-wrapper {
@@ -15,5 +21,22 @@
   justify-content: center;
 }
 
+#comic-info-header {
+  font-weight: 900;
+  text-shadow: 2px 2px 2px black;
+}
+
 .comic-info-issues {
+  overflow-y: scroll;
+  max-height: 300px;
+  /* color: black; */
+  background-color: #0b1f2e;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+}
+a:hover {
+  /* color: black; */
+  text-decoration: underline;
+  color: green;
 }
