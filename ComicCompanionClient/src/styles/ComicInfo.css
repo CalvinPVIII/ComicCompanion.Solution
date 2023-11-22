@@ -1,19 +1,18 @@
 .comic-info {
-  width: fit-content;
-  display: flex;
+  width: 100%;
+  max-width: 500px;
+  /* display: flex; */
   border: 1px solid white;
   background-color: #102b3f;
   font-family: "Mulish", sans-serif;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+}
+
+.comic-info > img {
+  float: left;
 }
 .comic-info-display {
   text-align: center;
-}
-
-.comic-info-display > img {
-  width: 300px;
-  /* margin: auto; */
-  height: auto;
 }
 
 .comic-info-wrapper {
@@ -29,14 +28,17 @@
 .comic-info-issues {
   overflow-y: scroll;
   max-height: 300px;
-  /* color: black; */
   background-color: #0b1f2e;
   display: flex;
   flex-flow: column;
   text-align: center;
 }
-a:hover {
-  /* color: black; */
+
+.comic-info-issue-link {
+  border: 1px solid rgba(0, 0, 0, 0.388);
+}
+
+.comic-info-issue-link:hover {
   text-decoration: underline;
-  color: green;
+  color: cyan;
 }

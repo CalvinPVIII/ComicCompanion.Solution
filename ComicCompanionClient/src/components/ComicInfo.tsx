@@ -23,12 +23,12 @@ export default function ComicInfo(props: ComicInfoProps) {
     <div className="comic-info-wrapper">
       {comicInfo ? (
         <div className="comic-info">
+          <div className="comic-info-display">
+            <h1 id="comic-info-header">{comicInfo.name}</h1>
+            <h3>Number of Issues: {comicInfo.issueIds?.length}</h3>
+          </div>
           <img src={comicInfo.coverImg} />
           <div>
-            <div className="comic-info-display">
-              <h1 id="comic-info-header">{comicInfo.name}</h1>
-              <h3>Number of Issues: {comicInfo.issueIds?.length}</h3>
-            </div>
             <div className="comic-info-issues">
               {comicInfo.issueIds?.map((issue) => (
                 <Link

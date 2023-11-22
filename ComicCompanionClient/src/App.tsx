@@ -7,6 +7,7 @@ import NotFound from "./components/NotFound";
 import ComicInfo from "./components/ComicInfo";
 import ComicIssue from "./components/ComicIssue";
 import Header from "./components/Header";
+import UserAuthForm from "./components/UserManagement/UserAuthForm";
 function App() {
   return (
     <>
@@ -16,6 +17,9 @@ function App() {
         <Route path="/search/:query" element={<SearchResults />} />
         <Route path="/comics/:comicId" element={<ComicInfo />} />
         <Route path="/comics/:comicId/issues/:issueId" element={<ComicIssue />} />
+        <Route path="/signin" element={<UserAuthForm />} />
+        <Route path="/register" element={<UserAuthForm />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

@@ -1,22 +1,20 @@
-import ComicInfo from "./ComicInfo";
 import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
+import UserAuthForm from "./UserAuthForm";
 
-interface ComicPopupProps {
-  comicId?: string;
+interface UserAuthModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ComicPopup(props: ComicPopupProps) {
+export default function UserAuthModal(props: UserAuthModalProps) {
   return (
     <>
       <Modal isOpen={props.isOpen} closeOnOverlayClick={true} onClose={props.onClose}>
         <ModalOverlay />
-        <ModalContent width={"100%"}>
-          {/* <ModalBody> */}
-          {/* <h2>Hello world</h2> */}
-          <ComicInfo comicId={props.comicId} />
-          {/* </ModalBody> */}
+        <ModalContent>
+          <div style={{ backgroundColor: "rgb(14, 16, 17)", padding: "30px" }}>
+            <UserAuthForm />
+          </div>
         </ModalContent>
       </Modal>
       <div className="popout-background"></div>
