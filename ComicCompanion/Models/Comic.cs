@@ -21,15 +21,15 @@ public class Comic
         }
     }
 
-    public async static Task<List<Comic>> Search(string keyword, int? serverNumber, int? pageNumber)
+    public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int? pageNumber)
     {
-        if (serverNumber == 1)
-        {
-            return await ReadComicOnlineHelper.Search(keyword);
-        }
-        else
-        {
-            return await ComicExtraHelper.Search(keyword, pageNumber);
-        }
+        // if (serverNumber == 1)
+        // {
+        //     return await ReadComicOnlineHelper.Search(keyword);
+        // }
+        // else
+        // {
+        return await ComicExtraHelper.Search(keyword, pageNumber);
+        // }
     }
 }

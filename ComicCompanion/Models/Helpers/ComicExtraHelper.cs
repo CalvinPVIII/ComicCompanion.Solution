@@ -3,7 +3,7 @@ using AngleSharp;
 using AngleSharp.Io.Network;
 namespace ComicCompanion.Models;
 
-public class ComicExtraHelper : ComicHelper, IHelperAsync
+public class ComicExtraHelper : ComicHelper
 {
 
     private static HttpClient _client = new HttpClient { Timeout = new TimeSpan(0, 0, 5) };
@@ -12,7 +12,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
     private static AngleSharp.IConfiguration _config = Configuration.Default.With(_requester).WithDefaultLoader();
     private static IBrowsingContext _context = BrowsingContext.New(_config);
 
-    public async static Task<List<Comic>> Search(string keyword, int? pageNumber)
+    public async static Task<SearchResultDto> Search(string keyword, int? pageNumber)
     {
 
         if (pageNumber == 0 || pageNumber == null)
@@ -21,6 +21,7 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
         }
         keyword = FormatSearchKeyword(keyword);
         List<Comic> results = new List<Comic>();
+        int pageNumbers = 0;
         try
         {
             var document = await _context.OpenAsync($"https://comicextra.me/comic-search?key={keyword}&page={pageNumber}");
@@ -33,13 +34,16 @@ public class ComicExtraHelper : ComicHelper, IHelperAsync
                 results.Add(new Comic() { Name = name, ComicId = id, CoverImg = img });
 
             }
+            pageNumbers = document.QuerySelectorAll(".general-nav")[1].ChildElementCount - 1;
 
         }
         catch (Exception e)
         {
 
         }
-        return results;
+
+        var searchResults = new SearchResultDto() { Comics = results, CurrentPage = (int)pageNumber, MaxPage = pageNumbers };
+        return searchResults;
 
     }
 
