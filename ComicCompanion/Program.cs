@@ -21,13 +21,18 @@ namespace ToDoList
 
 
       builder.Services.AddCors(options =>
-{
-  options.AddDefaultPolicy(
-      policy =>
       {
-        policy.WithOrigins("*");
+        options.AddDefaultPolicy(
+            policy =>
+            {
+
+              policy.AllowAnyOrigin();
+              policy.AllowAnyHeader();
+              policy.AllowAnyMethod();
+            });
       });
-});
+
+
 
 
       builder.Services.AddDbContext<ComicCompanionContext>(

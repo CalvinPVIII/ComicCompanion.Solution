@@ -8,6 +8,7 @@ import ComicInfo from "./components/ComicInfo";
 import ComicIssue from "./components/ComicIssue";
 import Header from "./components/Header";
 import UserAuthForm from "./components/UserManagement/UserAuthForm";
+
 function App() {
   return (
     <>

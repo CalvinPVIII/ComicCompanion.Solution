@@ -16,3 +16,9 @@ export interface ISearchResultDto {
   currentPage: number;
   maxPage: number;
 }
+
+export interface UserInfo {
+  email: string;
+  userName: string;
+  token: string;
+}

@@ -2,9 +2,11 @@ import "../../styles/UserAuthForm.css";
 import { useState } from "react";
 
 import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { setUser } from "../../redux/userReducer";
+import { useDispatch } from "react-redux";
 
 export default function UserAuthForm() {
-  const [signIEmail, setSignIEmail] = useState("");
+  const [signInEmail, setSignIEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpUserName, setSignUpUserName] = useState("");
@@ -13,21 +15,31 @@ export default function UserAuthForm() {
   const [signInMessage, setSignInMessage] = useState("");
   const [signInMessageColor, setSignInMessageColor] = useState("limegreen");
 
+  const dispatch = useDispatch();
+
   const clearAuthMessages = () => {
     setSignInMessage("");
     setSignInMessageColor("green");
   };
 
-  const onSignIn = () => {
+  const onSignIn = (event: any, userEmail = signInEmail, userPassword = signInPassword, message: string | undefined) => {
     clearAuthMessages();
     fetch(`${import.meta.env.VITE_API_URL}/user/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: signIEmail, password: signInPassword }),
+      body: JSON.stringify({ email: userEmail, password: userPassword }),
     })
-      .then((response) => response.json().then((data) => console.log(data)))
+      .then((response) =>
+        response.json().then((data) => {
+          if (data.status === "success" && message) {
+            console.log(data);
+            dispatch(setUser({ email: userEmail, userName: signUpUserName, token: data.token }));
+            setSignInMessage(message);
+          }
+        })
+      )
       .catch((error) => {
         setSignInMessage(error.message);
         setSignInMessageColor("red");
@@ -48,7 +60,13 @@ export default function UserAuthForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email: signUpEmail, userName: signUpUserName, password: signUpPassword }),
-    }).then((response) => response.json().then((data) => console.log(data)));
+    }).then((response) =>
+      response.json().then((data) => {
+        if (data.status === "success") {
+          onSignIn(null, signUpEmail, signUpPassword, data.message);
+        }
+      })
+    );
   };
   return (
     <>
