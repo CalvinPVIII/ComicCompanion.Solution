@@ -1,33 +1,34 @@
 import "../styles/Header.css";
-import { Menu, MenuButton, MenuList, MenuItem, IconButton, Input, Box } from "@chakra-ui/react";
-import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
-import { MouseEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Menu, MenuButton, MenuList, MenuItem, IconButton, Box } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { useNavigate, Link } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 import UserAuthModal from "./UserManagement/AuthModal";
 
-export default function Header() {
-  const [searchInput, setSearchInput] = useState("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
+import { userSelector } from "../redux/userReducer";
+import { useSelector } from "react-redux";
 
-  const stopClickPropagation = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-  };
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userReducer";
+import SearchBar from "./SearchBar";
+
+export default function Header() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = useSelector(userSelector);
+  const dispatch = useDispatch();
 
   const nav = useNavigate();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleSearch = (searchInput: string) => {
     nav(`/search/${searchInput}`);
-  };
-
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
   };
 
   const handleHeaderClick = () => {
     nav("/");
+  };
+
+  const handleSignOut = () => {
+    dispatch(setUser(null));
   };
 
   return (
@@ -41,19 +42,26 @@ export default function Header() {
             <MenuList backgroundColor={"blackAlpha.900"}>
               <MenuItem backgroundColor={"blackAlpha.900"}>
                 <Box>
-                  <form style={{ display: "flex" }} onSubmit={handleSearch}>
-                    <Input placeholder="Search Comics" size="sm" variant="filled" onClick={stopClickPropagation} onChange={handleSearchInput} />
-                    <SearchIcon style={{ margin: "10px" }} onClick={handleSearch} />
-                  </form>
+                  <SearchBar searchCallback={handleSearch} />
                 </Box>
               </MenuItem>
               <MenuItem backgroundColor={"blackAlpha.900"}>
-                <Box px="3" onClick={onOpen}>
-                  <span>Log In</span> | <span>Register</span>
-                </Box>
+                {user ? (
+                  <>
+                    <Link to="/user">{user.email}</Link> | <span onClick={handleSignOut}> Sign Out </span>
+                  </>
+                ) : (
+                  <>
+                    <Box px="3" onClick={onOpen}>
+                      <span>Log In</span> | <span>Register</span>
+                    </Box>
+                  </>
+                )}
               </MenuItem>
               <MenuItem backgroundColor={"blackAlpha.900"}>
-                <Box px="3">Browse Reading Lists</Box>
+                <Box px="3">
+                  <Link to="/readinglists">Browse Reading Lists</Link>
+                </Box>
               </MenuItem>
             </MenuList>
           </Menu>

@@ -2,11 +2,11 @@ import { userSelector } from "../redux/userReducer";
 import { useSelector } from "react-redux";
 export default function UserPage() {
   const user = useSelector(userSelector);
-  console.log(user);
+
   if (user) {
     return (
       <>
-        <h1>Hello user</h1>
+        <h1>Hello user: {user.email}</h1>
       </>
     );
   } else {

@@ -5,7 +5,11 @@ import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 import { setUser } from "../../redux/userReducer";
 import { useDispatch } from "react-redux";
 
-export default function UserAuthForm() {
+interface UserAuthFormProps {
+  closeModal?: () => void;
+}
+
+export default function UserAuthForm(props: UserAuthFormProps) {
   const [signInEmail, setSignIEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
@@ -34,14 +38,17 @@ export default function UserAuthForm() {
       .then((response) =>
         response.json().then((data) => {
           if (data.status === "success" && message) {
-            console.log(data);
             dispatch(setUser({ email: userEmail, userName: signUpUserName, token: data.token }));
             setSignInMessage(message);
+            if (props.closeModal) props.closeModal();
+          } else {
+            setSignInMessage(`There was an issue signing in. Please check your email and password`);
+            setSignInMessageColor("red");
           }
         })
       )
       .catch((error) => {
-        setSignInMessage(error.message);
+        setSignInMessage(`Unable to sign in: ${error.message}`);
         setSignInMessageColor("red");
       });
   };

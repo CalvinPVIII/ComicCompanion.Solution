@@ -9,6 +9,8 @@ import ComicIssue from "./components/ComicIssue";
 import Header from "./components/Header";
 import UserAuthForm from "./components/UserManagement/UserAuthForm";
 import UserPage from "./components/UserPage";
+import ReadingListPage from "./components/ReadingListPage";
+import CreateReadingListPage from "./components/CreateReadingListPage";
 function App() {
   return (
     <>
@@ -21,6 +23,8 @@ function App() {
         <Route path="/signin" element={<UserAuthForm />} />
         <Route path="/register" element={<UserAuthForm />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/readinglists" element={<ReadingListPage />} />
+        <Route path="/readinglists/new" element={<CreateReadingListPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

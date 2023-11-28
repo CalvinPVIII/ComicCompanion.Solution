@@ -13,7 +13,7 @@ export default function UserAuthModal(props: UserAuthModalProps) {
         <ModalOverlay />
         <ModalContent>
           <div style={{ backgroundColor: "rgb(14, 16, 17)", padding: "30px" }}>
-            <UserAuthForm />
+            <UserAuthForm closeModal={props.onClose} />
           </div>
         </ModalContent>
       </Modal>
