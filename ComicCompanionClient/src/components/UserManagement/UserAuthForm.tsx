@@ -22,7 +22,7 @@ export default function UserAuthForm() {
     setSignInMessageColor("green");
   };
 
-  const onSignIn = (event: any, userEmail = signInEmail, userPassword = signInPassword, message: string | undefined) => {
+  const onSignIn = (userEmail = signInEmail, userPassword = signInPassword, message: string | undefined) => {
     clearAuthMessages();
     fetch(`${import.meta.env.VITE_API_URL}/user/signin`, {
       method: "POST",
@@ -63,7 +63,7 @@ export default function UserAuthForm() {
     }).then((response) =>
       response.json().then((data) => {
         if (data.status === "success") {
-          onSignIn(null, signUpEmail, signUpPassword, data.message);
+          onSignIn(signUpEmail, signUpPassword, data.message);
         }
       })
     );
@@ -88,7 +88,7 @@ export default function UserAuthForm() {
             <Input type="password" placeholder="Enter Password" onChange={(e) => setSignInPassword(e.target.value)} />
           </FormControl>
           <br />
-          <Button onClick={onSignIn}>Sign In</Button>
+          <Button onClick={() => onSignIn(signInEmail, signInPassword, "User successfully signed in")}>Sign In</Button>
         </div>
         <div className="signUp">
           <h2 style={{ fontWeight: "700" }}>Sign Up</h2>

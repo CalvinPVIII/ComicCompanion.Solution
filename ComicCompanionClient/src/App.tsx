@@ -8,7 +8,7 @@ import ComicInfo from "./components/ComicInfo";
 import ComicIssue from "./components/ComicIssue";
 import Header from "./components/Header";
 import UserAuthForm from "./components/UserManagement/UserAuthForm";
-
+import UserPage from "./components/UserPage";
 function App() {
   return (
     <>
@@ -20,6 +20,7 @@ function App() {
         <Route path="/comics/:comicId/issues/:issueId" element={<ComicIssue />} />
         <Route path="/signin" element={<UserAuthForm />} />
         <Route path="/register" element={<UserAuthForm />} />
+        <Route path="/user" element={<UserPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
