@@ -13,10 +13,7 @@ export default function ComicPopup(props: ComicPopupProps) {
       <Modal isOpen={props.isOpen} closeOnOverlayClick={true} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent width={"100%"}>
-          {/* <ModalBody> */}
-          {/* <h2>Hello world</h2> */}
           <ComicInfo comicId={props.comicId} />
-          {/* </ModalBody> */}
         </ModalContent>
       </Modal>
       <div className="popout-background"></div>

@@ -23,10 +23,12 @@ export default function SearchResults(props: SearchResultsProps) {
 
   useEffect(() => {
     const getComics = async () => {
-      const comics = await search();
-      console.log(comics);
-      setApiLoading(false);
-      setSearchResult(comics);
+      if (query || props.searchQuery) {
+        const comics = await search();
+        console.log(comics);
+        setApiLoading(false);
+        setSearchResult(comics);
+      }
     };
     getComics();
   }, [query, props.searchQuery]);
