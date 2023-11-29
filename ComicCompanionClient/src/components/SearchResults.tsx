@@ -8,12 +8,13 @@ import { ISearchResultDto } from "../types";
 
 interface SearchResultsProps {
   searchQuery?: string;
+  finishedFetchCallback?: () => void;
 }
 
 export default function SearchResults(props: SearchResultsProps) {
   const { query } = useParams();
 
-  const [apiLoading, setApiLoading] = useState<boolean>(true);
+  const [apiLoaded, setApiLoaded] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<ISearchResultDto | null>();
 
   const search = async (): Promise<ISearchResultDto> => {
@@ -26,8 +27,13 @@ export default function SearchResults(props: SearchResultsProps) {
       if (query || props.searchQuery) {
         const comics = await search();
         console.log(comics);
-        setApiLoading(false);
-        setSearchResult(comics);
+        if (comics.comics.length === 0) {
+          setSearchResult(null);
+        } else {
+          setSearchResult(comics);
+        }
+        setApiLoaded(true);
+        if (props.finishedFetchCallback) props.finishedFetchCallback();
       }
     };
     getComics();
@@ -36,10 +42,14 @@ export default function SearchResults(props: SearchResultsProps) {
   return (
     <>
       <h1 className="search-results-header">Results for: {query}</h1>
-      {!apiLoading && searchResult ? (
+      {searchResult && apiLoaded ? (
         <>
-          <ComicList comics={searchResult.comics} />
+          <div className="search-results-content">
+            <ComicList comics={searchResult.comics} />
+          </div>
         </>
+      ) : !searchResult && apiLoaded ? (
+        <p>No results were found</p>
       ) : (
         <></>
       )}

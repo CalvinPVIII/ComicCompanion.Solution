@@ -1,6 +1,7 @@
 import SearchBar from "./SearchBar";
 import { useState } from "react";
 import SearchResults from "./SearchResults";
+import { Spinner } from "@chakra-ui/react";
 
 export default function CreateReadingListPage() {
   const [searching, setSearching] = useState<boolean | null>();
@@ -21,11 +22,10 @@ export default function CreateReadingListPage() {
       <SearchBar searchCallback={handleSearch} searchOnInputChange={true} searchOnInputChangeCallback={onInputChange} />
       {searching ? (
         <>
-          <h1>Searching</h1>
+          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
         </>
       ) : (
         <>
-          <h1>done searching</h1>
           <SearchResults searchQuery={query} />
         </>
       )}

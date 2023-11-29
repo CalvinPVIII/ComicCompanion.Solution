@@ -32,6 +32,7 @@ export default function SearchBar(props: SearchBarProps) {
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
+    if (props.searchOnInputChangeCallback) props.searchOnInputChangeCallback();
   };
   return (
     <>
