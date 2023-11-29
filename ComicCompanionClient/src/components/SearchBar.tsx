@@ -1,21 +1,32 @@
 import { Input } from "@chakra-ui/react";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useState, useEffect } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 interface SearchBarProps {
   searchCallback: (searchInput: string) => void;
+  searchOnInputChange: boolean;
+  searchOnInputChangeCallback?: () => void;
 }
 
 export default function SearchBar(props: SearchBarProps) {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState<string>("");
 
   const stopClickPropagation = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  useEffect(() => {
+    if (props.searchOnInputChange) {
+      const timer = setTimeout(() => {
+        handleSearch();
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchInput, props.searchOnInputChange]);
+
+  const handleSearch = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     props.searchCallback(searchInput);
   };
 

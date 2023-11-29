@@ -42,7 +42,7 @@ export default function Header() {
             <MenuList backgroundColor={"blackAlpha.900"}>
               <MenuItem backgroundColor={"blackAlpha.900"}>
                 <Box>
-                  <SearchBar searchCallback={handleSearch} />
+                  <SearchBar searchCallback={handleSearch} searchOnInputChange={false} />
                 </Box>
               </MenuItem>
               <MenuItem backgroundColor={"blackAlpha.900"}>

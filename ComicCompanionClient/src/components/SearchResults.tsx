@@ -6,14 +6,19 @@ import "../styles/SearchResults.css";
 
 import { ISearchResultDto } from "../types";
 
-export default function SearchResults() {
+interface SearchResultsProps {
+  searchQuery?: string;
+}
+
+export default function SearchResults(props: SearchResultsProps) {
   const { query } = useParams();
 
   const [apiLoading, setApiLoading] = useState<boolean>(true);
   const [searchResult, setSearchResult] = useState<ISearchResultDto | null>();
 
   const search = async (): Promise<ISearchResultDto> => {
-    return fetch(`${import.meta.env.VITE_API_URL}/comics/search?keyword=${query}`).then((r) => r.json().then((data) => data));
+    const searchQuery = props.searchQuery ? props.searchQuery : query;
+    return fetch(`${import.meta.env.VITE_API_URL}/comics/search?keyword=${searchQuery}`).then((r) => r.json().then((data) => data));
   };
 
   useEffect(() => {
@@ -24,7 +29,7 @@ export default function SearchResults() {
       setSearchResult(comics);
     };
     getComics();
-  }, [query]);
+  }, [query, props.searchQuery]);
 
   return (
     <>
@@ -34,9 +39,7 @@ export default function SearchResults() {
           <ComicList comics={searchResult.comics} />
         </>
       ) : (
-        <>
-          <p>Searching...</p>
-        </>
+        <></>
       )}
     </>
   );
