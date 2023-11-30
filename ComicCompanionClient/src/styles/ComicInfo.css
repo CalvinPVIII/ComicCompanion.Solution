@@ -39,3 +39,12 @@
   text-decoration: underline;
   color: cyan;
 }
+
+.add-to-list {
+  color: greenyellow;
+}
+
+.add-to-list:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

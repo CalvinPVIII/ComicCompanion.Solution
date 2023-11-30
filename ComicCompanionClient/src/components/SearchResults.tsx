@@ -18,6 +18,7 @@ export default function SearchResults(props: SearchResultsProps) {
   const [searchResult, setSearchResult] = useState<ISearchResultDto | null>();
 
   const search = async (): Promise<ISearchResultDto> => {
+    console.log("searching");
     const searchQuery = props.searchQuery ? props.searchQuery : query;
     return fetch(`${import.meta.env.VITE_API_URL}/comics/search?keyword=${searchQuery}`).then((r) => r.json().then((data) => data));
   };

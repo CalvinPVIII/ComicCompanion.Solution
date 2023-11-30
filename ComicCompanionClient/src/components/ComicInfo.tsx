@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { IComic } from "../types";
+import { IComic, IIssue } from "../types";
 import { Link } from "react-router-dom";
 import "../styles/ComicInfo.css";
+
+import { useSelector, useDispatch } from "react-redux";
+import { creatingReadingListSelector, currentEditingReadingListSelector } from "../redux/readingListReducer";
 
 interface ComicInfoProps {
   comicId?: string;
 }
 
+import ReadingListHelper from "../helpers/ReadingListHelper";
+
 export default function ComicInfo(props: ComicInfoProps) {
   const [comicInfo, setComicInfo] = useState<IComic | null>();
   const { comicId } = useParams();
+  const dispatch = useDispatch();
+
+  const isEditing = useSelector(creatingReadingListSelector);
+  const currentEditingReadingList = useSelector(currentEditingReadingListSelector);
+
   useEffect(() => {
     const comicSearchId = props.comicId ? props.comicId : comicId;
     const getInfo = async () => {
@@ -18,6 +28,16 @@ export default function ComicInfo(props: ComicInfoProps) {
     };
     getInfo();
   });
+
+  const handleAddingToReadingList = (issueId: string, comicId: string) => {
+    if (!currentEditingReadingList) return;
+    const issue: IIssue = {
+      issueId: issueId,
+      comicId: comicId,
+      pages: [],
+    };
+    ReadingListHelper.addIssueToList(issue, currentEditingReadingList, dispatch);
+  };
 
   return (
     <div className="comic-info-wrapper">
@@ -31,13 +51,22 @@ export default function ComicInfo(props: ComicInfoProps) {
           <div>
             <div className="comic-info-issues">
               {comicInfo.issueIds?.map((issue) => (
-                <Link
-                  key={`${comicId}-${issue}`}
-                  to={`/comics/${props.comicId ? props.comicId : comicId}/issues/${issue}`}
-                  className="comic-info-issue-link"
-                >
-                  Issue: {issue}
-                </Link>
+                <>
+                  <Link
+                    key={`${comicId}-${issue}`}
+                    to={`/comics/${props.comicId ? props.comicId : comicId}/issues/${issue}`}
+                    className="comic-info-issue-link"
+                  >
+                    Issue: {issue}
+                  </Link>
+                  {isEditing ? (
+                    <span className="add-to-list" onClick={() => handleAddingToReadingList(issue, comicInfo.comicId)}>
+                      Add to reading list
+                    </span>
+                  ) : (
+                    <></>
+                  )}
+                </>
               ))}
             </div>
           </div>
