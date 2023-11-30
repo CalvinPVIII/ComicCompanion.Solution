@@ -12,6 +12,8 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userReducer";
 import SearchBar from "./SearchBar";
 
+import EditingReadingListMenu from "./EditingReadingListMenu";
+
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useSelector(userSelector);
@@ -33,6 +35,7 @@ export default function Header() {
 
   return (
     <>
+      <EditingReadingListMenu />
       <div id="header">
         <UserAuthModal isOpen={isOpen} onClose={onClose} />
         <h1 onClick={handleHeaderClick}>Comic Companion</h1>
