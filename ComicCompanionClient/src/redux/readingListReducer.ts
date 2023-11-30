@@ -1,12 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IIssue } from "../types";
 
+type LocalReadingList = { name: string; issues: IIssue[]; description: string };
+
 interface ReadingListInitialState {
   creatingReadingList: boolean;
-  currentEditingReadingList: IIssue[];
+  currentEditingReadingList: { name: string; issues: IIssue[]; description: string };
 }
 
-const initialState: ReadingListInitialState = { creatingReadingList: false, currentEditingReadingList: [] };
+const initialState: ReadingListInitialState = { creatingReadingList: false, currentEditingReadingList: { name: "", issues: [], description: "" } };
 
 export const readingList = createSlice({
   name: "readingList",
@@ -15,7 +17,7 @@ export const readingList = createSlice({
     setCreatingReadingList: (state, action: PayloadAction<boolean>) => {
       state.creatingReadingList = action.payload;
     },
-    editCurrentEditingReadingList: (state, action: PayloadAction<Array<IIssue>>) => {
+    editCurrentEditingReadingList: (state, action: PayloadAction<LocalReadingList>) => {
       state.currentEditingReadingList = action.payload;
     },
   },

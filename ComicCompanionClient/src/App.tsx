@@ -24,7 +24,7 @@ function App() {
         <Route path="/register" element={<UserAuthForm />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="/readinglists" element={<ReadingListPage />} />
-        <Route path="/readinglists/new" element={<CreateReadingListPage />} />
+        <Route path="/readinglists/edit" element={<CreateReadingListPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

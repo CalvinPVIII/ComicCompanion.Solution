@@ -11,7 +11,7 @@ export default function ReadingListPage() {
         <>
           <h1>My Reading Lists</h1>{" "}
           <h1>
-            <Link to="/readinglists/new">Create Reading List</Link>
+            <Link to="/readinglists/edit">Create Reading List</Link>
           </h1>
         </>
       ) : (

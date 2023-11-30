@@ -22,3 +22,13 @@ export interface UserInfo {
   userName: string;
   token: string;
 }
+
+export interface ReadingList {
+  readingListId: number;
+  issues: IIssue[];
+  isPrivate: boolean;
+  userId: string;
+  name: string;
+  description: string;
+  rating: number;
+}
