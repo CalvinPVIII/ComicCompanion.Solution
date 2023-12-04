@@ -38,7 +38,8 @@ export default function UserAuthForm(props: UserAuthFormProps) {
       .then((response) =>
         response.json().then((data) => {
           if (data.status === "success" && message) {
-            dispatch(setUser({ email: userEmail, userName: signUpUserName, token: data.token }));
+            console.log(data);
+            dispatch(setUser({ email: userEmail, userName: data.userName, token: data.token }));
             setSignInMessage(message);
             if (props.closeModal) props.closeModal();
           } else {

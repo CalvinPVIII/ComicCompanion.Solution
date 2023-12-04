@@ -61,7 +61,7 @@ namespace ComicCompanion.Controllers
 
                     var newToken = CreateToken(authClaims);
 
-                    return Ok(new { status = "success", message = $"{userInfo.Email} signed in", token = newToken });
+                    return Ok(new { status = "success", message = $"{userInfo.Email} signed in", token = newToken, userName = user.UserName });
                 }
             }
             return BadRequest(new { status = "error", message = "Unable to sign in" });
