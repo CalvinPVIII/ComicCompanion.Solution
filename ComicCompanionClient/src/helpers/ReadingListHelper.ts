@@ -8,4 +8,10 @@ export default class ReadingListHelper {
     const newList: LocalReadingList = { ...currentList, issues: issuesArray };
     dispatcher(editCurrentEditingReadingList(newList));
   }
+
+  static removeIssueFromList(issue: IIssue, currentList: LocalReadingList, dispatcher: Dispatch) {
+    const issuesArray = currentList.issues.filter((i) => `${i.comicId + i.issueId}` !== `${issue.comicId + issue.issueId}`);
+    const newList: LocalReadingList = { ...currentList, issues: issuesArray };
+    dispatcher(editCurrentEditingReadingList(newList));
+  }
 }

@@ -1,10 +1,15 @@
 import SearchBar from "./SearchBar";
 import { useState } from "react";
 import SearchResults from "./SearchResults";
-import { Spinner } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { currentEditingReadingListSelector } from "../redux/readingListReducer";
 import ReadingListForm from "./ReadingListForm";
+import { IIssue } from "../types";
+import ReadingListHelper from "../helpers/ReadingListHelper";
+
+import { useDispatch } from "react-redux";
+
 export default function CreateReadingListPage() {
   const currentEditingReadingList = useSelector(currentEditingReadingListSelector);
   const [searching, setSearching] = useState<boolean | null>();
@@ -19,8 +24,13 @@ export default function CreateReadingListPage() {
   const onInputChange = () => {
     setSearching(true);
   };
-  console.log(currentEditingReadingList);
 
+  const dispatch = useDispatch();
+
+  const handleRemove = (issue: IIssue) => {
+    if (!currentEditingReadingList) return;
+    ReadingListHelper.removeIssueFromList(issue, currentEditingReadingList, dispatch);
+  };
   return (
     <>
       {!currentEditingReadingList || formVisible ? (
@@ -38,9 +48,20 @@ export default function CreateReadingListPage() {
               <>
                 <p>Currently added issues:</p>
                 {currentEditingReadingList.issues.map((issue) => (
-                  <p>
-                    {issue.comicId} {issue.issueId}
-                  </p>
+                  <>
+                    <p>
+                      {issue.comicId} {issue.issueId}
+                    </p>
+                    <Button
+                      colorScheme="red"
+                      size={"xs"}
+                      onClick={() => {
+                        handleRemove(issue);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </>
                 ))}
               </>
             ) : (
