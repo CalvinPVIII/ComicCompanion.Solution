@@ -37,7 +37,7 @@ export default function EditingReadingListMenu() {
               {currentList.issues.length > 0 ? (
                 <>
                   {currentList.issues.map((issue) => (
-                    <MenuItem backgroundColor={"black"}>
+                    <MenuItem backgroundColor={"black"} key={issue.comicId + issue.issueId}>
                       {issue.comicId} issue {issue.issueId}
                       <Button colorScheme="red" size={"xs"} onClick={() => handleRemove(issue)}>
                         Remove

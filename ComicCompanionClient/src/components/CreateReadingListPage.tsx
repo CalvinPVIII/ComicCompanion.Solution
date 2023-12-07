@@ -10,6 +10,7 @@ import ReadingListHelper from "../helpers/ReadingListHelper";
 
 import { useDispatch } from "react-redux";
 import FinalizeReadingListModal from "./FinalizeReadingListModal";
+import React from "react";
 
 export default function CreateReadingListPage() {
   const currentEditingReadingList = useSelector(currentEditingReadingListSelector);
@@ -59,7 +60,7 @@ export default function CreateReadingListPage() {
               <>
                 <p>Currently added issues:</p>
                 {currentEditingReadingList.issues.map((issue) => (
-                  <>
+                  <React.Fragment key={issue.comicId + issue.issueId}>
                     <p>
                       {issue.comicId} {issue.issueId}
                     </p>
@@ -72,7 +73,7 @@ export default function CreateReadingListPage() {
                     >
                       Remove
                     </Button>
-                  </>
+                  </React.Fragment>
                 ))}
                 <br />
                 <Button colorScheme="green" onClick={handleFinalize}>

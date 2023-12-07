@@ -12,6 +12,7 @@ interface ComicInfoProps {
 }
 
 import ReadingListHelper from "../helpers/ReadingListHelper";
+import React from "react";
 
 export default function ComicInfo(props: ComicInfoProps) {
   const [comicInfo, setComicInfo] = useState<IComic | null>();
@@ -51,7 +52,7 @@ export default function ComicInfo(props: ComicInfoProps) {
           <div>
             <div className="comic-info-issues">
               {comicInfo.issueIds?.map((issue) => (
-                <>
+                <React.Fragment key={props.comicId + issue}>
                   <Link
                     key={`${comicId}-${issue}`}
                     to={`/comics/${props.comicId ? props.comicId : comicId}/issues/${issue}`}
@@ -66,7 +67,7 @@ export default function ComicInfo(props: ComicInfoProps) {
                   ) : (
                     <></>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </div>
           </div>

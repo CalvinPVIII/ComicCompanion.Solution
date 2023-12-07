@@ -20,7 +20,7 @@ export default function ComicList(props: ComicListProps) {
       <ComicPopup comicId={selectedComicId} isOpen={isOpen} onClose={onClose} />
       {props.comics.map((comic) => (
         // <Link to={`/comics/${comic.comicId}`} key={comic.comicId}>
-        <div onClick={() => handleComicClick(comic.comicId)}>
+        <div key={comic.comicId} onClick={() => handleComicClick(comic.comicId)}>
           <div className="comic-in-list">
             <img src={comic.coverImg} alt={`Cover for ${comic.name}`} />
             <p>{comic.name}</p>
