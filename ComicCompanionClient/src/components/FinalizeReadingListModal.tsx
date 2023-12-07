@@ -27,29 +27,41 @@ export default function FinalizeReadingListModal(props: FinalizeReadingListModal
   const [inputPrivate, setInputPrivate] = useState<string>("");
   const [invalidPrivacy, setInvalidPrivacy] = useState(false);
 
+  // const [apiError, setApiError] = useState("");
+
   const handleRemove = (issue: IIssue) => {
     ReadingListHelper.removeIssueFromList(issue, props.readingList, dispatch);
   };
 
-  const checkForErrors = (): boolean => {
+  const inputErrors = (): boolean => {
     let errors = false;
     if (!inputName || inputName.length <= 0) {
       setInvalidName(true);
       errors = true;
+    } else {
+      setInvalidName(false);
+      errors = false;
     }
     if (!inputDesc || inputDesc.length <= 0) {
       setInvalidDesc(true);
       errors = true;
+    } else {
+      setInvalidDesc(false);
+      errors = false;
     }
     if (!inputPrivate || inputPrivate.length <= 0) {
       setInvalidPrivacy(true);
       errors = true;
+    } else {
+      setInvalidPrivacy(false);
+      errors = false;
     }
     return errors;
   };
 
   const handleSubmitReadingList = () => {
-    if (!checkForErrors()) return;
+    if (inputErrors()) return;
+    console.log("test");
     if (!user) return;
     const readingList: ReadingList = {
       readingListId: 0,
@@ -60,14 +72,19 @@ export default function FinalizeReadingListModal(props: FinalizeReadingListModal
       description: inputDesc,
       rating: 0,
     };
-
+    console.log(JSON.stringify(readingList));
     fetch(`${import.meta.env.VITE_API_URL}/readinglists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(readingList),
-    }).then((result) => result.json().then((response) => console.log(response)));
+    })
+      .then((result) => result.json().then((response) => console.log(response)))
+      .catch((error) => {
+        console.log("there was an error");
+        console.log(error.message);
+      });
   };
 
   //
