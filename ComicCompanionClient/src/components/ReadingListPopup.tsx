@@ -1,6 +1,8 @@
 import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
 import { ReadingList } from "../types";
 
+import ReadingListInfo from "./ReadingListInfo";
+
 interface ReadingListPopupProps {
   readingList: ReadingList;
 
@@ -15,9 +17,7 @@ export default function ReadingListPopup(props: ReadingListPopupProps) {
       <Modal isOpen={props.isOpen} closeOnOverlayClick={true} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent width={"100%"}>
-          <h2>{readingList.name}</h2>
-          <h2>{readingList.description}</h2>
-          <h2>{readingList.rating}</h2>
+          <ReadingListInfo readingList={readingList} />
         </ModalContent>
       </Modal>
       <div className="popout-background"></div>
