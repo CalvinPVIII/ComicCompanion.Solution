@@ -61,11 +61,10 @@ export default function FinalizeReadingListModal(props: FinalizeReadingListModal
 
   const handleSubmitReadingList = () => {
     if (inputErrors()) return;
-    console.log("test");
     if (!user) return;
     const readingList: ReadingList = {
       readingListId: 0,
-      issues: props.readingList.issues,
+      serializedIssues: JSON.stringify(props.readingList.issues),
       isPrivate: inputPrivate === "true" ? true : false,
       userId: user.userId,
       name: inputName,
@@ -80,7 +79,12 @@ export default function FinalizeReadingListModal(props: FinalizeReadingListModal
       },
       body: JSON.stringify(readingList),
     })
-      .then((result) => result.json().then((response) => console.log(response)))
+      .then((result) =>
+        result.json().then((response) => {
+          // need to go back to reading list page or something
+          console.log(response);
+        })
+      )
       .catch((error) => {
         console.log("there was an error");
         console.log(error.message);

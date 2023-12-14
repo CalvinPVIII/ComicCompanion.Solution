@@ -26,7 +26,7 @@ export interface UserInfo {
 
 export interface ReadingList {
   readingListId: number;
-  issues: IIssue[];
+  serializedIssues: string;
   isPrivate: boolean;
   userId: string;
   name: string;

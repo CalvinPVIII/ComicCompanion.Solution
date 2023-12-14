@@ -22,4 +22,6 @@
 - Rewrite tests
 - Popular comics endpoint
 - Add number of pages info to comic endpoint
-- Serialize the Issues Array in the ReadingListModel to be strings
+- ~~Serialize the Issues Array in the ReadingListModel to be strings~~
+- Method to check if reading list belongs to user making get request
+- Clean up helpers && Issue/Comic controllers

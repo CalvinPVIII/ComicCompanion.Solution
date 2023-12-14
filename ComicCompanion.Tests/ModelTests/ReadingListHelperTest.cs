@@ -24,7 +24,11 @@ namespace ComicCompanion.Tests
             System.Console.WriteLine(JsonSerializer.Serialize(results));
 
 
-            CollectionAssert.AreEqual(expectedResult, results);
+            Assert.AreEqual(expectedResult.Length, results.Length);
+            Assert.AreEqual($"{results[0].ComicId} {results[0].IssueId}", "batman-the-dark-knight-1986 1");
+            Assert.AreEqual($"{results[1].ComicId} {results[1].IssueId}", "batman-the-dark-knight-1986 2");
+            Assert.AreEqual($"{results[2].ComicId} {results[2].IssueId}", "batman-the-dark-knight-1986 3");
+            Assert.AreEqual($"{results[3].ComicId} {results[3].IssueId}", "batman-the-dark-knight-1986 4");
         }
     }
 }
