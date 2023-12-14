@@ -1,7 +1,7 @@
 import { Modal, ModalContent, ModalOverlay, FormControl, FormLabel, Input, Radio, RadioGroup, Button, FormErrorMessage } from "@chakra-ui/react";
 import { LocalReadingList } from "../redux/readingListReducer";
 import ReadingListHelper from "../helpers/ReadingListHelper";
-import { IIssue, ReadingList } from "../types";
+import { IIssue, SubmitReadingList } from "../types";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
@@ -62,7 +62,7 @@ export default function FinalizeReadingListModal(props: FinalizeReadingListModal
   const handleSubmitReadingList = () => {
     if (inputErrors()) return;
     if (!user) return;
-    const readingList: ReadingList = {
+    const readingList: SubmitReadingList = {
       readingListId: 0,
       serializedIssues: JSON.stringify(props.readingList.issues),
       isPrivate: inputPrivate === "true" ? true : false,

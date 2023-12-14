@@ -24,9 +24,19 @@ export interface UserInfo {
   userId: string;
 }
 
-export interface ReadingList {
+export interface SubmitReadingList {
   readingListId: number;
   serializedIssues: string;
+  isPrivate: boolean;
+  userId: string;
+  name: string;
+  description: string;
+  rating: number;
+}
+
+export interface ReadingList {
+  readingListId: number;
+  issues: IIssue[];
   isPrivate: boolean;
   userId: string;
   name: string;
