@@ -11,8 +11,9 @@
 - Prevent adding dupes to reading list??
 - Pagination
 - Issue popup?
-- Link to issue from reading list
+- ~~Link to issue from reading list~~
 - Organize component files
+- Add image for reading lists
 
 #### Would be nice:
 
