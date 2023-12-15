@@ -11,6 +11,8 @@
 - Prevent adding dupes to reading list??
 - Pagination
 - Issue popup?
+- Link to issue from reading list
+- Organize component files
 
 #### Would be nice:
 
@@ -25,3 +27,4 @@
 - ~~Serialize the Issues Array in the ReadingListModel to be strings~~
 - Method to check if reading list belongs to user making get request
 - Clean up helpers && Issue/Comic controllers
+- Add user name to created reading list
