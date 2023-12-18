@@ -27,8 +27,21 @@ public class ReadingListController : Controller
     public IActionResult GetReadingList(int id)
     {
         var readingList = _db.ReadingLists.FirstOrDefault(list => list.ReadingListId == id);
+        if (readingList == null)
+        {
+            return NotFound();
+        }
+        string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
         if (readingList != null)
         {
+            if (readingList.IsPrivate)
+            {
+                if (requestingUserId != readingList.UserId)
+                {
+                    return Unauthorized();
+                }
+
+            }
             return Ok(new ReadingListDto(readingList, true));
         }
         else
