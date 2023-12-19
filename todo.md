@@ -17,6 +17,7 @@
 #### Would be nice:
 
 - Extracting adding/deleting issue to currently edited reading list to reusable function
+- Reusable modal component
 
 ### API:
 
@@ -29,3 +30,5 @@
 - Clean up helpers && Issue/Comic controllers
 - Add user name to created reading list => if usernames can be updated this would need to be done dynamically.
 - Look into how usernames are getting stored in database, do they need to be unique, are the in the email field etc. Might want to use them for querying lists by a specific user.
+- Reading list pagination
+- Update user name/email/password

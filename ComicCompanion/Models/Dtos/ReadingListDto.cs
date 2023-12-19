@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace ComicCompanion.Models;
 
 public class ReadingListDto
@@ -11,6 +13,7 @@ public class ReadingListDto
     public string Name { get; set; }
     public string Description { get; set; }
     public int Rating { get; set; }
+    public string CreatedBy { get; set; }
 
     public ReadingListDto(ReadingList list)
     {
@@ -20,16 +23,11 @@ public class ReadingListDto
         Name = list.Name;
         Description = list.Description;
         Rating = list.Rating;
+        CreatedBy = list.User.UserName;
     }
 
-    public ReadingListDto(ReadingList list, bool deserialize)
+    public ReadingListDto(ReadingList list, bool deserialize) : this(list)
     {
-        ReadingListId = list.ReadingListId;
-        IsPrivate = list.IsPrivate;
-        UserId = list.UserId;
-        Name = list.Name;
-        Description = list.Description;
-        Rating = list.Rating;
         if (deserialize)
         {
             Issues = ReadingListHelper.DeserializeIssues(list.SerializedIssues);

@@ -42,7 +42,7 @@ namespace ComicCompanion.Controllers
             }
             else
             {
-                return BadRequest(result.Errors);
+                return BadRequest(new { status = "error", message = "There was an error creating an account", errors = result.Errors });
             }
         }
 

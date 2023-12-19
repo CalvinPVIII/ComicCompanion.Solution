@@ -68,13 +68,17 @@ export default function UserAuthForm(props: UserAuthFormProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email: signUpEmail, userName: signUpUserName, password: signUpPassword }),
-    }).then((response) =>
-      response.json().then((data) => {
-        if (data.status === "success") {
-          onSignIn(signUpEmail, signUpPassword, data.message);
-        }
-      })
-    );
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (data.status === "success") {
+            onSignIn(signUpEmail, signUpPassword, data.message);
+          }
+        })
+      )
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <>
