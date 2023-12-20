@@ -42,4 +42,5 @@ export interface ReadingList {
   name: string;
   description: string;
   rating: number;
+  createdBy: string;
 }

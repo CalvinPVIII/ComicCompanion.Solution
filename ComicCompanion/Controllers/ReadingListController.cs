@@ -19,7 +19,7 @@ public class ReadingListController : Controller
     }
 
     [HttpGet("ReadingLists")]
-    public IActionResult Get([FromQuery] int page = 0, [FromQuery] string? userId = null)
+    public IActionResult Get([FromQuery] int page = 0, [FromQuery] string? userId = null, string? userName = null)
     {
 
         var readingListQuery = _db.ReadingLists.AsQueryable();
@@ -48,7 +48,15 @@ public class ReadingListController : Controller
 
         int skipBy = page * 10;
         var readingLists = readingListQuery.Include(list => list.User).Skip(skipBy).Take(10).ToList().Select(readingList => new ReadingListDto(readingList, true));
-        return Ok(readingLists);
+
+
+        if (!readingLists.Any())
+        {
+            return NotFound(new APIResponseDto("error", 404, "Not Found"));
+        }
+
+
+        return Ok(new APIResponseDto("success", 200, readingLists, page));
     }
 
 
@@ -59,7 +67,7 @@ public class ReadingListController : Controller
         var readingList = _db.ReadingLists.Include(list => list.User).FirstOrDefault(list => list.ReadingListId == id);
         if (readingList == null)
         {
-            return NotFound();
+            return NotFound(new APIResponseDto("error", 404, "Not Found"));
         }
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
         if (readingList != null)
@@ -68,14 +76,15 @@ public class ReadingListController : Controller
             {
                 if (requestingUserId != readingList.UserId)
                 {
-                    return Unauthorized();
+                    return Unauthorized(new APIResponseDto("error", 401, "Insufficient Permissions"));
                 }
             }
-            return Ok(new ReadingListDto(readingList, true));
+            var list = new ReadingListDto(readingList, true);
+            return Ok(new APIResponseDto("success", 200, list));
         }
         else
         {
-            return NotFound();
+            return NotFound(new APIResponseDto("error", 404, "Not Found"));
         }
     }
 
@@ -86,7 +95,7 @@ public class ReadingListController : Controller
     {
         _db.ReadingLists.Add(list);
         _db.SaveChanges();
-        return Ok(list);
+        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 200, list));
     }
 
 
@@ -95,8 +104,7 @@ public class ReadingListController : Controller
     {
         _db.ReadingLists.Update(list);
         _db.SaveChanges();
-        return Ok(list);
-
+        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 200, list));
     }
 
 

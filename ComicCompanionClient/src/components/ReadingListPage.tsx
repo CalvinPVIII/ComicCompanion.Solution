@@ -15,7 +15,7 @@ export default function ReadingListPage() {
       fetch(`${import.meta.env.VITE_API_URL}/readinglists`)
         .then((r) =>
           r.json().then((data) => {
-            setAllReadingLists(data);
+            setAllReadingLists(data.data);
           })
         )
         .catch((error) => console.log(error));
@@ -34,7 +34,9 @@ export default function ReadingListPage() {
       })
         .then((r) =>
           r.json().then((data) => {
-            setUserReadingLists(data);
+            if (data.status === "success") {
+              setUserReadingLists(data.data);
+            }
           })
         )
         .catch((error) => console.log(error));
