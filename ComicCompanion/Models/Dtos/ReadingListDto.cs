@@ -10,7 +10,7 @@ public class ReadingListDto
     public string UserId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int Rating { get; set; }
+    public int Rating { get; set; } // will need to query the database for ReadingListRatings, count how many of the Positive properties are true vs false
     public string CreatedBy { get; set; }
 
     public ReadingListDto(ReadingList list)
@@ -20,7 +20,6 @@ public class ReadingListDto
         UserId = list.UserId;
         Name = list.Name;
         Description = list.Description;
-        Rating = list.Rating;
         CreatedBy = list.User.UserName;
     }
 

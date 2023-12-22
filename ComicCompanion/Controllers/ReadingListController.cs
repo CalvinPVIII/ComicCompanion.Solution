@@ -26,6 +26,10 @@ public class ReadingListController : Controller
 
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
 
+
+        // searching by user name?
+        ApplicationUser? userByName = _db.Users.FirstOrDefault(user => user.UserName == userName);
+
         // if you are searching for a specific users lists
         if (userId != null)
         {
@@ -89,13 +93,26 @@ public class ReadingListController : Controller
     }
 
 
+    [HttpGet("ReadingList/Search")]
+    public IActionResult Search([FromQuery] string searchTerm)
+    {
+        var lists = _db.ReadingLists.Where(list => list.Name.Contains(searchTerm)).ToList();
+        if (!lists.Any())
+        {
+            return NotFound(new APIResponseDto("error", 404, "Not Found"));
+
+        }
+        return Ok(new APIResponseDto("success", 200, lists));
+    }
+
+
 
     [HttpPost("ReadingLists")]
     public IActionResult Create(ReadingList list)
     {
         _db.ReadingLists.Add(list);
         _db.SaveChanges();
-        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 200, list));
+        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
     }
 
 
@@ -104,9 +121,60 @@ public class ReadingListController : Controller
     {
         _db.ReadingLists.Update(list);
         _db.SaveChanges();
-        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 200, list));
+        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
     }
 
 
+    [HttpPut("ReadingLists/{readingListId}/vote")]
+    public IActionResult Vote([FromRoute] int readingListId, [FromBody] bool positive)
+    {
+        string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        if (requestingUserId == null)
+        {
+            return Unauthorized(new APIResponseDto("error", 401, "Unauthorized"));
+        }
+
+        ReadingListRating? rating = _db.ReadingListRatings.FirstOrDefault(rating => rating.ReadingListId == readingListId && rating.UserId == requestingUserId);
+        if (rating == null)
+        {
+            rating = new ReadingListRating() { ReadingListRatingId = readingListId, Positive = positive, UserId = requestingUserId };
+
+            _db.ReadingListRatings.Add(rating);
+            _db.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, "Rating Posted"));
+
+        }
+        else
+        {
+            return BadRequest(new APIResponseDto("error", 400, "Bad Request"));
+        }
+    }
+
+    [HttpPost("ReadingLists/{id}/favorite")]
+    public IActionResult Favorite(int id)
+    {
+        string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        if (requestingUserId == null)
+        {
+            return Unauthorized(new APIResponseDto("error", 401, "Unauthorized"));
+        }
+
+        string responseMessage;
+
+        UserReadingListFavorite? favorite = _db.UserReadingListFavorites.FirstOrDefault(favorite => favorite.ReadingListId == id && favorite.UserId == requestingUserId);
+        if (favorite != null)
+        {
+            _db.UserReadingListFavorites.Remove(favorite);
+            responseMessage = "Favorite Removed";
+        }
+        else
+        {
+            _db.UserReadingListFavorites.Add(new UserReadingListFavorite() { UserId = requestingUserId, ReadingListId = id });
+            responseMessage = "Favorite Added";
+        }
+        _db.SaveChanges();
+        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, responseMessage));
+
+    }
 
 }

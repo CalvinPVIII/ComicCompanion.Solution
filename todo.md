@@ -3,7 +3,7 @@
 - Overall styling cleanup
 - Adjust navmenu. Use form/formcontrol??
 - Handle auth tokens (kind of done? security audit maybe)
-- Creating reading lists
+- ~~Creating reading lists~~
 - ~~Making searching comics feel more "reactive"~~
 - hide .env
 - ComicInfo loading styling (skeleton)
@@ -26,7 +26,7 @@
 - Replace RCO source (https://xoxocomic.com/)
 - Rewrite tests
 - Popular comics endpoint
-- Add number of pages info to comic endpoint
+- Add number of pages (for the request pagination, not pages of the comic itself) info to comic endpoint
 - ~~Serialize the Issues Array in the ReadingListModel to be strings~~
 - ~~Method to check if reading list belongs to user making get request~~
 - Clean up helpers && Issue/Comic controllers
@@ -34,3 +34,5 @@
 - Look into how usernames are getting stored in database, do they need to be unique, are the in the email field etc. Might want to use them for querying lists by a specific user.
 - ~~Reading list pagination~~
 - Functionality to update user name/email/password
+- Upvote/downvote reading lists
+- Tags?
