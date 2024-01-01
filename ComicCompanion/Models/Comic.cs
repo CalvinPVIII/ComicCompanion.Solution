@@ -23,13 +23,29 @@ public class Comic
 
     public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int? pageNumber)
     {
+
+
         // if (serverNumber == 1)
         // {
         //     return await ReadComicOnlineHelper.Search(keyword);
         // }
         // else
         // {
-        return await ComicExtraHelper.Search(keyword, pageNumber);
+        return await ComicExtraHelper.Search(keyword, pageNumber == 0 || pageNumber == null ? 1 : (int)pageNumber);
         // }
+    }
+
+    public async static Task<SearchResultDto> Popular(int? serverNumber)
+    {
+        int server;
+        if (serverNumber == null || serverNumber == 0)
+        {
+            server = 1;
+        }
+        else
+        {
+            server = (int)serverNumber;
+        }
+        return await ComicExtraHelper.Popular(server);
     }
 }

@@ -12,7 +12,7 @@ public class ComicsController : Controller
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<List<Comic>>> Search(string keyword, int? serverNumber, int? pageNumber)
+    public async Task<ActionResult<List<Comic>>> Search(string keyword, int? serverNumber, int pageNumber = 1)
     {
 
         try
@@ -25,5 +25,15 @@ public class ComicsController : Controller
         }
 
     }
+
+    // add pagination
+    [HttpGet("popular")]
+    public async Task<ActionResult<Comic>> Popular(int? serverNumber)
+    {
+
+        var results = await Comic.Popular(serverNumber);
+        return Ok(new APIResponseDto("success", 200, results));
+    }
+
 
 }

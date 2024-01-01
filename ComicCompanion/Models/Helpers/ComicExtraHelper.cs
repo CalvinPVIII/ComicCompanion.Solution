@@ -13,13 +13,10 @@ public class ComicExtraHelper : ComicHelper, IComicHelper
     private static AngleSharp.IConfiguration _config = Configuration.Default.With(_requester).WithDefaultLoader();
     private static IBrowsingContext _context = BrowsingContext.New(_config);
 
-    public async static Task<SearchResultDto> Search(string keyword, int? pageNumber)
+    public async static Task<SearchResultDto> Search(string keyword, int pageNumber = 1)
     {
 
-        if (pageNumber == 0 || pageNumber == null)
-        {
-            pageNumber = 1;
-        }
+
         keyword = FormatSearchKeyword(keyword);
         List<Comic> results = new List<Comic>();
         int pageNumbers = 0;
@@ -48,6 +45,40 @@ public class ComicExtraHelper : ComicHelper, IComicHelper
 
     }
 
+
+    public async static Task<SearchResultDto> Popular(int pageNumber = 1)
+    {
+
+
+        List<Comic> results = new List<Comic>();
+        int pageNumbers = 0;
+        try
+        {
+            var document = await _context.OpenAsync($"https://comicextra.me/popular-comic/{pageNumber}");
+            var cells = document.QuerySelectorAll(".cartoon-box");
+            foreach (var node in cells)
+            {
+                var img = node.FirstElementChild.FirstElementChild.Attributes["src"].Value;
+                var id = GetIdFromUrl(node.FirstElementChild.Attributes["href"].Value);
+                var name = node.LastElementChild.FirstElementChild.TextContent;
+                results.Add(new Comic() { Name = name, ComicId = id, CoverImg = img });
+
+            }
+            pageNumbers = document.QuerySelectorAll(".general-nav")[1].ChildElementCount - 1;
+
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        var searchResults = new SearchResultDto() { Comics = results, CurrentPage = pageNumber, MaxPage = pageNumbers };
+        return searchResults;
+
+    }
+
+
+
     public async static Task<string[]> GetPagesFromIssue(Issue issue)
     {
         var document = await _context.OpenAsync($"https://comicextra.me/{issue.ComicId}/issue-{issue.IssueId}/full");
@@ -60,7 +91,7 @@ public class ComicExtraHelper : ComicHelper, IComicHelper
         catch (Exception)
         {
             // do nothing;
-            string[] pages = { };
+            string[] pages = Array.Empty<string>();
             return pages;
         }
 
@@ -80,11 +111,6 @@ public class ComicExtraHelper : ComicHelper, IComicHelper
         }
         return new Comic() { CoverImg = img, ComicId = comicId, Name = name, IssueIds = issueIds };
     }
-
-    // public static List<string> GetComicIssueIds(string comicId)
-    // {
-
-    // }
 
 
     private static string GetIdFromUrl(string url)
