@@ -23,7 +23,7 @@
 
 ### API:
 
-- Replace RCO source (https://xoxocomic.com/)
+- Replace RCO source (https://xoxocomic.com/, https://readcomicsonline.ru/)
 - Rewrite tests
 - Popular comics endpoint
 - Add number of pages (for the request pagination, not pages of the comic itself) info to comic endpoint

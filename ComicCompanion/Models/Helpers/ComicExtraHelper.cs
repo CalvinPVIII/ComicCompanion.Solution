@@ -1,9 +1,10 @@
 using System.Text.RegularExpressions;
 using AngleSharp;
 using AngleSharp.Io.Network;
+using ComicCompanion.Interfaces;
 namespace ComicCompanion.Models;
 
-public class ComicExtraHelper : ComicHelper
+public class ComicExtraHelper : ComicHelper, IComicHelper
 {
 
     private static HttpClient _client = new HttpClient { Timeout = new TimeSpan(0, 0, 5) };
@@ -50,17 +51,18 @@ public class ComicExtraHelper : ComicHelper
     public async static Task<string[]> GetPagesFromIssue(Issue issue)
     {
         var document = await _context.OpenAsync($"https://comicextra.me/{issue.ComicId}/issue-{issue.IssueId}/full");
-        List<string> pages = new List<string>();
         try
         {
-            pages = document.QuerySelectorAll(".chapter_img").Select(e => e.Attributes["src"].Value).ToList();
+            var pages = document.QuerySelectorAll(".chapter_img").Select(e => e.Attributes["src"].Value).ToArray();
             ;
+            return pages.ToArray();
         }
         catch (Exception)
         {
             // do nothing;
+            string[] pages = { };
+            return pages;
         }
-        return pages.ToArray();
 
     }
 
