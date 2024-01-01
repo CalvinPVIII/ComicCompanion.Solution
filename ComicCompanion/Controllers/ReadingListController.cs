@@ -54,10 +54,10 @@ public class ReadingListController : Controller
         var readingLists = readingListQuery.Include(list => list.User).Skip(skipBy).Take(10).ToList().Select(readingList => new ReadingListDto(readingList, true));
 
 
-        if (!readingLists.Any())
-        {
-            return NotFound(new APIResponseDto("error", 404, "Not Found"));
-        }
+        // if (!readingLists.Any())
+        // {
+        //     return NotFound(new APIResponseDto("error", 404, "Not Found"));
+        // }
 
 
         return Ok(new APIResponseDto("success", 200, readingLists, page));

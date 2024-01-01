@@ -1,6 +1,9 @@
 ### Client:
 
-- Overall styling cleanup
+- Redo Front end entirely, use material ui?
+
+---OLD---
+
 - Adjust navmenu. Use form/formcontrol??
 - Handle auth tokens (kind of done? security audit maybe)
 - ~~Creating reading lists~~
@@ -25,7 +28,7 @@
 
 - Replace RCO source (https://xoxocomic.com/, https://readcomicsonline.ru/)
 - Rewrite tests
-- Popular comics endpoint
+- ~~Popular comics endpoint~~
 - Add number of pages (for the request pagination, not pages of the comic itself) info to comic endpoint
 - ~~Serialize the Issues Array in the ReadingListModel to be strings~~
 - ~~Method to check if reading list belongs to user making get request~~
