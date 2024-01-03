@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { PopularComicsApiResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfItems from "./Utility/ListOfItems";
+import "../styles/PopularComicsList.css";
 
 export default function PopularComicsList() {
   const [apiResponse, setApiResponse] = useState<PopularComicsApiResponse | null>();
@@ -21,13 +22,19 @@ export default function PopularComicsList() {
     getData();
   }, []);
 
-  if (loading) {
-    return <p>loading</p>;
-  } else {
-    if (error) {
-      return <p>there was an error</p>;
-    } else if (apiResponse) {
-      return <ListOfItems items={apiResponse.data.comics} />;
-    }
-  }
+  return (
+    <div className="popular-comics-list">
+      {!loading && apiResponse ? (
+        <>
+          <ListOfItems items={apiResponse.data.comics} />
+        </>
+      ) : !loading && error ? (
+        <>
+          <p>There was an error</p>
+        </>
+      ) : (
+        <p>loading</p>
+      )}
+    </div>
+  );
 }

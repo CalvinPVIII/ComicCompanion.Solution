@@ -27,8 +27,8 @@ export default function NavBar() {
     <div className="bottom-nav">
       <BottomNavigation showLabels value={value}>
         <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Reading Lists" icon={<ListAltIcon />} component={Link} to="/lists" />
-        <BottomNavigationAction label="Comics" icon={<MenuBookIcon />} component={Link} to="/comics" />
+        <BottomNavigationAction component={Link} to="/lists" label="Reading Lists" icon={<ListAltIcon />} />
+        <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
       </BottomNavigation>
     </div>
   );

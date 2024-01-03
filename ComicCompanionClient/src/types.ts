@@ -18,7 +18,7 @@ export interface Issue {
   pages: string[] | null;
 }
 
-export interface PopularComicsApiResponse {
+export interface SearchResultAPIResponse {
   status: string;
   statusCode: number;
   data: { ["comics"]: Comic[]; ["currentPage"]: number; ["maxpage"]: number };
