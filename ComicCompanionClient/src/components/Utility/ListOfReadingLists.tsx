@@ -1,5 +1,6 @@
 import { ReadingListDto } from "../../types";
 import ReadingListListCard from "./ReadingListListCard";
+import "../../styles/ListOfItems.css";
 
 interface ListOfReadingListsProps {
   items: ReadingListDto[];

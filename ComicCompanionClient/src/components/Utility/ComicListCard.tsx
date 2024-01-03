@@ -1,9 +1,9 @@
-import "../../styles/ComicListCard.css";
+import "../../styles/ItemListCard.css";
 import { Comic } from "../../types";
 import { Link } from "react-router-dom";
 
 interface ComicListCardProps {
-  item: Comic; // will need to account for other data types at some point
+  item: Comic;
 }
 
 export default function ComicListCard(props: ComicListCardProps) {

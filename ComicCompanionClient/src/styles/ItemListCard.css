@@ -1,8 +1,7 @@
 .item-card {
   text-align: center;
 }
-
-.item-card > img {
+.item-card img {
   height: 260px;
   width: 200px;
 }

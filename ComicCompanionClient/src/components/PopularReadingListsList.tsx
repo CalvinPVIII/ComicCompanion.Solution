@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ReadingListSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfReadingLists from "./Utility/ListOfReadingLists";
+import "../styles/PopularList.css";
 export default function PopularReadingListsList() {
   const [apiResponse, setApiResponse] = useState<ReadingListSearchResultAPIResponse | null>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,7 +22,7 @@ export default function PopularReadingListsList() {
   }, []);
 
   return (
-    <div className="popular-comics-list">
+    <div className="popular-list">
       {!loading && apiResponse ? (
         <>
           <ListOfReadingLists items={apiResponse.data} />

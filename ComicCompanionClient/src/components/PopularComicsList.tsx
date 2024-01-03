@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ComicSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfComics from "./Utility/ListOfComics";
-import "../styles/PopularComicsList.css";
+import "../styles/PopularList.css";
 
 export default function PopularComicsList() {
   const [apiResponse, setApiResponse] = useState<ComicSearchResultAPIResponse | null>();
@@ -23,7 +23,7 @@ export default function PopularComicsList() {
   }, []);
 
   return (
-    <div className="popular-comics-list">
+    <div className="popular-list">
       {!loading && apiResponse ? (
         <>
           <ListOfComics items={apiResponse.data.comics} />
