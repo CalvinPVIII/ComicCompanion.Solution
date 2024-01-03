@@ -1,4 +1,4 @@
-import { ComicSearchResultAPIResponse, SearchResultDto } from "../types";
+import { Comic, ComicSearchResultAPIResponse, SearchResultDto } from "../types";
 
 export default class ComicCompanionAPIService {
   static async getPopularComics(serverNumber?: number): Promise<ComicSearchResultAPIResponse> {
@@ -6,22 +6,33 @@ export default class ComicCompanionAPIService {
       ? `${import.meta.env.VITE_API_URL}/comics/popular?serverNumber=${serverNumber}`
       : `${import.meta.env.VITE_API_URL}/comics/popular`;
     const apiResponse = await fetch(fetchUrl);
-    const jsonReposnse = await apiResponse.json();
-    return jsonReposnse as ComicSearchResultAPIResponse;
+    const jsonResponse = await apiResponse.json();
+    return jsonResponse as ComicSearchResultAPIResponse;
   }
 
   static async searchComics(keyword: string, serverNumber?: number, pageNumber?: number): Promise<SearchResultDto> {
     console.log(keyword);
-    const fetchUrl = `${import.meta.env.VITE_API_URL}/comics/search?keyword=${keyword}`;
+    let fetchUrl = `${import.meta.env.VITE_API_URL}/comics/search?keyword=${keyword}`;
     if (serverNumber) {
-      fetchUrl + `?serverNumber=${serverNumber}`;
+      fetchUrl += `?serverNumber=${serverNumber}`;
     }
     if (pageNumber) {
-      fetchUrl + `?pageNumber=${pageNumber}`;
+      fetchUrl += `?pageNumber=${pageNumber}`;
     }
     console.log(fetchUrl);
     const apiResponse = await fetch(fetchUrl);
-    const jsonReposnse = await apiResponse.json();
-    return jsonReposnse as SearchResultDto;
+    const jsonResponse = await apiResponse.json();
+    return jsonResponse as SearchResultDto;
+  }
+
+  static async getComic(comicId: string, serverNumber?: number): Promise<Comic> {
+    let fetchUrl = `${import.meta.env.VITE_API_URL}/comics/${comicId}`;
+    if (serverNumber) {
+      fetchUrl += `?serverNumber=${serverNumber}`;
+    }
+    const apiResponse = await fetch(fetchUrl);
+    const jsonResponse = await apiResponse.json();
+    console.log(jsonResponse);
+    return jsonResponse as unknown as Comic;
   }
 }

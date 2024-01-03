@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import ComicSearchResult from "./ComicSearchResult";
 import ReadingListSearchResult from "./ReadingListSearchResult";
-import { ComicSearchResultAPIResponse, ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
+import { ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
 
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";

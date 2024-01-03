@@ -2,6 +2,8 @@
 
 - Redo Front end entirely, use material ui?
 - default cover image for reading list should be comic companion logo with different color options
+- Global modal where the content and visibility is all managed in Redux??
+- Use loaders in react router instead of hooks for some api calls (getting comic info)??
 
 ### API:
 

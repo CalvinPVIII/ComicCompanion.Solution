@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import HomePage from "./components/pages/HomePage";
 import ComicPage from "./components/pages/ComicsPage";
 import NavBar from "./components/Navbar";
+import ComicInfoPage from "./components/pages/ComicInfoPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/comics" element={<ComicPage />} />
+          <Route path="/comics/:comicId" element={<ComicInfoPage />} />
         </Routes>
         <NavBar />
       </ThemeProvider>
