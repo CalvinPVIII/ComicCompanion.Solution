@@ -3,7 +3,7 @@ import "../../styles/SearchForm.css";
 import { useEffect, useState } from "react";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import SearchResult from "./SearchResult";
-import { SearchResultAPIResponse } from "../../types";
+import { ComicSearchResultAPIResponse, ReadingListSearchResultAPIResponse } from "../../types";
 
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
@@ -12,7 +12,7 @@ interface SearchFormProps {
 export default function SearchForm(props: SearchFormProps) {
   const [searchInput, setSearchInput] = useState("");
   const [searchingStatus, setSearchingStatus] = useState<"notSearching" | "searching" | "searchComplete">("notSearching");
-  const [searchResults, setSearchResults] = useState<SearchResultAPIResponse | null>();
+  const [searchResults, setSearchResults] = useState<ComicSearchResultAPIResponse | null | ReadingListSearchResultAPIResponse>(null);
 
   useEffect(() => {
     // when the component is rendered, handleSearch will be called after 1 second
@@ -32,8 +32,8 @@ export default function SearchForm(props: SearchFormProps) {
   // this is the function that will be called to actually search whatever the result is
   const handleSearch = async () => {
     if (searchInput) {
-      const searchResult = await ComicCompanionAPIService.searchComics(searchInput);
-      setSearchResults(searchResult);
+      const apiResponse = await ComicCompanionAPIService.searchComics(searchInput);
+      setSearchResults(apiResponse);
       setSearchingStatus("searchComplete");
     } else {
       setSearchingStatus("notSearching");

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { PopularComicsApiResponse } from "../types";
+import { ComicSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfItems from "./Utility/ListOfItems";
 import "../styles/PopularComicsList.css";
 
 export default function PopularComicsList() {
-  const [apiResponse, setApiResponse] = useState<PopularComicsApiResponse | null>();
+  const [apiResponse, setApiResponse] = useState<ComicSearchResultAPIResponse | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState();
 

@@ -18,9 +18,34 @@ export interface Issue {
   pages: string[] | null;
 }
 
-export interface SearchResultAPIResponse {
+interface APIResponse {
   status: string;
   statusCode: number;
-  data: { ["comics"]: Comic[]; ["currentPage"]: number; ["maxpage"]: number };
   pageNumber: number | null;
+}
+
+export interface ReadingListDto {
+  readingListId: number;
+  issues: Issue[] | null;
+  isPrivate: boolean;
+  userId: string;
+  name: string;
+  description: string;
+  coverImg: string;
+  rating: number;
+  createdBy: string;
+}
+
+export interface SearchResultDto {
+  comics: Comic[];
+  currentPage: number;
+  maxPage: number;
+}
+
+export interface ComicSearchResultAPIResponse extends APIResponse {
+  data: SearchResultDto;
+}
+
+export interface ReadingListSearchResultAPIResponse extends APIResponse {
+  data: ReadingListDto[];
 }

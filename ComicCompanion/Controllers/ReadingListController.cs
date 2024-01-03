@@ -19,7 +19,7 @@ public class ReadingListController : Controller
     }
 
     [HttpGet("ReadingLists")]
-    public IActionResult Get([FromQuery] int page = 0, [FromQuery] string? userId = null, string? userName = null)
+    public IActionResult Get([FromQuery] int page = 0, [FromQuery] string? userId = null, string? userName = null, string? listName = null)
     {
 
         var readingListQuery = _db.ReadingLists.AsQueryable();
@@ -47,6 +47,10 @@ public class ReadingListController : Controller
         else
         {
             readingListQuery = readingListQuery.Where(l => l.IsPrivate == false);
+        }
+        if (listName != null)
+        {
+            readingListQuery = readingListQuery.Where(l => l.Name == listName);
         }
 
 

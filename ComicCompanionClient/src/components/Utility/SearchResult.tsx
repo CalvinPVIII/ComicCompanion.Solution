@@ -1,7 +1,7 @@
-import { SearchResultAPIResponse } from "../../types";
+import { ComicSearchResultAPIResponse, ReadingListSearchResultAPIResponse } from "../../types";
 
 interface SearchResultProps {
-  searchResult: SearchResultAPIResponse;
+  searchResult: ComicSearchResultAPIResponse | ReadingListSearchResultAPIResponse;
 }
 
 export default function SearchResult(props: SearchResultProps) {

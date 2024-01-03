@@ -1,28 +1,7 @@
 ### Client:
 
 - Redo Front end entirely, use material ui?
-
----OLD---
-
-- Adjust navmenu. Use form/formcontrol??
-- Handle auth tokens (kind of done? security audit maybe)
-- ~~Creating reading lists~~
-- ~~Making searching comics feel more "reactive"~~
-- hide .env
-- ComicInfo loading styling (skeleton)
-- ~~Number on currently editing reading list in top left~~
-- Pagination
-- Issue popup?
-- ~~Link to issue from reading list~~
-- Organize component files
-- Add image for reading lists
-- Update api responses to account for new structure
-
-#### Would be nice:
-
-- Extracting adding/deleting issue to currently edited reading list to reusable function
-- Reusable modal component
-- Look into updating APIResponseDTO to have a Type<T> implementation?
+- default cover image for reading list should be comic companion logo with different color options
 
 ### API:
 
