@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ComicSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
-import ListOfItems from "./Utility/ListOfItems";
+import ListOfComics from "./Utility/ListOfComics";
 import "../styles/PopularComicsList.css";
 
 export default function PopularComicsList() {
@@ -26,7 +26,7 @@ export default function PopularComicsList() {
     <div className="popular-comics-list">
       {!loading && apiResponse ? (
         <>
-          <ListOfItems items={apiResponse.data.comics} />
+          <ListOfComics items={apiResponse.data.comics} />
         </>
       ) : !loading && error ? (
         <>

@@ -10,5 +10,6 @@ public class ReadingList
     public string Name { get; set; }
     public string Description { get; set; }
     public string CoverImg { get; set; }
+    public List<ReadingListRating> Ratings { get; set; }
 
 }

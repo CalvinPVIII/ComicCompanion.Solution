@@ -1,12 +1,12 @@
-import ItemCard from "./ItemCard";
+import ItemCard from "./ComicListCard";
 import "../../styles/ListOfItems.css";
 import { Comic } from "../../types";
 
-interface ListOfItemsProps {
+interface ListOfComicsProps {
   items: Comic[];
 }
 
-export default function ListOfItems(props: ListOfItemsProps) {
+export default function ListOfComics(props: ListOfComicsProps) {
   return (
     <div className="items-list">
       {props.items.map((element, index) => (

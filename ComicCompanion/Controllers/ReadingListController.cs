@@ -22,13 +22,12 @@ public class ReadingListController : Controller
     public IActionResult Get([FromQuery] int page = 0, [FromQuery] string? userId = null, string? userName = null, string? listName = null)
     {
 
-        var readingListQuery = _db.ReadingLists.AsQueryable();
+        var readingListQuery = _db.ReadingLists.Include(l => l.Ratings).AsQueryable();
 
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
 
 
-        // searching by user name?
-        ApplicationUser? userByName = _db.Users.FirstOrDefault(user => user.UserName == userName);
+
 
         // if you are searching for a specific users lists
         if (userId != null)
@@ -58,6 +57,14 @@ public class ReadingListController : Controller
         var readingLists = readingListQuery.Include(list => list.User).Skip(skipBy).Take(10).ToList().Select(readingList => new ReadingListDto(readingList, true));
 
 
+        // searching by user name?
+        ApplicationUser? userByName = _db.Users.FirstOrDefault(user => user.UserName == userName);
+        if (userByName != null)
+        {
+            readingLists = readingLists.Where(list => list.CreatedBy.Equals(userByName.UserName));
+        }
+
+
         // if (!readingLists.Any())
         // {
         //     return NotFound(new APIResponseDto("error", 404, "Not Found"));
@@ -68,11 +75,11 @@ public class ReadingListController : Controller
     }
 
 
-    // need to check token or if reading list is private
-    [HttpGet("ReadingList/{id}")]
+
+    [HttpGet("ReadingLists/{id}")]
     public IActionResult GetReadingList(int id)
     {
-        var readingList = _db.ReadingLists.Include(list => list.User).FirstOrDefault(list => list.ReadingListId == id);
+        var readingList = _db.ReadingLists.Include(l => l.Ratings).Include(list => list.User).FirstOrDefault(list => list.ReadingListId == id);
         if (readingList == null)
         {
             return NotFound(new APIResponseDto("error", 404, "Not Found"));
@@ -97,19 +104,14 @@ public class ReadingListController : Controller
     }
 
 
-    [HttpGet("ReadingList/Search")]
-    public IActionResult Search([FromQuery] string searchTerm)
+    [HttpGet("ReadingLists/popular")]
+    public IActionResult Popular()
     {
-        var lists = _db.ReadingLists.Where(list => list.Name.Contains(searchTerm)).ToList();
-        if (!lists.Any())
-        {
-            return NotFound(new APIResponseDto("error", 404, "Not Found"));
+        var popularLists = _db.ReadingLists.Include(l => l.Ratings).Include(l => l.User
+        ).Where(l => l.IsPrivate == false).OrderByDescending(readingList => readingList.Ratings.Where(rating => rating.Positive == true).Count() - readingList.Ratings.Where(rating => rating.Positive == false).Count()).ToList().Select(list => new ReadingListDto(list, false));
 
-        }
-        return Ok(new APIResponseDto("success", 200, lists));
+        return Ok(new APIResponseDto("success", 200, popularLists));
     }
-
-
 
     [HttpPost("ReadingLists")]
     public IActionResult Create(ReadingList list)
@@ -118,6 +120,7 @@ public class ReadingListController : Controller
         _db.SaveChanges();
         return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
     }
+
 
 
     [HttpPut("ReadingLists/{id}")]

@@ -1,12 +1,12 @@
-import "../../styles/ItemCard.css";
+import "../../styles/ComicListCard.css";
 import { Comic } from "../../types";
 import { Link } from "react-router-dom";
 
-interface ItemCardProps {
+interface ComicListCardProps {
   item: Comic; // will need to account for other data types at some point
 }
 
-export default function ItemCard(props: ItemCardProps) {
+export default function ComicListCard(props: ComicListCardProps) {
   return (
     <div className="item-card">
       <Link to={`/comics/${props.item.comicId}`}>
