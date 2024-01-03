@@ -1,0 +1,7 @@
+.item-card {
+}
+
+.item-card > img {
+  height: 260px;
+  width: 200px;
+}

@@ -1,0 +1,6 @@
+.items-list {
+  display: flex;
+  column-gap: 20px;
+  overflow-x: scroll;
+  height: 350px;
+}
