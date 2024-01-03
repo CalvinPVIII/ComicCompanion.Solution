@@ -2,8 +2,9 @@ import { TextField } from "@mui/material";
 import "../../styles/SearchForm.css";
 import { useEffect, useState } from "react";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
-import SearchResult from "./SearchResult";
-import { ComicSearchResultAPIResponse, ReadingListSearchResultAPIResponse } from "../../types";
+import ComicSearchResult from "./ComicSearchResult";
+import ReadingListSearchResult from "./ReadingListSearchResult";
+import { ComicSearchResultAPIResponse, ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
 
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
@@ -12,16 +13,19 @@ interface SearchFormProps {
 export default function SearchForm(props: SearchFormProps) {
   const [searchInput, setSearchInput] = useState("");
   const [searchingStatus, setSearchingStatus] = useState<"notSearching" | "searching" | "searchComplete">("notSearching");
-  const [searchResults, setSearchResults] = useState<ComicSearchResultAPIResponse | null | ReadingListSearchResultAPIResponse>(null);
+  const [comicSearchResult, setComicSearchResults] = useState<SearchResultDto | null>(null);
+  const [readingListSearchResult, setReadingListSearchResult] = useState<ReadingListSearchResultAPIResponse | null>(null);
 
   useEffect(() => {
     // when the component is rendered, handleSearch will be called after 1 second
     const timer = setTimeout(() => {
-      handleSearch();
+      if (props.typeOfSearch === "Comics") {
+        handleSearchComics();
+      }
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [searchInput]);
+  }, [searchInput, props.typeOfSearch]);
 
   // event handler for the input
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,25 +33,43 @@ export default function SearchForm(props: SearchFormProps) {
     setSearchInput(e.target.value);
   };
 
-  // this is the function that will be called to actually search whatever the result is
-  const handleSearch = async () => {
+  // one of these is the function that will be called to actually search whatever the result is
+
+  // this handles searching for comics and structuring them for the SearchResult component
+  const handleSearchComics = async () => {
     if (searchInput) {
       const apiResponse = await ComicCompanionAPIService.searchComics(searchInput);
-      setSearchResults(apiResponse);
+      console.log(apiResponse);
+      setComicSearchResults(apiResponse);
       setSearchingStatus("searchComplete");
     } else {
       setSearchingStatus("notSearching");
     }
   };
 
+  // this handles searching for reading lists and structuring them for the SearchResult component
+  // const handleSearchReadingLists = async () => {
+
+  // }
+
   return (
     <>
       <div className="search-form-header">
         <TextField id="outlined-basic" label={`Search ${props.typeOfSearch}`} variant="outlined" fullWidth onChange={handleUserInput} />
       </div>
-      {searchingStatus === "searchComplete" && searchResults ? (
+      {searchingStatus === "searchComplete" ? (
         <>
-          <SearchResult searchResult={searchResults} />
+          {props.typeOfSearch === "Comics" && comicSearchResult ? (
+            <>
+              <ComicSearchResult searchResult={comicSearchResult} />
+            </>
+          ) : props.typeOfSearch === "Reading Lists" && readingListSearchResult ? (
+            <>
+              <ReadingListSearchResult searchResult={readingListSearchResult} />{" "}
+            </>
+          ) : (
+            <></>
+          )}
         </>
       ) : searchingStatus === "searching" ? (
         <>searching</>

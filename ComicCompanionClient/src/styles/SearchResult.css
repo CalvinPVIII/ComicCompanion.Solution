@@ -1,0 +1,12 @@
+.search-results {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.inner-search-results {
+  display: flex;
+  gap: 20px;
+  width: 500px;
+}
