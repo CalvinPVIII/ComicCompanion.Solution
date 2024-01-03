@@ -1,5 +1,6 @@
 import "../../styles/HomePage.css";
 import PopularComicsList from "../PopularComicsList";
+import PopularReadingListsList from "../PopularReadingListsList";
 
 export default function HomePage() {
   return (
@@ -9,7 +10,7 @@ export default function HomePage() {
       <h2>Popular Comics</h2>
       <PopularComicsList />
       <h2>Popular Reading Lists</h2>
-      <h2>placeholder for popular reading lists</h2>
+      <PopularReadingListsList />
     </>
   );
 }

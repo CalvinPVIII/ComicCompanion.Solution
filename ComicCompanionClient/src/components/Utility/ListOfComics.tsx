@@ -1,4 +1,4 @@
-import ItemCard from "./ComicListCard";
+import ComicListCard from "./ComicListCard";
 import "../../styles/ListOfItems.css";
 import { Comic } from "../../types";
 
@@ -10,7 +10,7 @@ export default function ListOfComics(props: ListOfComicsProps) {
   return (
     <div className="items-list">
       {props.items.map((element, index) => (
-        <ItemCard key={index} item={element} />
+        <ComicListCard key={index} item={element} />
       ))}
     </div>
   );

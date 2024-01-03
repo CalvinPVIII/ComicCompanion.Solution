@@ -1,4 +1,4 @@
-import { Comic, ComicSearchResultAPIResponse, SearchResultDto } from "../types";
+import { Comic, ComicSearchResultAPIResponse, ReadingListSearchResultAPIResponse, SearchResultDto } from "../types";
 
 export default class ComicCompanionAPIService {
   static async getPopularComics(serverNumber?: number): Promise<ComicSearchResultAPIResponse> {
@@ -34,5 +34,11 @@ export default class ComicCompanionAPIService {
     const jsonResponse = await apiResponse.json();
     console.log(jsonResponse);
     return jsonResponse as unknown as Comic;
+  }
+
+  static async getPopularReadingLists(): Promise<ReadingListSearchResultAPIResponse> {
+    const apiResponse = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/popular`);
+    const jsonResponse = await apiResponse.json();
+    return jsonResponse as ReadingListSearchResultAPIResponse;
   }
 }
