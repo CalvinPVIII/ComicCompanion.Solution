@@ -2,6 +2,7 @@ body {
   background-color: #242424;
   color: rgba(255, 255, 255, 0.87);
   font-family: "Mulish", sans-serif;
+  padding-bottom: 30px;
 }
 a {
   text-decoration: none;

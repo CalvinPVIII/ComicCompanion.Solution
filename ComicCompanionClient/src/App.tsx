@@ -8,6 +8,9 @@ import ComicInfoPage from "./components/pages/ComicInfoPage";
 import ReadingListsPage from "./components/pages/ReadingListsPage";
 import ReadingListInfoPage from "./components/pages/ReadingListInfoPage";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
