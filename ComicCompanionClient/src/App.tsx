@@ -5,10 +5,27 @@ import HomePage from "./components/pages/HomePage";
 import ComicPage from "./components/pages/ComicsPage";
 import NavBar from "./components/Navbar";
 import ComicInfoPage from "./components/pages/ComicInfoPage";
+import ReadingListsPage from "./components/pages/ReadingListsPage";
+import ReadingListInfoPage from "./components/pages/ReadingListInfoPage";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    primary: {
+      main: "#aa62f9",
+    },
+    secondary: {
+      main: "#ff8200",
+    },
+    background: {
+      default: "#000000",
+    },
+  },
+  typography: {
+    fontFamily: "Mulish",
+    h1: {
+      fontFamily: "Bangers",
+    },
   },
 });
 
@@ -20,7 +37,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/comics" element={<ComicPage />} />
+          <Route path="/lists" element={<ReadingListsPage />} />
+
           <Route path="/comics/:comicId" element={<ComicInfoPage />} />
+          <Route path="/lists/:listId" element={<ReadingListInfoPage />} />
         </Routes>
         <NavBar />
       </ThemeProvider>

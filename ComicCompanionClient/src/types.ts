@@ -31,7 +31,7 @@ export interface ReadingListDto {
   userId: string;
   name: string;
   description: string;
-  coverImg: string;
+  coverImg?: string;
   rating: number;
   createdBy: string;
 }
@@ -48,4 +48,8 @@ export interface ComicSearchResultAPIResponse extends APIResponse {
 
 export interface ReadingListSearchResultAPIResponse extends APIResponse {
   data: ReadingListDto[];
+}
+
+export interface ReadingListAPIResponse extends APIResponse {
+  data: ReadingListDto;
 }

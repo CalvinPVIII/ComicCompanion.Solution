@@ -4,6 +4,7 @@
 - default cover image for reading list should be comic companion logo with different color options
 - Global modal where the content and visibility is all managed in Redux??
 - Use loaders in react router instead of hooks for some api calls (getting comic info)??
+- Extract api logic into its own custom hook? should store status that is either loading, error, or complete.
 
 #### Styling Goals:
 

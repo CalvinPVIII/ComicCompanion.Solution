@@ -3,19 +3,22 @@ import { ComicSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfComics from "./Utility/ListOfComics";
 import "../styles/PopularList.css";
+import { Alert, CircularProgress } from "@mui/material";
+import { getErrorMessage } from "../helpers/helperFunctions";
 
 export default function PopularComicsList() {
   const [apiResponse, setApiResponse] = useState<ComicSearchResultAPIResponse | null>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getData = async () => {
       try {
         const comics = await ComicCompanionAPIService.getPopularComics();
         setApiResponse(comics);
-      } catch (error) {
-        setError(error);
+      } catch (error: unknown) {
+        const errorMessage = getErrorMessage(error);
+        setError(errorMessage);
       }
       setLoading(false);
     };
@@ -30,10 +33,10 @@ export default function PopularComicsList() {
         </>
       ) : !loading && error ? (
         <>
-          <p>There was an error</p>
+          <Alert severity="error">{error}</Alert>
         </>
       ) : (
-        <p>loading</p>
+        <CircularProgress size="100px" />
       )}
     </div>
   );

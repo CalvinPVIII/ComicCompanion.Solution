@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Comic } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
+import { getErrorMessage } from "../../helpers/helperFunctions";
+import { Alert, CircularProgress } from "@mui/material";
 interface ComicInfoProps {
   comicId: string;
 }
@@ -9,7 +11,7 @@ interface ComicInfoProps {
 export default function ComicInfo(props: ComicInfoProps) {
   const [apiResult, setApiResult] = useState<Comic | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -17,7 +19,8 @@ export default function ComicInfo(props: ComicInfoProps) {
         const comic = await ComicCompanionAPIService.getComic(props.comicId);
         setApiResult(comic);
       } catch (error) {
-        setError(error);
+        const errorMessage = getErrorMessage(error);
+        setError(errorMessage);
       }
       setLoading(false);
     };
@@ -32,9 +35,11 @@ export default function ComicInfo(props: ComicInfoProps) {
           <p>{apiResult.issueIds ? `${apiResult.issueIds.length} Issues` : ""}</p>
         </div>
       ) : !loading && error ? (
-        <>Error</>
+        <>
+          <Alert severity="error">{error} </Alert>
+        </>
       ) : loading ? (
-        <>loading</>
+        <CircularProgress size="100px" />
       ) : (
         <></>
       )}
