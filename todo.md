@@ -5,6 +5,11 @@
 - Global modal where the content and visibility is all managed in Redux??
 - Use loaders in react router instead of hooks for some api calls (getting comic info)??
 
+#### Styling Goals:
+
+- Make header look better on home page
+- Make the cards for popular comics/lists look better. (box shadows)
+
 ### API:
 
 - Replace RCO source (https://xoxocomic.com/, https://readcomicsonline.ru/)
