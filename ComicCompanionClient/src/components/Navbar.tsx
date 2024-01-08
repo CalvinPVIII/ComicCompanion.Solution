@@ -2,6 +2,8 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useLocation, Link } from "react-router-dom";
 import "../styles/Navbar.css";
 
@@ -12,6 +14,8 @@ export default function NavBar() {
     home: 0,
     lists: 1,
     comics: 2,
+    account: 3,
+    settings: 4,
   };
 
   const value =
@@ -21,6 +25,10 @@ export default function NavBar() {
       ? ICON_VALUES.lists
       : location.pathname.includes("/comic")
       ? ICON_VALUES.comics
+      : location.pathname.includes("/account")
+      ? ICON_VALUES.account
+      : location.pathname.includes("/settings")
+      ? ICON_VALUES.settings
       : ICON_VALUES.home;
 
   return (
@@ -29,6 +37,8 @@ export default function NavBar() {
         <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction component={Link} to="/lists" label="Reading Lists" icon={<ListAltIcon />} />
         <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
+        <BottomNavigationAction component={Link} to="/account" label="Account" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to="/settings" label="Settings" icon={<SettingsIcon />} />
       </BottomNavigation>
     </div>
   );

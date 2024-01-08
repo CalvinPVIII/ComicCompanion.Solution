@@ -14,7 +14,7 @@ export default function IssuesList(props: IssuesListProps) {
   const [inputValue, setInputValue] = useState("");
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
-  const handleFilter = (e: SyntheticEvent<Element, Event> | null, value: string | null) => {
+  const handleFilter = (_e: SyntheticEvent<Element, Event> | null, value: string | null) => {
     if (value) {
       const filteredList = props.issues?.filter((issue) => issue.includes(value));
       console.log(value);
