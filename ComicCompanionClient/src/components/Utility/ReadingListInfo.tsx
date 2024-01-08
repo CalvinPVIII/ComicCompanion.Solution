@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { ReadingListDto } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
 import comicCompanionImages from "../../helpers/defaultImageArray";
+import Loading from "./Loading";
 
 interface ReadingListInfoProps {
   listId: string;
@@ -52,7 +53,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           <Alert severity="error">{error} </Alert>
         </>
       ) : loading ? (
-        <CircularProgress size="100px" />
+        <Loading />
       ) : (
         <></>
       )}

@@ -3,8 +3,9 @@ import { ComicSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfComics from "./Utility/ListOfComics";
 import "../styles/PopularList.css";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
 import { getErrorMessage } from "../helpers/helperFunctions";
+import Loading from "./Utility/Loading";
 
 export default function PopularComicsList() {
   const [apiResponse, setApiResponse] = useState<ComicSearchResultAPIResponse | null>();
@@ -36,7 +37,7 @@ export default function PopularComicsList() {
           <Alert severity="error">{error}</Alert>
         </>
       ) : (
-        <CircularProgress size="100px" />
+        <Loading />
       )}
     </div>
   );

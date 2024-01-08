@@ -35,7 +35,7 @@ export default function NavBar() {
     <div className="bottom-nav">
       <BottomNavigation showLabels value={value}>
         <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction component={Link} to="/lists" label="Reading Lists" icon={<ListAltIcon />} />
+        <BottomNavigationAction component={Link} to="/lists" label="Lists" icon={<ListAltIcon />} />
         <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
         <BottomNavigationAction component={Link} to="/account" label="Account" icon={<AccountCircleIcon />} />
         <BottomNavigationAction component={Link} to="/settings" label="Settings" icon={<SettingsIcon />} />

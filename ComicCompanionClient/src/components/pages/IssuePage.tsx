@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { Issue } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
 useParams;
 import "../../styles/IssuePage.css";
+import Loading from "../Utility/Loading";
 
 export default function IssuePage() {
   const { comicId, issueId } = useParams();
@@ -33,7 +34,7 @@ export default function IssuePage() {
   return (
     <>
       {loading ? (
-        <CircularProgress size="100px" />
+        <Loading />
       ) : !loading && error ? (
         <Alert severity="error">{error}</Alert>
       ) : (

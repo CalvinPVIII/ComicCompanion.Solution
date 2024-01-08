@@ -1,4 +1,4 @@
-import { Alert, CircularProgress, TextField } from "@mui/material";
+import { Alert, TextField } from "@mui/material";
 import "../../styles/SearchForm.css";
 import { useEffect, useState } from "react";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
@@ -6,6 +6,7 @@ import ComicSearchResult from "./ComicSearchResult";
 import ReadingListSearchResult from "./ReadingListSearchResult";
 import { ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
 import { getErrorMessage } from "../../helpers/helperFunctions";
+import Loading from "./Loading";
 
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
@@ -96,7 +97,7 @@ export default function SearchForm(props: SearchFormProps) {
         </>
       ) : searchingStatus === "searching" ? (
         <>
-          <CircularProgress size="100px" />
+          <Loading />
         </>
       ) : (
         <></>

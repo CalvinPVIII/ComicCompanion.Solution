@@ -3,8 +3,9 @@ import { Comic } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
 import IssuesList from "./IssuesList";
+import Loading from "./Loading";
 interface ComicInfoProps {
   comicId: string;
 }
@@ -40,7 +41,7 @@ export default function ComicInfo(props: ComicInfoProps) {
           <Alert severity="error">{error} </Alert>
         </>
       ) : loading ? (
-        <CircularProgress size="100px" />
+        <Loading />
       ) : (
         <></>
       )}

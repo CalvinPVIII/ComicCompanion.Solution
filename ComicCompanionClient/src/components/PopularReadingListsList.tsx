@@ -3,8 +3,9 @@ import { ReadingListSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfReadingLists from "./Utility/ListOfReadingLists";
 import "../styles/PopularList.css";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
 import { getErrorMessage } from "../helpers/helperFunctions";
+import Loading from "./Utility/Loading";
 export default function PopularReadingListsList() {
   const [apiResponse, setApiResponse] = useState<ReadingListSearchResultAPIResponse | null>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +36,7 @@ export default function PopularReadingListsList() {
           <Alert severity="error">{error}</Alert>
         </>
       ) : (
-        <CircularProgress size="100px" />
+        <Loading />
       )}
     </div>
   );
