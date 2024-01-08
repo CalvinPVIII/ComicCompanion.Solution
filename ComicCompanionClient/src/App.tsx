@@ -10,6 +10,7 @@ import ReadingListInfoPage from "./components/pages/ReadingListInfoPage";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import IssuePage from "./components/pages/IssuePage";
 
 const darkTheme = createTheme({
   palette: {
@@ -37,14 +38,18 @@ function App() {
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/comics" element={<ComicPage />} />
-          <Route path="/lists" element={<ReadingListsPage />} />
+        <div id="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/comics" element={<ComicPage />} />
+            <Route path="/lists" element={<ReadingListsPage />} />
 
-          <Route path="/comics/:comicId" element={<ComicInfoPage />} />
-          <Route path="/lists/:listId" element={<ReadingListInfoPage />} />
-        </Routes>
+            <Route path="/comics/:comicId" element={<ComicInfoPage />} />
+            <Route path="/comics/:comicId/issue/:issueId" element={<IssuePage />} />
+
+            <Route path="/lists/:listId" element={<ReadingListInfoPage />} />
+          </Routes>
+        </div>
         <NavBar />
       </ThemeProvider>
     </>

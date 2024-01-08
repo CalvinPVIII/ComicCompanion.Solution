@@ -1,0 +1,16 @@
+.issues-container-body {
+  /* height: 30vh; */
+  /* overflow-y: scroll; */
+  width: 50vw;
+}
+
+.issues-container-header {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-flow: row;
+}
+
+#ascend-descend-button {
+  padding-top: 10px;
+}

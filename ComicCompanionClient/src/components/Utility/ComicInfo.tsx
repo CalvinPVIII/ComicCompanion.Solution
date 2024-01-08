@@ -4,6 +4,7 @@ import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import { Alert, CircularProgress } from "@mui/material";
+import IssuesList from "./IssuesList";
 interface ComicInfoProps {
   comicId: string;
 }
@@ -30,9 +31,9 @@ export default function ComicInfo(props: ComicInfoProps) {
     <>
       {!loading && apiResult ? (
         <div className="comic-info">
+          <h1>{apiResult.name}</h1>
           <img src={apiResult.coverImg} alt={apiResult.name} />
-          <p>{apiResult.name}</p>
-          <p>{apiResult.issueIds ? `${apiResult.issueIds.length} Issues` : ""}</p>
+          <IssuesList comicId={props.comicId} issues={apiResult.issueIds} />
         </div>
       ) : !loading && error ? (
         <>
