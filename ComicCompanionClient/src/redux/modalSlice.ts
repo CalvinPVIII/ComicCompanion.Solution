@@ -1,12 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ReactElement } from "react";
+
+type ModalContent = {
+  type: "Search Comics" | "Comic Info" | null;
+  data?: { ["comicId"]: string; ["issueId"]?: string };
+};
 
 export interface ModalState {
   ["isOpen"]: boolean;
-  ["content"]: ReactElement | null;
+  ["content"]: ModalContent;
 }
 
-const initialState: ModalState = { isOpen: true, content: null };
+const initialState: ModalState = { isOpen: true, content: { type: "Comic Info", data: { comicId: "batman-2011" } } };
 
 const modalSlice = createSlice({
   name: "modal",

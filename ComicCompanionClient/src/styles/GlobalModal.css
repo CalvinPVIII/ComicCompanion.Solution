@@ -1,0 +1,15 @@
+.global-modal {
+  /* border: 1px solid white; */
+
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+#modal-content {
+  border: 1px solid white;
+  border-radius: 1px 1px;
+  background-color: rgb(23, 23, 23);
+  overflow: scroll;
+  width: 75vw;
+}

@@ -13,11 +13,7 @@ import IssuePage from "./components/pages/IssuePage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { Modal } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { modalOpenSelector, modalContentSelector } from "./redux/store";
-import { setContent, toggleModal } from "./redux/modalSlice";
+import GlobalModal from "./components/GlobalModal";
 
 const darkTheme = createTheme({
   palette: {
@@ -41,23 +37,6 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const dispatch = useDispatch();
-  const modalContent = useSelector(modalContentSelector);
-  const modalOpen = useSelector(modalOpenSelector);
-
-  const handleModalClose = () => {
-    dispatch(toggleModal(false));
-  };
-
-  const test = () => {
-    dispatch(toggleModal(true));
-    dispatch(setContent(<ComicPage />));
-  };
-  const test2 = () => {
-    dispatch(toggleModal(true));
-    dispatch(setContent(<ReadingListsPage />));
-  };
-
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -76,16 +55,7 @@ function App() {
           </Routes>
         </div>
         <NavBar />
-        <button onClick={test}>test</button>
-        <button onClick={test2}>test2</button>
-
-        {modalContent ? (
-          <Modal open={modalOpen} onClose={handleModalClose}>
-            {modalContent}
-          </Modal>
-        ) : (
-          <></>
-        )}
+        <GlobalModal />
       </ThemeProvider>
     </>
   );

@@ -14,3 +14,9 @@
   top: 10%;
   margin-left: 10px;
 }
+
+.issues-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}

@@ -25,7 +25,6 @@ export default function HomePage() {
           </Slider>
         </div>
       </div>
-
       <h2>POPULAR COMICS</h2>
       <PopularComicsList />
       <h2>POPULAR READING LISTS</h2>
