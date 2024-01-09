@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { currentList, isCreating } from "../../redux/store";
+import { currentListSelector, isCreatingSelector } from "../../redux/store";
 import { updateProperty, toggleCreating, setCurrentList } from "../../redux/listCreationSlice";
 import { Button, Switch, TextField } from "@mui/material";
 
@@ -8,15 +8,15 @@ import defaultList from "../../helpers/defaultReadingList";
 
 export default function ReadingListForm() {
   const dispatch = useDispatch();
-  const list = useSelector(currentList);
-  const isEditing = useSelector(isCreating);
+  const list = useSelector(currentListSelector);
+  const isCreating = useSelector(isCreatingSelector);
 
   useEffect(() => {
-    if (!isEditing && !list) {
+    if (!isCreating && !list) {
       dispatch(setCurrentList(defaultList));
       dispatch(toggleCreating(true));
     }
-  }, [isEditing, list]);
+  }, [isCreating, list]);
 
   const handleUpdateProperty = (propertyName: string, value: string | boolean) => {
     dispatch(updateProperty({ propertyName, value }));
