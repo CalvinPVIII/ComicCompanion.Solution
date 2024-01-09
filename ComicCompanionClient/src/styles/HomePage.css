@@ -1,7 +1,15 @@
 #homepage-header {
   font-family: Bangers;
   text-align: center;
+  font-size: 60px;
 }
 #img-slideshow {
   text-align: center;
+  height: 300px;
+  width: 100vw;
+  overflow: hidden;
+}
+#slideshow-wrapper {
+  display: flex;
+  justify-content: center;
 }
