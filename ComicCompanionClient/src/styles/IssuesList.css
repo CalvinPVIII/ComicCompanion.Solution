@@ -20,3 +20,15 @@
   flex-flow: column;
   align-items: center;
 }
+
+.issue-list-items {
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.issue-link {
+  width: 100%;
+  height: auto;
+}

@@ -21,11 +21,11 @@ export default function GlobalModal() {
     <div>
       <Modal open={modalOpen} onClose={handleModalClose} className="global-modal">
         {modalContent.type === "Search Comics" ? (
-          <div id="modal-content">
+          <div id="modal-content" className="wide-modal">
             <ComicsPage />
           </div>
         ) : modalContent.type === "Comic Info" && modalContent.data?.comicId ? (
-          <div id="modal-content">
+          <div id="modal-content" className="wide-modal">
             <ComicInfo comicId={modalContent.data.comicId} />
           </div>
         ) : (

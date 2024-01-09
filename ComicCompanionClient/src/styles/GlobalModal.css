@@ -1,15 +1,21 @@
 .global-modal {
-  /* border: 1px solid white; */
-
   display: flex;
   justify-content: center;
   margin: auto;
 }
 
 #modal-content {
-  border: 1px solid white;
-  border-radius: 1px 1px;
+  /* border-radius: 10px 10px 10px 10px;
+  box-shadow: 1px 1px 1px 1px #491d5f; */
   background-color: rgb(23, 23, 23);
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.wide-modal {
   width: 75vw;
 }

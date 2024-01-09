@@ -1,9 +1,13 @@
-import { Autocomplete, TextField, List, ListItem, ListItemButton, ListSubheader } from "@mui/material";
+import { Autocomplete, TextField, List, ListItem, ListItemButton, ListSubheader, Button } from "@mui/material";
 import "../../styles/IssuesList.css";
 import { SyntheticEvent, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Link } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { isCreatingSelector } from "../../redux/store";
+
 interface IssuesListProps {
   issues: string[] | null;
   comicId: string;
@@ -13,6 +17,8 @@ export default function IssuesList(props: IssuesListProps) {
   const [issueList, setIssueList] = useState<string[] | null | undefined>(props.issues);
   const [inputValue, setInputValue] = useState("");
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
+
+  const isCreating = useSelector(isCreatingSelector);
 
   const handleFilter = (_e: SyntheticEvent<Element, Event> | null, value: string | null) => {
     if (value) {
@@ -41,6 +47,11 @@ export default function IssuesList(props: IssuesListProps) {
     setIssueList(flippedList);
   };
 
+  const handleAddToReadingListClick = (issueId: string) => {
+    console.log(issueId);
+    console.log(props.comicId);
+  };
+
   if (issueList && props.issues) {
     return (
       <div className="issues-container">
@@ -66,11 +77,26 @@ export default function IssuesList(props: IssuesListProps) {
               </span>
             </ListSubheader>
             {issueList.map((issue, index) => (
-              <Link to={`/comics/${props.comicId}/issue/${issue}`} key={index}>
+              <>
                 <ListItem>
-                  <ListItemButton>{issue}</ListItemButton>
+                  <div className="issue-list-items">
+                    <ListItemButton>
+                      <Link to={`/comics/${props.comicId}/issue/${issue}`} key={index} className="issue-link">
+                        {issue}
+                      </Link>
+                    </ListItemButton>
+                    {isCreating ? (
+                      <>
+                        <Button variant="outlined" color="success" onClick={() => handleAddToReadingListClick(issue)}>
+                          add to list
+                        </Button>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </ListItem>
-              </Link>
+              </>
             ))}
           </List>
         </div>
