@@ -26,6 +26,7 @@ export default function IssuesList(props: IssuesListProps) {
       } else {
         setIssueList(props.issues);
       }
+      setInputValue("");
     }
   };
 
@@ -55,13 +56,15 @@ export default function IssuesList(props: IssuesListProps) {
               <TextField {...params} label="Search For Issue" value={inputValue} onChange={(e) => handleFilter(null, e.target.value)} />
             )}
           />
-          <span id="ascend-descend-button">
-            {ascendOrDescend === "ascend" ? <ArrowUpwardIcon onClick={toggleListSorting} /> : <ArrowDownwardIcon onClick={toggleListSorting} />}
-          </span>
         </div>
         <div className="issues-container-body">
           <List className="issues-list">
-            <ListSubheader>{props.issues.length} issues</ListSubheader>
+            <ListSubheader>
+              {props.issues.length} issues{" "}
+              <span id="ascend-descend-button">
+                {ascendOrDescend === "ascend" ? <ArrowUpwardIcon onClick={toggleListSorting} /> : <ArrowDownwardIcon onClick={toggleListSorting} />}
+              </span>
+            </ListSubheader>
             {issueList.map((issue, index) => (
               <Link to={`/comics/${props.comicId}/issue/${issue}`} key={index}>
                 <ListItem>

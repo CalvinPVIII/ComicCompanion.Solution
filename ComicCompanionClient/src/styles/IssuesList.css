@@ -10,5 +10,7 @@
 }
 
 #ascend-descend-button {
-  padding-top: 10px;
+  position: absolute;
+  top: 10%;
+  margin-left: 10px;
 }
