@@ -53,3 +53,16 @@ export interface ReadingListSearchResultAPIResponse extends APIResponse {
 export interface ReadingListAPIResponse extends APIResponse {
   data: ReadingListDto;
 }
+
+interface ICreatedReadingList {
+  [key: string]: string | Issue[] | boolean | undefined;
+}
+
+export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
+  issues: Issue[];
+  isPrivate: boolean;
+  userId: string;
+  name: string;
+  description: string;
+  coverImg?: string;
+}

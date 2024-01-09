@@ -46,6 +46,9 @@ export default function SearchForm(props: SearchFormProps) {
       if (searchInput) {
         const apiResponse = await ComicCompanionAPIService.searchComics(searchInput);
         console.log(apiResponse);
+        if (apiResponse.comics.length === 0) {
+          throw new Error("Unable to get comics");
+        }
         setComicSearchResults(apiResponse);
         setSearchingStatus("searchComplete");
       } else {
@@ -63,6 +66,9 @@ export default function SearchForm(props: SearchFormProps) {
     try {
       if (searchInput) {
         const response = await ComicCompanionAPIService.searchReadingLists(searchInput);
+        if (response.data.length === 0) {
+          throw new Error("Unable to get reading lists");
+        }
         setReadingListSearchResult(response);
         setSearchingStatus("searchComplete");
       } else {

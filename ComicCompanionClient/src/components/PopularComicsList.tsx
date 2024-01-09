@@ -16,6 +16,10 @@ export default function PopularComicsList() {
     const getData = async () => {
       try {
         const comics = await ComicCompanionAPIService.getPopularComics();
+        console.log(comics);
+        if (comics.data.comics.length === 0) {
+          throw new Error("Unable to get comics");
+        }
         setApiResponse(comics);
       } catch (error: unknown) {
         const errorMessage = getErrorMessage(error);

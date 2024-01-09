@@ -12,3 +12,8 @@ a {
 #main-content {
   padding: 30px;
 }
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
