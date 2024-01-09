@@ -14,6 +14,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import GlobalModal from "./components/GlobalModal";
+import ReadingListFAB from "./components/ReadingListFAB";
 
 const darkTheme = createTheme({
   palette: {
@@ -56,6 +57,7 @@ function App() {
         </div>
         <NavBar />
         <GlobalModal />
+        <ReadingListFAB />
       </ThemeProvider>
     </>
   );

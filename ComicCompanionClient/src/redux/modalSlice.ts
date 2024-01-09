@@ -10,7 +10,7 @@ export interface ModalState {
   ["content"]: ModalContent;
 }
 
-const initialState: ModalState = { isOpen: true, content: { type: "Comic Info", data: { comicId: "batman-2011" } } };
+const initialState: ModalState = { isOpen: false, content: { type: null } };
 
 const modalSlice = createSlice({
   name: "modal",

@@ -1,0 +1,10 @@
+.reading-list-fab {
+  position: fixed;
+  z-index: 99;
+  top: 45%;
+  right: 15px;
+}
+
+.reading-list-fab-menu {
+  background-color: black;
+}

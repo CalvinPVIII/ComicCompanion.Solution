@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
+import { addIssue } from "../../redux/listCreationSlice";
+import { Issue } from "../../types";
 
 interface IssuesListProps {
   issues: string[] | null;
@@ -17,6 +19,8 @@ export default function IssuesList(props: IssuesListProps) {
   const [issueList, setIssueList] = useState<string[] | null | undefined>(props.issues);
   const [inputValue, setInputValue] = useState("");
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
+
+  const dispatch = useDispatch();
 
   const isCreating = useSelector(isCreatingSelector);
 
@@ -48,8 +52,12 @@ export default function IssuesList(props: IssuesListProps) {
   };
 
   const handleAddToReadingListClick = (issueId: string) => {
-    console.log(issueId);
-    console.log(props.comicId);
+    const issue: Issue = {
+      issueId: issueId,
+      comicId: props.comicId,
+      pages: null,
+    };
+    dispatch(addIssue(issue));
   };
 
   if (issueList && props.issues) {
