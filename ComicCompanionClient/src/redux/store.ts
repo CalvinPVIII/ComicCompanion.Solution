@@ -19,7 +19,7 @@ export interface ApplicationState {
 }
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
-const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer);
+const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer); // not persisting?
 
 export default configureStore({
   reducer: {
