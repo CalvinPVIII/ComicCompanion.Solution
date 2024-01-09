@@ -63,13 +63,11 @@ export default function IssuesList(props: IssuesListProps) {
           <List className="issues-list">
             <ListSubheader>{props.issues.length} issues</ListSubheader>
             {issueList.map((issue, index) => (
-              <ListItem>
-                <ListItemButton>
-                  <Link to={`/comics/${props.comicId}/issue/${issue}`} key={index}>
-                    {issue}
-                  </Link>
-                </ListItemButton>
-              </ListItem>
+              <Link to={`/comics/${props.comicId}/issue/${issue}`} key={index}>
+                <ListItem>
+                  <ListItemButton>{issue}</ListItemButton>
+                </ListItem>
+              </Link>
             ))}
           </List>
         </div>
