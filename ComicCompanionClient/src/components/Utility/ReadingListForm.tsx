@@ -45,18 +45,7 @@ export default function ReadingListForm() {
               <Switch onChange={(e) => handleUpdateProperty("isPrivate", e.target.checked)} checked={list.isPrivate} />
               <label>Private</label>
             </div>
-            <div>
-              {list.issues.map((issue) => (
-                <>
-                  <p>
-                    {issue.comicId} - {issue.issueId}
-                  </p>
-                  <Button variant="outlined" color="error">
-                    Remove
-                  </Button>
-                </>
-              ))}
-            </div>
+
             <div style={{ display: "flex", justifyContent: "space-around" }}>
               <Button variant="contained" color="success" onClick={handleSubmit}>
                 Create

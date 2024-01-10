@@ -3,6 +3,7 @@ import { Edit } from "@mui/icons-material";
 import { removeIssue, updateProperty } from "../redux/listCreationSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector, currentListSelector } from "../redux/store";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import "../styles/ReadingListFAB.css";
@@ -12,16 +13,30 @@ export default function ReadingListFAB() {
   const isCreating = useSelector(isCreatingSelector);
   const currentList = useSelector(currentListSelector);
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const [menuVisible, setMenuVisible] = useState<boolean>(true);
 
   const handleRemoveIssue = (issue: Issue) => {
     console.log(issue);
+    dispatch(removeIssue(issue));
+  };
+
+  const handleFinalize = () => {
+    nav("/lists/new");
+    setMenuVisible(false);
   };
 
   if (isCreating && currentList) {
     return (
-      <div className="reading-list-fab">
+      <>
+        <div className="reading-list-fab">
+          <Badge badgeContent={currentList.issues.length} color="warning">
+            <Fab color="primary" onClick={() => setMenuVisible(!menuVisible)}>
+              <Edit />
+            </Fab>
+          </Badge>
+        </div>
         {menuVisible ? (
           <div className="reading-list-fab-menu">
             <h1>{currentList.name}</h1>
@@ -35,19 +50,14 @@ export default function ReadingListFAB() {
                 </Button>
               </div>
             ))}
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={handleFinalize}>
               Finalize
             </Button>
           </div>
         ) : (
           <></>
         )}
-        <Badge badgeContent={currentList.issues.length} color="success">
-          <Fab color="primary" onClick={() => setMenuVisible(!menuVisible)}>
-            <Edit />
-          </Fab>
-        </Badge>
-      </div>
+      </>
     );
   }
 }

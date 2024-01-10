@@ -1,0 +1,8 @@
+#new-reading-list-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#new-reading-list-search {
+  width: auto;
+}
