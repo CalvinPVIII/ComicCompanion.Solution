@@ -10,3 +10,8 @@
   gap: 20px;
   width: 500px;
 }
+
+.inner-search-results > img {
+  width: 240px;
+  height: 300px;
+}

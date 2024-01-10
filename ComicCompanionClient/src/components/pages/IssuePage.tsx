@@ -20,6 +20,7 @@ export default function IssuePage() {
       try {
         if (comicId && issueId) {
           const issue = await ComicCompanionAPIService.getIssue(comicId, issueId);
+          console.log(issue);
           setApiResponse(issue);
         }
       } catch (error: unknown) {

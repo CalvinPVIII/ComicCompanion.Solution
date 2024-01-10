@@ -50,9 +50,10 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
 
     public static async Task<string[]> GetPagesFromIssue(Issue issue)
     {
-        var document = await _context.OpenAsync($"https://xoxocomic.com/comic/{issue.ComicId}/issue-${issue.IssueId}/all");
+        var url = $"https://xoxocomic.com/comic/{issue.ComicId}/issue-${issue.IssueId}/all";
+        var document = await _context.OpenAsync($"https://xoxocomic.com/comic/{issue.ComicId}/issue-{issue.IssueId}/all");
 
-        string[] pages = document.QuerySelectorAll("img.lazy").Select(e => e.Attributes["src"].Value).ToArray();
+        string[] pages = document.QuerySelectorAll("img.lazy").Select(e => e.Attributes["data-original"].Value).ToArray();
         return pages;
 
     }
