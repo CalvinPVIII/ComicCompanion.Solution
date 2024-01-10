@@ -52,6 +52,7 @@ export default function SignInForm() {
         const userInfo = result.data as UserInfo;
         dispatch(setUser(userInfo));
         setSuccessMessage("Successfully Sign In");
+        // if modal will need to close modal instead
         setTimeout(() => {
           nav("/");
         }, 1000);

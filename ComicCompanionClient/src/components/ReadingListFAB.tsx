@@ -1,6 +1,6 @@
 import { Badge, Button, Fab } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import { removeIssue, updateProperty } from "../redux/listCreationSlice";
+import { removeIssue } from "../redux/listCreationSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector, currentListSelector } from "../redux/store";
 import { useNavigate } from "react-router-dom";
@@ -40,19 +40,21 @@ export default function ReadingListFAB() {
         {menuVisible ? (
           <div className="reading-list-fab-menu">
             <h1>{currentList.name}</h1>
+
+            <Button variant="contained" color="success" onClick={handleFinalize}>
+              Finalize
+            </Button>
+
             {currentList.issues.map((issue) => (
               <div className="reading-list-fab-issues">
                 <p>
                   {issue.comicId} - {issue.issueId}
                 </p>
-                <Button variant="outlined" color="error" onClick={() => handleRemoveIssue(issue)}>
+                <Button variant="contained" color="error" onClick={() => handleRemoveIssue(issue)}>
                   Remove
                 </Button>
               </div>
             ))}
-            <Button variant="contained" color="success" onClick={handleFinalize}>
-              Finalize
-            </Button>
           </div>
         ) : (
           <></>

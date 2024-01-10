@@ -7,6 +7,9 @@
 - Extract api logic into its own custom hook? should store status that is either loading, error, or complete.
 - Media query for issue page
 - keep track of where the user is scrolled on the issue page? (might not be relevant if I do swiping left/right instead of scroll down)
+- more descriptive errors for user auth
+- rework components to have vertical/horizontal results components
+- user auth should check if on modal or not
 
 #### Styling Goals:
 

@@ -6,9 +6,9 @@
 }
 
 .reading-list-fab-menu {
-  background-color: black;
+  background-color: grey;
   position: fixed;
-  max-height: 300px;
+  max-height: 70%;
   width: 200px;
   overflow: scroll;
   z-index: 98;
