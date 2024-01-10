@@ -15,6 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import GlobalModal from "./components/GlobalModal";
 import ReadingListFAB from "./components/ReadingListFAB";
+import UserAuthPage from "./components/pages/UserAuthPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -47,6 +48,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/comics" element={<ComicPage />} />
             <Route path="/lists" element={<ReadingListsPage />} />
+
+            <Route path="/account" element={<UserAuthPage />} />
 
             <Route path="/comics/:comicId" element={<ComicInfoPage />} />
             <Route path="/comics/:comicId/issue/:issueId" element={<IssuePage />} />

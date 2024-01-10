@@ -5,6 +5,12 @@ export interface UserInfo {
   userId: string;
 }
 
+export interface UserAuthResponse {
+  status: "error" | "success";
+  statusCode: number;
+  data: string | object;
+}
+
 export interface Comic {
   comicId: string;
   name: string;

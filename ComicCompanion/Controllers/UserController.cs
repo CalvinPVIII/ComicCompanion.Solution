@@ -31,18 +31,20 @@ namespace ComicCompanion.Controllers
             var userExists = await _userManager.FindByEmailAsync(user.Email);
             if (userExists != null)
             {
-                return BadRequest(new { status = "error", message = "Email already exists" });
+                return BadRequest(new APIResponseDto("error", 400, "User Already Exists"));
             }
 
             var newUser = new ApplicationUser() { Email = user.Email, UserName = user.UserName };
             var result = await _userManager.CreateAsync(newUser, user.Password);
             if (result.Succeeded)
             {
-                return Ok(new { status = "success", message = "User has been successfully created" });
+                return Ok(new APIResponseDto("success", 200, "User has been successfully created"));
+
             }
             else
             {
-                return BadRequest(new { status = "error", message = "There was an error creating an account", errors = result.Errors });
+                return BadRequest(new APIResponseDto("error", 400, result.Errors));
+
             }
         }
 
@@ -61,10 +63,15 @@ namespace ComicCompanion.Controllers
 
                     var newToken = CreateToken(authClaims);
 
-                    return Ok(new { status = "success", message = $"{userInfo.Email} signed in", token = newToken, userName = user.UserName, userId = user.Id });
+
+                    return Ok(new APIResponseDto("success", 200, new { email = userInfo.Email, token = newToken, userName = user.UserName, userId = user.Id }));
+
                 }
             }
-            return BadRequest(new { status = "error", message = "Unable to sign in" });
+
+            return BadRequest(new APIResponseDto("error", 400, "Unable to sign in"));
+
+
         }
 
 

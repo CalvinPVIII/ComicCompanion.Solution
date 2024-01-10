@@ -1,4 +1,12 @@
-import { Comic, ComicSearchResultAPIResponse, Issue, ReadingListAPIResponse, ReadingListSearchResultAPIResponse, SearchResultDto } from "../types";
+import {
+  Comic,
+  ComicSearchResultAPIResponse,
+  Issue,
+  ReadingListAPIResponse,
+  ReadingListSearchResultAPIResponse,
+  SearchResultDto,
+  UserAuthResponse,
+} from "../types";
 
 export default class ComicCompanionAPIService {
   static async getPopularComics(serverNumber?: number): Promise<ComicSearchResultAPIResponse> {
@@ -67,5 +75,35 @@ export default class ComicCompanionAPIService {
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
     return jsonResponse as Issue;
+  }
+
+  static async signIn(email: string, password: string): Promise<UserAuthResponse> {
+    const apiResponse = await fetch(`${import.meta.env.VITE_API_URL}/user/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    const jsonResponse = await apiResponse.json();
+    return jsonResponse as UserAuthResponse;
+  }
+
+  static async signUp(email: string, userName: string, password: string): Promise<UserAuthResponse> {
+    const apiResponse = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, userName: userName, password: password }),
+    });
+
+    const jsonResponse = (await apiResponse.json()) as UserAuthResponse;
+
+    if (jsonResponse.status === "error") {
+      return jsonResponse;
+    }
+    const signInResponse = await this.signIn(email, password);
+    return signInResponse;
   }
 }
