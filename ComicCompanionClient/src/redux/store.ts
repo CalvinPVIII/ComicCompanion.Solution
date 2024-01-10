@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import { UserReducerState } from "./userSlice";
@@ -23,13 +23,17 @@ export interface ApplicationState {
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer); // not persisting?
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     user: persistedUserReducer,
     listCreation: persistedListCreationReducer,
     modal: modalReducer,
   },
 });
+
+export default store;
+
+export const persistor = persistStore(store);
 
 export const userSelector = (state: ApplicationState) => state.user.user;
 
