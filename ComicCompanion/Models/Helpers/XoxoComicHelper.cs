@@ -1,5 +1,6 @@
 namespace ComicCompanion.Models;
 
+using System.Text.RegularExpressions;
 using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Io.Network;
@@ -41,7 +42,13 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
         foreach (var node in issueNodes)
         {
             string issueLink = node.FirstElementChild.Attributes["href"].Value;
-            string issue = issueLink.Replace($"https://xoxocomic.com/comic/{comicId}/issue-", "");
+
+            string issue = issueLink.Replace($"https://xoxocomic.com/comic/{comicId}/", "");
+            if (issue.Contains("issue-"))
+            {
+                issue = issue.Replace("issue-", "");
+            }
+
 
             issues.Add(issue);
         }
@@ -50,8 +57,16 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
 
     public static async Task<string[]> GetPagesFromIssue(Issue issue)
     {
-        var url = $"https://xoxocomic.com/comic/{issue.ComicId}/issue-${issue.IssueId}/all";
-        var document = await _context.OpenAsync($"https://xoxocomic.com/comic/{issue.ComicId}/issue-{issue.IssueId}/all");
+        var url = $"https://xoxocomic.com/comic/{issue.ComicId}/";
+        if (Regex.IsMatch(issue.IssueId, @"^\d+$"))
+        {
+            url += $"issue-{issue.IssueId}/all";
+        }
+        else
+        {
+            url += $"{issue.IssueId}/all";
+        }
+        var document = await _context.OpenAsync(url);
 
         string[] pages = document.QuerySelectorAll("img.lazy").Select(e => e.Attributes["data-original"].Value).ToArray();
         return pages;
