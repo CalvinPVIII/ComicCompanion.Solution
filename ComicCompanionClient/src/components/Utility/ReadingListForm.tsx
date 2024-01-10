@@ -28,7 +28,7 @@ export default function ReadingListForm() {
       dispatch(setCurrentList(defaultList));
       dispatch(toggleCreating(true));
     }
-  }, [isCreating, list]);
+  }, []);
 
   const handleUpdateProperty = (propertyName: string, value: string | boolean) => {
     dispatch(updateProperty({ propertyName, value }));
@@ -68,10 +68,17 @@ export default function ReadingListForm() {
     };
     const response = await ComicCompanionAPIService.createReadingList(readingList, currentUser.token);
     if (response.status === "success") {
-      dispatch(setCurrentList(null));
       nav(`/lists/${response.data.readingListId}`);
+      dispatch(setCurrentList(null));
+      dispatch(toggleCreating(false));
     }
     console.log(readingList);
+  };
+
+  const handleCancelCreation = () => {
+    nav("/lists");
+    dispatch(setCurrentList(null));
+    dispatch(toggleCreating(false));
   };
 
   if (list) {
@@ -106,7 +113,7 @@ export default function ReadingListForm() {
               <Button variant="contained" color="success" onClick={handleSubmit}>
                 Create
               </Button>
-              <Button variant="outlined" color="error">
+              <Button variant="outlined" color="error" onClick={handleCancelCreation}>
                 Cancel
               </Button>
             </div>

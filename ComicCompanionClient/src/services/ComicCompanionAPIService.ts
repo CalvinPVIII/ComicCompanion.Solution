@@ -110,6 +110,7 @@ export default class ComicCompanionAPIService {
   }
 
   static async createReadingList(readingList: UserReadingListPostRequest, jwt: string): Promise<ReadingListPostResponse> {
+    console.log(jwt);
     const apiResponse = await fetch(`${import.meta.env.VITE_API_URL}/readinglists`, {
       method: "POST",
       headers: {

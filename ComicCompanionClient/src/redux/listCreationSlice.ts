@@ -18,6 +18,7 @@ const listCreationSlice = createSlice({
   initialState,
   reducers: {
     toggleCreating: (state, action: PayloadAction<boolean>) => {
+      console.log(action);
       state.isCreating = action.payload;
     },
     setCurrentList: (state, action: PayloadAction<CurrentlyCreatedReadingList | null>) => {
