@@ -20,7 +20,7 @@ const listCreationSlice = createSlice({
     toggleCreating: (state, action: PayloadAction<boolean>) => {
       state.isCreating = action.payload;
     },
-    setCurrentList: (state, action: PayloadAction<CurrentlyCreatedReadingList>) => {
+    setCurrentList: (state, action: PayloadAction<CurrentlyCreatedReadingList | null>) => {
       state.currentList = action.payload;
     },
     addIssue: (state, action: PayloadAction<Issue>) => {

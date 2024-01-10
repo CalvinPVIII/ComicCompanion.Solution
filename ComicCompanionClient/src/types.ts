@@ -72,3 +72,19 @@ export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
   description: string;
   coverImg?: string;
 }
+
+export interface UserReadingListPostRequest {
+  readingListId: number;
+  serializedIssues: string;
+  isPrivate: boolean;
+  userId: string;
+  name: string;
+  description: string;
+  coverImg: string | null;
+}
+
+export interface ReadingListPostResponse {
+  status: string;
+  statusCode: number;
+  data: ReadingListDto;
+}

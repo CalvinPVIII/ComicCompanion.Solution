@@ -3,9 +3,11 @@ import {
   ComicSearchResultAPIResponse,
   Issue,
   ReadingListAPIResponse,
+  ReadingListPostResponse,
   ReadingListSearchResultAPIResponse,
   SearchResultDto,
   UserAuthResponse,
+  UserReadingListPostRequest,
 } from "../types";
 
 export default class ComicCompanionAPIService {
@@ -105,5 +107,18 @@ export default class ComicCompanionAPIService {
     }
     const signInResponse = await this.signIn(email, password);
     return signInResponse;
+  }
+
+  static async createReadingList(readingList: UserReadingListPostRequest, jwt: string): Promise<ReadingListPostResponse> {
+    const apiResponse = await fetch(`${import.meta.env.VITE_API_URL}/readinglists`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(readingList),
+    });
+    const jsonResponse = await apiResponse.json();
+    console.log(jsonResponse);
+    return jsonResponse as ReadingListPostResponse;
   }
 }
