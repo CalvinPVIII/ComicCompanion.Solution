@@ -7,7 +7,7 @@ namespace ComicCompanion.Models;
 public class ComicExtraHelper : ComicHelper, IComicHelper
 {
 
-    private static HttpClient _client = new HttpClient { Timeout = new TimeSpan(0, 0, 5) };
+    private static HttpClient _client = new HttpClient { Timeout = new TimeSpan(0, 0, 15) };
 
     private static HttpClientRequester _requester = new HttpClientRequester(_client);
     private static AngleSharp.IConfiguration _config = Configuration.Default.With(_requester).WithDefaultLoader();

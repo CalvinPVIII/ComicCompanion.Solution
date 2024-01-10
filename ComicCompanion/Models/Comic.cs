@@ -11,14 +11,9 @@ public class Comic
 
     public async static Task<Comic> GetComicById(string comicId, int? serverNumber)
     {
-        if (serverNumber == 1)
-        {
-            return await ReadComicOnlineHelper.GetComicFromId(comicId);
-        }
-        else
-        {
-            return await ComicExtraHelper.GetComicFromId(comicId);
-        }
+
+        return await XoxoComicHelper.GetComicFromId(comicId);
+
     }
 
     public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int? pageNumber)
@@ -31,7 +26,7 @@ public class Comic
         // }
         // else
         // {
-        return await ComicExtraHelper.Search(keyword, pageNumber == 0 || pageNumber == null ? 1 : (int)pageNumber);
+        return await XoxoComicHelper.Search(keyword, pageNumber == 0 || pageNumber == null ? 1 : (int)pageNumber);
         // }
     }
 
@@ -46,6 +41,6 @@ public class Comic
         {
             server = (int)serverNumber;
         }
-        return await ComicExtraHelper.Popular(server);
+        return await XoxoComicHelper.Popular(server);
     }
 }
