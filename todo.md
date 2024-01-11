@@ -19,7 +19,7 @@
 ### API:
 
 - Redo ComicExtra Helper (clean things up, get pagination data)
-- Fix pagination
+- ~~Fix pagination~~
 - Allow for picking server, (switch between xoxo and comicextra)
 - functionality to update user info
 - look into jwt expire date
