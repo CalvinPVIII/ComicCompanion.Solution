@@ -16,7 +16,7 @@ public class Comic
 
     }
 
-    public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int? pageNumber)
+    public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int pageNumber)
     {
 
 
@@ -26,7 +26,7 @@ public class Comic
         // }
         // else
         // {
-        return await XoxoComicHelper.Search(keyword, pageNumber == 0 || pageNumber == null ? 1 : (int)pageNumber);
+        return await XoxoComicHelper.Search(keyword, pageNumber);
         // }
     }
 

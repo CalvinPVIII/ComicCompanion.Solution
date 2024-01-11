@@ -27,4 +27,4 @@
 - Rewrite tests
 - Tags?
 - Clean up helpers && Issue/Comic controllers
-- Add some auth checking in create reading list
+- ~~Add some auth checking in create reading list~~

@@ -116,9 +116,20 @@ public class ReadingListController : Controller
     [HttpPost("ReadingLists")]
     public IActionResult Create(ReadingList list)
     {
-        _db.ReadingLists.Add(list);
-        _db.SaveChanges();
-        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
+
+        string? userId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        if (userId != null)
+        {
+            list.UserId = userId;
+            _db.ReadingLists.Add(list);
+            _db.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
+
+        }
+        else
+        {
+            return Unauthorized(new APIResponseDto("error", 401, "Unauthorized"));
+        }
     }
 
 
@@ -126,9 +137,35 @@ public class ReadingListController : Controller
     [HttpPut("ReadingLists/{id}")]
     public IActionResult Update(ReadingList list)
     {
-        _db.ReadingLists.Update(list);
-        _db.SaveChanges();
-        return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
+        string? userId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        if (userId != null && userId == list.UserId)
+        {
+            _db.ReadingLists.Update(list);
+            _db.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, list));
+        }
+        else
+        {
+            return Unauthorized(new APIResponseDto("error", 401, "Unauthorized"));
+
+        }
+    }
+
+    [HttpPost("ReadingLists/{id}")]
+    public IActionResult Delete(ReadingList list)
+    {
+        string? userId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        if (userId != null && list.UserId == userId)
+        {
+            _db.ReadingLists.Remove(list);
+            _db.SaveChanges();
+            return NoContent();
+        }
+        else
+        {
+            return Unauthorized(new APIResponseDto("error", 401, "Unauthorized"));
+
+        }
     }
 
 

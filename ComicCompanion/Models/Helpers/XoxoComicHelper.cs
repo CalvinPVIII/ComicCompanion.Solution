@@ -15,9 +15,9 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
     private static AngleSharp.IConfiguration _config = Configuration.Default.With(_requester).WithDefaultLoader();
     private static IBrowsingContext _context = BrowsingContext.New(_config);
 
-    public static async Task<SearchResultDto> Search(string keyword, int pageNumber = 1)
+    public static async Task<SearchResultDto> Search(string keyword, int pageNumber)
     {
-        SearchResultDto results = await GetListOfComics("https://xoxocomic.com/search-comic", pageNumber, keyword);
+        SearchResultDto results = await GetListOfComics("https://xoxocomic.com/search-comic?", pageNumber, keyword);
 
         return results;
     }
@@ -25,7 +25,7 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
 
     public static async Task<SearchResultDto> Popular(int pageNumber = 1)
     {
-        SearchResultDto results = await GetListOfComics("https://xoxocomic.com/hot-comic", pageNumber, null);
+        SearchResultDto results = await GetListOfComics("https://xoxocomic.com/hot-comic?", pageNumber, null);
         return results;
     }
 
@@ -84,9 +84,9 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
         if (searchQuery != null)
         {
             searchQuery = FormatSearchKeyword(searchQuery);
-            url += $"?keyword={searchQuery}&";
+            url += $"keyword={searchQuery}&";
         }
-        url += $"?page={pageNumber}";
+        url += $"page={pageNumber}";
         List<Comic> results = new List<Comic>();
         int pageNumbers = 0;
         try
@@ -114,8 +114,8 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
                 }
             }
 
-            var paginationElement = document.QuerySelector("ul.pagination").FirstElementChild;
-            pageNumbers = int.Parse(paginationElement.Children[paginationElement.Children.Length - 2].Text());
+            var paginationElement = document.QuerySelector("ul.pagination");
+            pageNumbers = int.Parse(paginationElement.Children[paginationElement.Children.Length - 2].TextContent);
 
         }
         catch (Exception e)

@@ -12,10 +12,8 @@ export default function NewReadingListPage() {
       {/* <div id="new-reading-list-container">
         <div id="new-reading-list-search"> */}
       <h3> Add Comics</h3>
+      <IssuesInCreatingReadingList />
       <SearchForm typeOfSearch="Comics" />
-      {/* </div>
-        <IssuesInCreatingReadingList /> */}
-      {/* </div> */}
     </>
   );
 }

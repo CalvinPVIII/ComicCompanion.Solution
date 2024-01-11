@@ -20,7 +20,7 @@ export default function IssuesInCreatingReadingList() {
             <p>
               {issue.comicId} - {issue.issueId}
             </p>
-            <Button variant="outlined" color="error" onClick={() => handleRemove(issue)}>
+            <Button variant="contained" color="error" onClick={() => handleRemove(issue)}>
               Remove
             </Button>
           </>
