@@ -8,9 +8,16 @@ import { ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import Loading from "./Loading";
 
+import { useBottomScrollListener } from "react-bottom-scroll-listener";
+
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
 }
+
+type PaginationInfo = {
+  currentPage: number;
+  maxPage: number;
+};
 
 export default function SearchForm(props: SearchFormProps) {
   const [searchInput, setSearchInput] = useState("");
@@ -18,6 +25,8 @@ export default function SearchForm(props: SearchFormProps) {
   const [comicSearchResult, setComicSearchResults] = useState<SearchResultDto | null>(null);
   const [readingListSearchResult, setReadingListSearchResult] = useState<ReadingListSearchResultAPIResponse | null>(null);
   const [error, setError] = useState<false | string>(false);
+
+  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({ currentPage: 0, maxPage: 0 });
 
   useEffect(() => {
     // when the component is rendered, handleSearch will be called after 1 second
@@ -38,14 +47,30 @@ export default function SearchForm(props: SearchFormProps) {
     setSearchInput(e.target.value);
   };
 
+  const handleBottomScroll = async () => {
+    if (paginationInfo.currentPage !== paginationInfo.maxPage) {
+      if (props.typeOfSearch === "Comics") {
+        if (!comicSearchResult) return;
+        const apiResponse = await ComicCompanionAPIService.searchComics(searchInput, undefined, paginationInfo.currentPage + 1);
+        const newComicList = comicSearchResult?.comics.concat(apiResponse.comics);
+        if (newComicList) {
+          const newResults: SearchResultDto = { ...comicSearchResult, comics: newComicList };
+          setComicSearchResults(newResults);
+          setPaginationInfo({ currentPage: apiResponse.currentPage, maxPage: apiResponse.maxPage });
+        }
+      }
+    }
+  };
+  useBottomScrollListener(handleBottomScroll);
   // one of these is the function that will be called to actually search whatever the result is
 
   // this handles searching for comics and structuring them for the SearchResult component
   const handleSearchComics = async () => {
     try {
       if (searchInput) {
-        const apiResponse = await ComicCompanionAPIService.searchComics(searchInput);
+        const apiResponse = await ComicCompanionAPIService.searchComics(searchInput, undefined);
         console.log(apiResponse);
+        setPaginationInfo({ currentPage: apiResponse.currentPage, maxPage: apiResponse.maxPage });
         if (apiResponse.comics.length === 0) {
           throw new Error("Unable to get comics");
         }
