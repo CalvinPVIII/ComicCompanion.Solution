@@ -6,6 +6,7 @@ public class APIResponseDto
     public int StatusCode { get; set; }
     public dynamic Data { get; set; }
     public int? PageNumber { get; set; }
+    public int? MaxPage { get; set; }
 
 
 
@@ -17,12 +18,13 @@ public class APIResponseDto
 
     }
 
-    public APIResponseDto(string status, int statusCode, dynamic data, int pageNumber)
+    public APIResponseDto(string status, int statusCode, dynamic data, int pageNumber, int maxPage)
     {
         Status = status;
         StatusCode = statusCode;
         Data = data;
         PageNumber = pageNumber;
+        MaxPage = maxPage;
     }
 
 }

@@ -47,21 +47,39 @@ export default function SearchForm(props: SearchFormProps) {
     setSearchInput(e.target.value);
   };
 
-  const handleBottomScroll = async () => {
+  const comicBottomScrollHandler = async () => {
+    if (!comicSearchResult) return;
+    const apiResponse = await ComicCompanionAPIService.searchComics(searchInput, undefined, paginationInfo.currentPage + 1);
+    const newComicList = comicSearchResult?.comics.concat(apiResponse.comics);
+    if (newComicList) {
+      const newResults: SearchResultDto = { ...comicSearchResult, comics: newComicList };
+      setComicSearchResults(newResults);
+      setPaginationInfo({ currentPage: apiResponse.currentPage, maxPage: apiResponse.maxPage });
+    }
+  };
+
+  const readingListBottomScrollHandler = async () => {
+    if (!readingListSearchResult) return;
+    const apiResponse = await ComicCompanionAPIService.searchReadingLists(searchInput, undefined, undefined, paginationInfo.currentPage + 1);
+    const newData = readingListSearchResult.data.concat(apiResponse.data);
+    const newList: ReadingListSearchResultAPIResponse = { ...readingListSearchResult, data: newData };
+    setReadingListSearchResult(newList);
+    if (apiResponse.maxPage && apiResponse.pageNumber) {
+      setPaginationInfo({ currentPage: apiResponse.pageNumber, maxPage: apiResponse.maxPage });
+    }
+  };
+
+  const handleBottomScroll = () => {
     if (paginationInfo.currentPage !== paginationInfo.maxPage) {
       if (props.typeOfSearch === "Comics") {
-        if (!comicSearchResult) return;
-        const apiResponse = await ComicCompanionAPIService.searchComics(searchInput, undefined, paginationInfo.currentPage + 1);
-        const newComicList = comicSearchResult?.comics.concat(apiResponse.comics);
-        if (newComicList) {
-          const newResults: SearchResultDto = { ...comicSearchResult, comics: newComicList };
-          setComicSearchResults(newResults);
-          setPaginationInfo({ currentPage: apiResponse.currentPage, maxPage: apiResponse.maxPage });
-        }
+        comicBottomScrollHandler();
+      } else if (props.typeOfSearch === "Reading Lists") {
+        readingListBottomScrollHandler();
       }
     }
   };
   useBottomScrollListener(handleBottomScroll);
+
   // one of these is the function that will be called to actually search whatever the result is
 
   // this handles searching for comics and structuring them for the SearchResult component
@@ -95,6 +113,9 @@ export default function SearchForm(props: SearchFormProps) {
           throw new Error("Unable to get reading lists");
         }
         setReadingListSearchResult(response);
+        if (response.maxPage && response.pageNumber) {
+          setPaginationInfo({ maxPage: response.maxPage, currentPage: response.pageNumber });
+        }
         setSearchingStatus("searchComplete");
       } else {
         setSearchingStatus("notSearching");

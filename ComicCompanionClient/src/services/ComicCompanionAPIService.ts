@@ -54,10 +54,12 @@ export default class ComicCompanionAPIService {
 
   static async searchReadingLists(listName?: string, userId?: string, userName?: string, page?: number): Promise<ReadingListSearchResultAPIResponse> {
     let fetchUrl = `${import.meta.env.VITE_API_URL}/readinglists?`;
-    if (listName) fetchUrl += `&${listName}`;
-    if (userId) fetchUrl += `&${userId}`;
-    if (userName) fetchUrl += `&${userName}`;
-    if (page) fetchUrl += `&${page}`;
+    page ? (fetchUrl += `&page=${page}`) : (fetchUrl += `&page=${1}`);
+    if (listName) fetchUrl += `&listName=${listName}`;
+    if (userId) fetchUrl += `&userId=${userId}`;
+    if (userName) fetchUrl += `&userName=${userName}`;
+
+    console.log(fetchUrl);
 
     const response = await fetch(fetchUrl);
     const jsonResponse = await response.json();

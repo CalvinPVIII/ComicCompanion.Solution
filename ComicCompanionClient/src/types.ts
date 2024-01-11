@@ -28,6 +28,7 @@ interface APIResponse {
   status: string;
   statusCode: number;
   pageNumber: number | null;
+  maxPage: number | null;
 }
 
 export interface ReadingListDto {

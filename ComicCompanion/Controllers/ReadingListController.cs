@@ -19,7 +19,7 @@ public class ReadingListController : Controller
     }
 
     [HttpGet("ReadingLists")]
-    public IActionResult Get([FromQuery] int page = 0, [FromQuery] string? userId = null, string? userName = null, string? listName = null)
+    public IActionResult Get([FromQuery] int page = 1, [FromQuery] string? userId = null, [FromQuery] string? userName = null, [FromQuery] string? listName = null)
     {
 
         var readingListQuery = _db.ReadingLists.Include(l => l.Ratings).AsQueryable();
@@ -49,11 +49,11 @@ public class ReadingListController : Controller
         }
         if (listName != null)
         {
-            readingListQuery = readingListQuery.Where(l => l.Name == listName);
+            readingListQuery = readingListQuery.Where(l => l.Name.Contains(listName));
         }
 
 
-        int skipBy = page * 10;
+        int skipBy = (page - 1) * 10;
         var readingLists = readingListQuery.Include(list => list.User).Skip(skipBy).Take(10).ToList().Select(readingList => new ReadingListDto(readingList, true));
 
 
@@ -70,8 +70,8 @@ public class ReadingListController : Controller
         //     return NotFound(new APIResponseDto("error", 404, "Not Found"));
         // }
 
-
-        return Ok(new APIResponseDto("success", 200, readingLists, page));
+        int maxPage = (int)Math.Ceiling((double)_db.ReadingLists.Count() / 10);
+        return Ok(new APIResponseDto("success", 200, readingLists, page, maxPage));
     }
 
 
