@@ -23,7 +23,7 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
     }
 
 
-    public static async Task<SearchResultDto> Popular(int pageNumber = 1)
+    public static async Task<SearchResultDto> Popular(int pageNumber)
     {
         SearchResultDto results = await GetListOfComics("https://xoxocomic.com/hot-comic?", pageNumber, null);
         return results;
@@ -93,7 +93,7 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
         {
 
             var document = await _context.OpenAsync(url);
-            var cells = document.QuerySelectorAll(".item");
+            var cells = document.QuerySelectorAll(".row > .item");
 
             foreach (var node in cells)
             {
@@ -114,7 +114,9 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
                 }
             }
 
-            var paginationElement = document.QuerySelector("ul.pagination");
+            int paginationElementNumber = document.QuerySelectorAll("ul.pagination").Length - 1;
+            var paginationElement = document.QuerySelectorAll("ul.pagination")[paginationElementNumber];
+
             pageNumbers = int.Parse(paginationElement.Children[paginationElement.Children.Length - 2].TextContent);
 
         }

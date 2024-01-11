@@ -28,10 +28,10 @@ public class ComicsController : Controller
 
     // add pagination
     [HttpGet("popular")]
-    public async Task<ActionResult<Comic>> Popular(int? serverNumber)
+    public async Task<ActionResult<Comic>> Popular(int? serverNumber, int pageNumber = 1)
     {
 
-        var results = await Comic.Popular(serverNumber);
+        var results = await Comic.Popular(pageNumber, serverNumber);
         return Ok(new APIResponseDto("success", 200, results));
     }
 

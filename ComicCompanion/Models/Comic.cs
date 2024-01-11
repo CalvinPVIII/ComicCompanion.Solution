@@ -30,7 +30,7 @@ public class Comic
         // }
     }
 
-    public async static Task<SearchResultDto> Popular(int? serverNumber)
+    public async static Task<SearchResultDto> Popular(int pageNumber, int? serverNumber)
     {
         int server;
         if (serverNumber == null || serverNumber == 0)
@@ -41,6 +41,6 @@ public class Comic
         {
             server = (int)serverNumber;
         }
-        return await XoxoComicHelper.Popular(server);
+        return await XoxoComicHelper.Popular(pageNumber);
     }
 }
