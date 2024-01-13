@@ -15,7 +15,7 @@ export default function ReadingListFAB() {
 
   const nav = useNavigate();
 
-  const [menuVisible, setMenuVisible] = useState<boolean>(true);
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const handleFinalize = () => {
     nav("/lists/new");

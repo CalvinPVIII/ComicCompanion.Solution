@@ -1,0 +1,36 @@
+#confirm-reading-list-modal > h1 {
+  text-align: center;
+}
+
+#confirm-reading-list-modal > p {
+  margin: auto;
+  width: 75%;
+}
+
+#confirm-buttons {
+  margin: auto;
+  width: max-content;
+}
+
+#confirm-buttons > button {
+  margin: 10px;
+}
+
+#reading-list-cover-image-placeholder {
+  background-color: blanchedalmond;
+  width: 200px;
+  height: 300px;
+}
+
+#cover-image-picker {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row;
+}
+
+#confirm-issues-list {
+  display: flex;
+  flex-flow: column wrap;
+  border: 1px solid white;
+  max-height: 500px;
+}
