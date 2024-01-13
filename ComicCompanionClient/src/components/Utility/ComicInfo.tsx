@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Comic } from "../../types";
+import { Comic, Issue } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
@@ -14,12 +14,17 @@ export default function ComicInfo(props: ComicInfoProps) {
   const [apiResult, setApiResult] = useState<Comic | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [issuesArray, setIssuesArray] = useState<Issue[] | null>(null);
 
   useEffect(() => {
     const getData = async () => {
       try {
         const comic = await ComicCompanionAPIService.getComic(props.comicId);
         setApiResult(comic);
+        const issuesArray: Issue[] = comic.issueIds?.map((issueId) => {
+          return { comicId: comic.comicId, issueId: issueId };
+        }) as Issue[];
+        setIssuesArray(issuesArray);
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
@@ -34,7 +39,7 @@ export default function ComicInfo(props: ComicInfoProps) {
         <div className="comic-info">
           <h1>{apiResult.name}</h1>
           <img src={apiResult.coverImg} alt={apiResult.name} />
-          <IssuesList comicId={props.comicId} issues={apiResult.issueIds} />
+          <IssuesList showComicNames={false} issues={issuesArray} />
         </div>
       ) : !loading && error ? (
         <>

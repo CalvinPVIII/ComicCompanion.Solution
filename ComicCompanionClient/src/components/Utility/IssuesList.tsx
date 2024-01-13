@@ -11,12 +11,12 @@ import { addIssue } from "../../redux/listCreationSlice";
 import { Issue } from "../../types";
 
 interface IssuesListProps {
-  issues: string[] | null;
-  comicId: string;
+  issues: null | Issue[];
+  showComicNames: boolean;
 }
 
 export default function IssuesList(props: IssuesListProps) {
-  const [issueList, setIssueList] = useState<string[] | null | undefined>(props.issues);
+  const [issueList, setIssueList] = useState<Issue[] | null | undefined>(props.issues);
   const [inputValue, setInputValue] = useState("");
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
@@ -26,7 +26,7 @@ export default function IssuesList(props: IssuesListProps) {
 
   const handleFilter = (_e: SyntheticEvent<Element, Event> | null, value: string | null) => {
     if (value) {
-      const filteredList = props.issues?.filter((issue) => issue.includes(value));
+      const filteredList = props.issues?.filter((issue) => `${issue.comicId} Issue - ${issue.issueId}`.includes(value));
       console.log(value);
       setIssueList(filteredList);
       setInputValue(value);
@@ -51,14 +51,18 @@ export default function IssuesList(props: IssuesListProps) {
     setIssueList(flippedList);
   };
 
-  const handleAddToReadingListClick = (issueId: string) => {
-    const issue: Issue = {
-      issueId: issueId,
-      comicId: props.comicId,
+  const handleAddToReadingListClick = (issue: Issue) => {
+    const issueToAdd: Issue = {
+      issueId: issue.issueId,
+      comicId: issue.comicId,
       pages: null,
     };
-    dispatch(addIssue(issue));
+    dispatch(addIssue(issueToAdd));
   };
+
+  const issueAutoComplete = props.showComicNames
+    ? props.issues?.map((issue) => `${issue.comicId} Issue - ${issue.issueId}`)
+    : props.issues?.map((issue) => issue.issueId);
 
   if (issueList && props.issues) {
     return (
@@ -67,7 +71,7 @@ export default function IssuesList(props: IssuesListProps) {
           <Autocomplete
             className="issue-autocomplete"
             disablePortal
-            options={props.issues}
+            options={issueAutoComplete ? issueAutoComplete : [""]}
             onChange={handleFilter}
             value={inputValue}
             sx={{ width: 200 }}
@@ -89,8 +93,14 @@ export default function IssuesList(props: IssuesListProps) {
                 <ListItem>
                   <div className="issue-list-items">
                     <ListItemButton>
-                      <Link to={`/comics/${props.comicId}/issue/${issue}`} key={index} className="issue-link">
-                        {issue}
+                      <Link to={`/comics/${issue.comicId}/issue/${issue.issueId}`} key={index} className="issue-link">
+                        {props.showComicNames ? (
+                          <>
+                            {issue.comicId} Issue - {issue.issueId}
+                          </>
+                        ) : (
+                          <>{issue.issueId}</>
+                        )}
                       </Link>
                     </ListItemButton>
                     {isCreating ? (

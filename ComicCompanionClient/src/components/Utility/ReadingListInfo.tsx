@@ -5,6 +5,9 @@ import { getErrorMessage } from "../../helpers/helperFunctions";
 import { Alert } from "@mui/material";
 import comicCompanionImages from "../../helpers/defaultImageArray";
 import Loading from "./Loading";
+import IssuesList from "./IssuesList";
+
+import "../../styles/ReadingListInfo.css";
 
 interface ReadingListInfoProps {
   listId: string;
@@ -35,19 +38,18 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
   return (
     <>
       {!loading && apiResult ? (
-        <div className="list-info">
-          {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
-          <div>
-            <p>{apiResult.name}</p>
-            <p>{apiResult.createdBy}</p>
-            <p>{apiResult.description}</p>
-            {apiResult.issues?.map((issue, index) => (
-              <p key={index}>
-                {issue.comicId} - {issue.issueId}
-              </p>
-            ))}
+        <>
+          <div className="list-info">
+            {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
+            <div>
+              <p id="list-info-header">{apiResult.name}</p>
+              <p id="list-info-author">Created by {apiResult.createdBy}</p>
+              <p id="list-info-description">{apiResult.description}</p>
+            </div>
           </div>
-        </div>
+
+          <IssuesList issues={apiResult.issues} showComicNames={true} />
+        </>
       ) : !loading && error ? (
         <>
           <Alert severity="error">{error} </Alert>

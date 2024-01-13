@@ -1,0 +1,12 @@
+.reading-list-search-result-info > .reading-list-name {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.reading-list-search-result-info > .reading-list-author {
+  font-style: italic;
+}
+
+.reading-list-search-result-info > .reading-list-description {
+  font-weight: bold;
+}

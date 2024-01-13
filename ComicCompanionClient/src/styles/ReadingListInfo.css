@@ -1,0 +1,21 @@
+.list-info {
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+  width: fit-content;
+  gap: 20px;
+  justify-content: center;
+}
+
+#list-info-header {
+  font-size: xx-large;
+  border-bottom: 1px solid white;
+  padding-bottom: 4px;
+}
+#list-info-author {
+  font-style: italic;
+}
+
+.list-info > img {
+  width: 300px;
+}
