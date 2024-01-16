@@ -1,14 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { currentListSelector, isCreatingSelector } from "../../redux/store";
 import { updateProperty, toggleCreating, setCurrentList } from "../../redux/listCreationSlice";
+import { toggleModal, setContent } from "../../redux/modalSlice";
 import { Button, Switch, TextField } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import defaultList from "../../helpers/defaultReadingList";
 
 import { userSelector } from "../../redux/store";
-import { UserReadingListPostRequest } from "../../types";
-import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 
 import { useNavigate } from "react-router-dom";
 
@@ -56,23 +55,8 @@ export default function ReadingListForm() {
       // logic to open sign in modal
       return;
     }
-
-    const readingList: UserReadingListPostRequest = {
-      readingListId: 0,
-      serializedIssues: JSON.stringify(list.issues),
-      isPrivate: list.isPrivate,
-      userId: currentUser.userId,
-      name: list.name,
-      description: list.description,
-      coverImg: "null",
-    };
-    const response = await ComicCompanionAPIService.createReadingList(readingList, currentUser.token);
-    if (response.status === "success") {
-      nav(`/lists/${response.data.readingListId}`);
-      dispatch(setCurrentList(null));
-      dispatch(toggleCreating(false));
-    }
-    console.log(readingList);
+    dispatch(setContent({ type: "Finalize Reading List" }));
+    dispatch(toggleModal(true));
   };
 
   const handleCancelCreation = () => {

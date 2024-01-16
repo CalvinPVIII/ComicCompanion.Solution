@@ -1,30 +1,99 @@
 import "../styles/ConfirmReadingList.css";
 import { useSelector } from "react-redux";
-import { currentListSelector } from "../redux/store";
-import { Button } from "@mui/material";
+import { currentListSelector, userSelector } from "../redux/store";
+import { Button, Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
+
+import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+import { Issue, UserReadingListPostRequest } from "../types";
+
+import { useDispatch } from "react-redux";
+import { updateProperty } from "../redux/listCreationSlice";
+import { toggleModal } from "../redux/modalSlice";
+import { setCurrentList, toggleCreating } from "../redux/listCreationSlice";
+import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
+
+interface ImageCache {
+  [issueId: string]: string[];
+}
+
 export default function ConfirmReadingList() {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+  const [loadedImages, setLoadedImages] = useState<ImageCache>({});
   const readingList = useSelector(currentListSelector);
+  const currentUser = useSelector(userSelector);
+
+  const handleIssueClick = async (issue: Issue) => {
+    const id = issue.comicId + issue.issueId;
+    if (loadedImages[id]) {
+      dispatch(updateProperty({ value: loadedImages[id][0], propertyName: "coverImg" }));
+    } else {
+      const fetchedIssue = await ComicCompanionAPIService.getIssue(issue.comicId, issue.issueId);
+      if (fetchedIssue.pages) {
+        const newImageCache = { ...loadedImages };
+        newImageCache[id] = fetchedIssue.pages;
+        setLoadedImages(newImageCache);
+        dispatch(updateProperty({ value: fetchedIssue.pages[0], propertyName: "coverImg" }));
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    console.log(readingList);
+    if (!readingList || !currentUser) return;
+    const list: UserReadingListPostRequest = {
+      readingListId: 0,
+      serializedIssues: JSON.stringify(readingList.issues),
+      isPrivate: readingList.isPrivate,
+      userId: currentUser.userId,
+      name: readingList.name,
+      description: readingList.description,
+      coverImg: readingList.coverImg || "null",
+    };
+    const response = await ComicCompanionAPIService.createReadingList(list, currentUser.token);
+    if (response.status === "success") {
+      nav(`/lists/${response.data.readingListId}`);
+      dispatch(setCurrentList(null));
+      dispatch(toggleCreating(false));
+      dispatch(toggleModal(false));
+    }
+    console.log(readingList);
+  };
+
   if (readingList) {
     return (
       <div id="confirm-reading-list-modal">
         <h1>{readingList.name}</h1>
-        <p>{readingList.description}</p>
+        <span id="confirm-desc">
+          <p>{readingList.description}</p>
+        </span>
 
-        <h3>Pick a cover image</h3>
-        <div id="cover-image-picker">
-          <div id="confirm-issues-list">
-            {readingList.issues.map((issue) => (
-              <p>
-                {issue.comicId} - {issue.issueId}
-              </p>
-            ))}
-          </div>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <span id="accordion-header">Confirm Issues</span>
+          </AccordionSummary>
+          <AccordionDetails>
+            <p id="cover-image-info">Tap an issue to set the cover image</p>
+            <div id="cover-image-picker">
+              <div id="confirm-issues-list">
+                <IssuesInCreatingReadingList onClickCallback={handleIssueClick} />
+              </div>
 
-          {readingList.coverImg ? <img src={readingList.coverImg} alt="cover image" /> : <div id="reading-list-cover-image-placeholder">?</div>}
-        </div>
+              {readingList.coverImg ? (
+                <img src={readingList.coverImg} alt="cover image" id="reading-list-cover-image" />
+              ) : (
+                <div id="reading-list-cover-image-placeholder">?</div>
+              )}
+            </div>
+          </AccordionDetails>
+        </Accordion>
 
         <div id="confirm-buttons">
-          <Button variant="contained" color="success">
+          <Button variant="contained" color="success" onClick={handleSubmit}>
             Create
           </Button>
           <Button variant="outlined" color="error">

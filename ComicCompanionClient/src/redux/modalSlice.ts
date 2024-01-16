@@ -10,7 +10,7 @@ export interface ModalState {
   ["content"]: ModalContent;
 }
 
-const initialState: ModalState = { isOpen: true, content: { type: "Finalize Reading List" } };
+const initialState: ModalState = { isOpen: false, content: { type: "Finalize Reading List" } };
 
 const modalSlice = createSlice({
   name: "modal",

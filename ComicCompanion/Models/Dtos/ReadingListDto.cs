@@ -22,6 +22,7 @@ public class ReadingListDto
         Name = list.Name;
         Description = list.Description;
         CreatedBy = list.User.UserName;
+        CoverImg = list.CoverImg;
         Rating = list.Ratings.Where(r => r.Positive == true).Count() - list.Ratings.Where(r => r.Positive == false).Count();
     }
 

@@ -90,7 +90,7 @@ export default function IssuesList(props: IssuesListProps) {
             </ListSubheader>
             {issueList.map((issue, index) => (
               <>
-                <ListItem>
+                <ListItem key={index}>
                   <div className="issue-list-items">
                     <ListItemButton>
                       <Link to={`/comics/${issue.comicId}/issue/${issue.issueId}`} key={index} className="issue-link">
