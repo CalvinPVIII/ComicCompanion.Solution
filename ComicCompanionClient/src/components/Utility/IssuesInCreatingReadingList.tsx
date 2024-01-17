@@ -29,7 +29,7 @@ export default function IssuesInCreatingReadingList(props: IssuesInCreatingReadi
             <p onClick={() => handleClick(issue)}>
               {issue.comicId} - {issue.issueId}
             </p>
-            <Button variant="contained" color="error" onClick={() => handleRemove(issue)}>
+            <Button variant="outlined" color="error" onClick={() => handleRemove(issue)} size="small">
               Remove
             </Button>
           </>

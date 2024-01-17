@@ -151,10 +151,11 @@ public class ReadingListController : Controller
         }
     }
 
-    [HttpPost("ReadingLists/{id}")]
-    public IActionResult Delete(ReadingList list)
+    [HttpDelete("ReadingLists/{id}")]
+    public IActionResult Delete(int id)
     {
         string? userId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        ReadingList list = _db.ReadingLists.FirstOrDefault(list => list.ReadingListId == id);
         if (userId != null && list.UserId == userId)
         {
             _db.ReadingLists.Remove(list);

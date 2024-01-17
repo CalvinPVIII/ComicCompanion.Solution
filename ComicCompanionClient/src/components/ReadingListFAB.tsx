@@ -34,6 +34,7 @@ export default function ReadingListFAB() {
         </div>
         {menuVisible ? (
           <div className="reading-list-fab-menu">
+            <p>Reading List:</p>
             <h1>{currentList.name}</h1>
 
             <Button variant="contained" color="success" onClick={handleFinalize}>

@@ -6,7 +6,7 @@
 }
 
 .reading-list-fab-menu {
-  background-color: grey;
+  background-color: rgb(47, 47, 47);
   position: fixed;
   max-height: 70%;
   width: 200px;
@@ -17,6 +17,9 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
   text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5% 5% 5% 5%;
 }
 
 .reading-list-fab-menu::-webkit-scrollbar {

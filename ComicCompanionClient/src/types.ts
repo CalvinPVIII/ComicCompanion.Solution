@@ -62,7 +62,7 @@ export interface ReadingListAPIResponse extends APIResponse {
 }
 
 interface ICreatedReadingList {
-  [key: string]: string | Issue[] | boolean | undefined;
+  [key: string]: string | Issue[] | boolean | undefined | number;
 }
 
 export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
@@ -72,6 +72,7 @@ export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
   name: string;
   description: string;
   coverImg?: string;
+  readingListId?: number;
 }
 
 export interface UserReadingListPostRequest {

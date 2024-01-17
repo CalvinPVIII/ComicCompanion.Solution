@@ -46,7 +46,7 @@ export default function ConfirmReadingList() {
     console.log(readingList);
     if (!readingList || !currentUser) return;
     const list: UserReadingListPostRequest = {
-      readingListId: 0,
+      readingListId: readingList.readingListId || 0,
       serializedIssues: JSON.stringify(readingList.issues),
       isPrivate: readingList.isPrivate,
       userId: currentUser.userId,
@@ -54,7 +54,13 @@ export default function ConfirmReadingList() {
       description: readingList.description,
       coverImg: readingList.coverImg || "null",
     };
-    const response = await ComicCompanionAPIService.createReadingList(list, currentUser.token);
+    let response;
+    if (readingList.readingListId !== 0) {
+      response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "PUT");
+    } else {
+      response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "POST");
+    }
+
     if (response.status === "success") {
       nav(`/lists/${response.data.readingListId}`);
       dispatch(setCurrentList(null));

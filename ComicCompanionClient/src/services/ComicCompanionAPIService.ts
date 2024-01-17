@@ -111,10 +111,15 @@ export default class ComicCompanionAPIService {
     return signInResponse;
   }
 
-  static async createReadingList(readingList: UserReadingListPostRequest, jwt: string): Promise<ReadingListPostResponse> {
-    console.log(jwt);
-    const apiResponse = await fetch(`${import.meta.env.VITE_API_URL}/readinglists`, {
-      method: "POST",
+  static async postReadingList(readingList: UserReadingListPostRequest, jwt: string, type: "POST" | "PUT"): Promise<ReadingListPostResponse> {
+    let fetchUrl;
+    if (type === "POST") {
+      fetchUrl = `${import.meta.env.VITE_API_URL}/readinglists`;
+    } else {
+      fetchUrl = `${import.meta.env.VITE_API_URL}/readinglists/${readingList.readingListId}`;
+    }
+    const apiResponse = await fetch(fetchUrl, {
+      method: type,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
@@ -124,5 +129,20 @@ export default class ComicCompanionAPIService {
     const jsonResponse = await apiResponse.json();
     console.log(jsonResponse);
     return jsonResponse as ReadingListPostResponse;
+  }
+
+  static async deleteReadingList(readingListId: number, jwt: string): Promise<boolean> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/${readingListId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    if (response.status === 204) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

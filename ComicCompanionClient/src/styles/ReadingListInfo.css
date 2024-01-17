@@ -19,3 +19,18 @@
 .list-info > img {
   width: 300px;
 }
+
+#confirm-delete-modal {
+  text-align: center;
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  top: 30%;
+  background-color: black;
+}
+
+#confirm-delete-modal > p {
+  text-decoration: underline;
+  margin-top: 50px;
+  cursor: pointer;
+}

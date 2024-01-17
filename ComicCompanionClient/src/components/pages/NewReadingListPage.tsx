@@ -9,11 +9,9 @@ import "../../styles/NewReadingListPage.css";
 export default function NewReadingListPage() {
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Create a New Reading List</h1>
+      <h1 style={{ textAlign: "center" }}>Customize Reading List</h1>
       <ReadingListForm />
       <br />
-      {/* <div id="new-reading-list-container">
-        <div id="new-reading-list-search"> */}
 
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ position: "sticky" }}>
