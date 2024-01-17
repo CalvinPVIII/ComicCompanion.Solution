@@ -16,6 +16,10 @@ import "slick-carousel/slick/slick-theme.css";
 import GlobalModal from "./components/GlobalModal";
 import ReadingListFAB from "./components/ReadingListFAB";
 import UserAuthPage from "./components/pages/UserAuthPage";
+import AppAlert from "./components/AppAlert";
+
+import { useSelector } from "react-redux";
+import { alertSelector } from "./redux/store";
 
 const darkTheme = createTheme({
   palette: {
@@ -39,6 +43,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const alertInfo = useSelector(alertSelector);
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -60,6 +65,8 @@ function App() {
         </div>
         <NavBar />
         <GlobalModal />
+        {alertInfo.visible ? <AppAlert /> : <></>}
+
         <ReadingListFAB />
       </ThemeProvider>
     </>

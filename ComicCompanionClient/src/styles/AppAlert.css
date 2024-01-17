@@ -1,0 +1,23 @@
+#app-alert {
+  position: fixed;
+  z-index: 99;
+  width: 25vw;
+  bottom: 50px;
+  left: 30px;
+  cursor: default;
+}
+
+.fade-out {
+  animation-duration: 1s;
+  animation-name: fadeOut;
+  opacity: 0;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
+import { setAlert } from "../../redux/alertSlice";
 import { Issue } from "../../types";
 
 interface IssuesListProps {
@@ -58,6 +59,7 @@ export default function IssuesList(props: IssuesListProps) {
       pages: null,
     };
     dispatch(addIssue(issueToAdd));
+    dispatch(setAlert({ message: "Added issue", severity: "success", durationInSeconds: 2, visible: true }));
   };
 
   const issueAutoComplete = props.showComicNames
@@ -83,7 +85,7 @@ export default function IssuesList(props: IssuesListProps) {
         <div className="issues-container-body">
           <List className="issues-list">
             <ListSubheader>
-              {props.issues.length} issues{" "}
+              {props.issues.length} issues
               <span id="ascend-descend-button">
                 {ascendOrDescend === "ascend" ? <ArrowUpwardIcon onClick={toggleListSorting} /> : <ArrowDownwardIcon onClick={toggleListSorting} />}
               </span>

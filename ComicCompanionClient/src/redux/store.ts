@@ -2,12 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import { UserReducerState } from "./userSlice";
-import { ListCreationState } from "./listCreationSlice";
-
-import userReducer from "./userSlice";
-import listCreationReducer from "./listCreationSlice";
+import userReducer, { UserReducerState } from "./userSlice";
+import listCreationReducer, { ListCreationState } from "./listCreationSlice";
 import modalReducer, { ModalState } from "./modalSlice";
+import alertReducer, { AlertState } from "./alertSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +16,7 @@ export interface ApplicationState {
   user: UserReducerState;
   listCreation: ListCreationState;
   modal: ModalState;
+  alert: AlertState;
 }
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
@@ -28,7 +27,9 @@ const store = configureStore({
     user: persistedUserReducer,
     listCreation: persistedListCreationReducer,
     modal: modalReducer,
+    alert: alertReducer,
   },
+  devTools: true,
 });
 
 export default store;
@@ -43,3 +44,5 @@ export const isCreatingSelector = (state: ApplicationState) => state.listCreatio
 
 export const modalOpenSelector = (state: ApplicationState) => state.modal.isOpen;
 export const modalContentSelector = (state: ApplicationState) => state.modal.content;
+
+export const alertSelector = (state: ApplicationState) => state.alert;
