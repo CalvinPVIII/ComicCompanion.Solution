@@ -12,6 +12,7 @@ import { useBottomScrollListener } from "react-bottom-scroll-listener";
 
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
+  openInModal?: boolean;
 }
 
 type PaginationInfo = {
@@ -137,11 +138,11 @@ export default function SearchForm(props: SearchFormProps) {
         <>
           {props.typeOfSearch === "Comics" && comicSearchResult ? (
             <>
-              <ComicSearchResult searchResult={comicSearchResult} />
+              <ComicSearchResult searchResult={comicSearchResult} openInModal={props.openInModal} />
             </>
           ) : props.typeOfSearch === "Reading Lists" && readingListSearchResult ? (
             <>
-              <ReadingListSearchResult searchResult={readingListSearchResult} />
+              <ReadingListSearchResult searchResult={readingListSearchResult} openInModal={props.openInModal} />
             </>
           ) : (
             <></>

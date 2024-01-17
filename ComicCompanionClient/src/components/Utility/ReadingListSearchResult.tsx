@@ -6,6 +6,7 @@ import "../../styles/SearchResult.css";
 
 interface ReadingListSearchResultProps {
   searchResult: ReadingListSearchResultAPIResponse;
+  openInModal?: boolean;
 }
 
 export default function ReadingListSearchResult(props: ReadingListSearchResultProps) {
