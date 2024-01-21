@@ -29,9 +29,7 @@ const listCreationSlice = createSlice({
     },
     removeIssue: (state, action: PayloadAction<Issue>) => {
       if (state.currentList) {
-        state.currentList.issues = state.currentList?.issues.filter(
-          (issue) => issue.comicId + issue.issueId !== action.payload.comicId + action.payload.issueId
-        );
+        state.currentList.issues = state.currentList?.issues.filter((issue) => issue.readingListIssueId !== action.payload.readingListIssueId);
       }
     },
     updateProperty: (state, action: PayloadAction<UpdatePropertyPayload>) => {

@@ -5,6 +5,8 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Link } from "react-router-dom";
 
+import { v4 as uuidv4 } from "uuid";
+
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
@@ -57,6 +59,7 @@ export default function IssuesList(props: IssuesListProps) {
       issueId: issue.issueId,
       comicId: issue.comicId,
       pages: null,
+      readingListIssueId: uuidv4(),
     };
     dispatch(addIssue(issueToAdd));
     addComicAlert(dispatch);

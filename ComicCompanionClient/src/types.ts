@@ -22,6 +22,7 @@ export interface Issue {
   issueId: string;
   comicId: string;
   pages: string[] | null;
+  readingListIssueId?: string;
 }
 
 interface APIResponse {
