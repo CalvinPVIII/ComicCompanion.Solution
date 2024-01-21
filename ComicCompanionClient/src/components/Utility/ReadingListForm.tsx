@@ -52,6 +52,9 @@ export default function ReadingListForm() {
     }
     if (!currentUser) {
       setErrorMessage("Please sign in");
+      dispatch(setContent({ type: "User Auth" }));
+      dispatch(toggleModal(true));
+
       // logic to open sign in modal
       return;
     }

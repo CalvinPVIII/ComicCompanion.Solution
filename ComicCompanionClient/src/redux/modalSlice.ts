@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type ModalContent = {
-  type: "Search Comics" | "Comic Info" | "Finalize Reading List" | null;
+  type: "Search Comics" | "Comic Info" | "Finalize Reading List" | "User Auth" | null;
   data?: { comicId: string; issueId?: string };
 };
 

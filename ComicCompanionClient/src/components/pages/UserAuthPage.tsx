@@ -1,16 +1,22 @@
-import SignInForm from "../SignInForm";
-import SignUpForm from "../SignUpForm";
-
 import { useSelector } from "react-redux";
 import { userSelector } from "../../redux/store";
+import UserAuth from "../Utility/UserAuth";
+import SignOutButton from "../Utility/SignOutButton";
+
 export default function UserAuthPage() {
   const currentUser = useSelector(userSelector);
 
   return (
     <>
-      <SignInForm />
-      <SignUpForm />
-      {currentUser ? <h1>{currentUser.email}</h1> : <></>}
+      <UserAuth />
+      {currentUser ? (
+        <>
+          <h1>{currentUser.email}</h1>
+          <SignOutButton />
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

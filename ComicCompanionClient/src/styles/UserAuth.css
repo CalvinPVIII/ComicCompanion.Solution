@@ -1,0 +1,12 @@
+#auth-form-toggle {
+  text-decoration: underline;
+  cursor: pointer;
+}
+#user-auth {
+  display: flex;
+  flex-flow: column;
+  background-color: black;
+  height: fit-content;
+  width: 50%;
+  padding: 40px;
+}

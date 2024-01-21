@@ -8,6 +8,7 @@ import ComicInfo from "./Utility/ComicInfo";
 
 import "../styles/GlobalModal.css";
 import ConfirmReadingList from "./ConfirmReadingList";
+import UserAuth from "./Utility/UserAuth";
 
 export default function GlobalModal() {
   const dispatch = useDispatch();
@@ -33,6 +34,10 @@ export default function GlobalModal() {
           <div id="modal-content" className="wide-modal">
             <ConfirmReadingList />
           </div>
+        ) : modalContent.type === "User Auth" ? (
+          <>
+            <UserAuth onAuthCallback={handleModalClose} />
+          </>
         ) : (
           <></>
         )}

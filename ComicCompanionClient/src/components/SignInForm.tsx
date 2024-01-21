@@ -9,7 +9,8 @@ import { setUser } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
 import { UserInfo } from "../types";
-export default function SignInForm() {
+import { AuthProps } from "./Utility/UserAuth";
+export default function SignInForm(props: AuthProps) {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,10 +53,13 @@ export default function SignInForm() {
         const userInfo = result.data as UserInfo;
         dispatch(setUser(userInfo));
         setSuccessMessage("Successfully Sign In");
-        // if modal will need to close modal instead
-        setTimeout(() => {
-          nav("/");
-        }, 1000);
+        if (props.onAuthCallback) {
+          props.onAuthCallback();
+        } else {
+          setTimeout(() => {
+            nav("/");
+          }, 1000);
+        }
       }
     } catch (e) {
       console.error(e);

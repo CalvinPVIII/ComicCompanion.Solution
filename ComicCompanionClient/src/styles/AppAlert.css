@@ -1,6 +1,6 @@
 #app-alert {
   position: fixed;
-  z-index: 99;
+  z-index: 9999;
   width: 25vw;
   bottom: 50px;
   left: 30px;
