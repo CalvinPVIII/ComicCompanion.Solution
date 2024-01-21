@@ -115,7 +115,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
             </div>
           </div>
 
-          <IssuesList issues={apiResult.issues} showComicNames={true} />
+          <IssuesList issues={apiResult.issues} showComicNames={true} defaultSorting="ascend" />
         </>
       ) : !loading && error ? (
         <>

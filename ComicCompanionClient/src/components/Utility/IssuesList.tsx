@@ -1,6 +1,6 @@
 import { Autocomplete, TextField, List, ListItem, ListItemButton, ListSubheader, Button } from "@mui/material";
 import "../../styles/IssuesList.css";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Link } from "react-router-dom";
@@ -12,16 +12,20 @@ import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
 import { Issue } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
+import React from "react";
 
 interface IssuesListProps {
   issues: null | Issue[];
   showComicNames: boolean;
+  defaultSorting?: "ascend" | "descend";
 }
 
 export default function IssuesList(props: IssuesListProps) {
-  const [issueList, setIssueList] = useState<Issue[] | null | undefined>(props.issues);
+  const [issueList, setIssueList] = useState<Issue[] | null | undefined>(
+    props.defaultSorting === "ascend" && props.issues ? [...props.issues].reverse() : props.issues
+  );
   const [inputValue, setInputValue] = useState("");
-  const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
+  const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">(props.defaultSorting || "descend");
 
   const dispatch = useDispatch();
 
@@ -30,7 +34,6 @@ export default function IssuesList(props: IssuesListProps) {
   const handleFilter = (_e: SyntheticEvent<Element, Event> | null, value: string | null) => {
     if (value) {
       const filteredList = props.issues?.filter((issue) => `${issue.comicId} Issue - ${issue.issueId}`.includes(value));
-      console.log(value);
       setIssueList(filteredList);
       setInputValue(value);
     } else {
@@ -94,11 +97,11 @@ export default function IssuesList(props: IssuesListProps) {
               </span>
             </ListSubheader>
             {issueList.map((issue, index) => (
-              <>
-                <ListItem key={index}>
+              <React.Fragment key={index}>
+                <ListItem>
                   <div className="issue-list-items">
                     <ListItemButton>
-                      <Link to={`/comics/${issue.comicId}/issue/${issue.issueId}`} key={index} className="issue-link">
+                      <Link to={`/comics/${issue.comicId}/issue/${issue.issueId}`} className="issue-link">
                         {props.showComicNames ? (
                           <>
                             {issue.comicId} Issue - {issue.issueId}
@@ -119,7 +122,7 @@ export default function IssuesList(props: IssuesListProps) {
                     )}
                   </div>
                 </ListItem>
-              </>
+              </React.Fragment>
             ))}
           </List>
         </div>
