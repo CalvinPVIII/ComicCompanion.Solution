@@ -15,6 +15,7 @@ import { updateProperty } from "../redux/listCreationSlice";
 import { toggleModal } from "../redux/modalSlice";
 import { setCurrentList, toggleCreating } from "../redux/listCreationSlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
+import comicCompanionImages from "../helpers/defaultImageArray";
 
 interface ImageCache {
   [issueId: string]: string[];
@@ -24,6 +25,7 @@ export default function ConfirmReadingList() {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [loadedImages, setLoadedImages] = useState<ImageCache>({});
+  const [defaultImageIndex, setDefaultImageIndex] = useState<number>(0);
   const readingList = useSelector(currentListSelector);
   const currentUser = useSelector(userSelector);
 
@@ -52,7 +54,7 @@ export default function ConfirmReadingList() {
       userId: currentUser.userId,
       name: readingList.name,
       description: readingList.description,
-      coverImg: readingList.coverImg || "null",
+      coverImg: readingList.coverImg || comicCompanionImages[defaultImageIndex],
     };
     let response;
     if (readingList.readingListId !== 0) {
@@ -68,6 +70,14 @@ export default function ConfirmReadingList() {
       dispatch(toggleModal(false));
     }
     console.log(readingList);
+  };
+
+  const toggleDefaultImage = () => {
+    if (defaultImageIndex === 6) {
+      setDefaultImageIndex(0);
+    } else {
+      setDefaultImageIndex(defaultImageIndex + 1);
+    }
   };
 
   if (readingList) {
@@ -92,7 +102,7 @@ export default function ConfirmReadingList() {
               {readingList.coverImg ? (
                 <img src={readingList.coverImg} alt="cover image" id="reading-list-cover-image" />
               ) : (
-                <div id="reading-list-cover-image-placeholder">?</div>
+                <img src={comicCompanionImages[defaultImageIndex]} alt="cover image" id="reading-list-cover-image" onClick={toggleDefaultImage} />
               )}
             </div>
           </AccordionDetails>
