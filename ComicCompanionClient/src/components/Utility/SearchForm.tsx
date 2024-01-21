@@ -91,7 +91,7 @@ export default function SearchForm(props: SearchFormProps) {
         console.log(apiResponse);
         setPaginationInfo({ currentPage: apiResponse.currentPage, maxPage: apiResponse.maxPage });
         if (apiResponse.comics.length === 0) {
-          throw new Error("Unable to get comics");
+          throw new Error("No Comics Match This Query");
         }
         setComicSearchResults(apiResponse);
         setSearchingStatus("searchComplete");
@@ -111,7 +111,7 @@ export default function SearchForm(props: SearchFormProps) {
       if (searchInput) {
         const response = await ComicCompanionAPIService.searchReadingLists(searchInput);
         if (response.data.length === 0) {
-          throw new Error("Unable to get reading lists");
+          throw new Error("No Reading Lists Match This Query");
         }
         setReadingListSearchResult(response);
         if (response.maxPage && response.pageNumber) {

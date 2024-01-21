@@ -15,7 +15,6 @@ export default function AppAlert() {
 
   const unMountAlert = () => {
     document.getElementById("app-alert")?.classList.add("fade-out");
-    console.log("Fade");
     setTimeout(() => {
       console.log("dispatch");
       dispatch(toggleAlert(false));

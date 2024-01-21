@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
-import { setAlert } from "../../redux/alertSlice";
 import { Issue } from "../../types";
+import { addComicAlert } from "../../helpers/alertCreators";
 
 interface IssuesListProps {
   issues: null | Issue[];
@@ -59,7 +59,7 @@ export default function IssuesList(props: IssuesListProps) {
       pages: null,
     };
     dispatch(addIssue(issueToAdd));
-    dispatch(setAlert({ message: "Added issue", severity: "success", durationInSeconds: 2, visible: true }));
+    addComicAlert(dispatch);
   };
 
   const issueAutoComplete = props.showComicNames
