@@ -25,7 +25,7 @@ export default function ConfirmReadingList() {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [loadedImages, setLoadedImages] = useState<ImageCache>({});
-  const [defaultImageIndex, setDefaultImageIndex] = useState<number>(0);
+  const [defaultImageIndex, setDefaultImageIndex] = useState<number>(Math.floor(Math.random() * 6) + 1);
   const readingList = useSelector(currentListSelector);
   const currentUser = useSelector(userSelector);
 
