@@ -99,7 +99,7 @@ public class ReadingListController : Controller
             {
                 bool favorite = _db.UserReadingListFavorites.Any(fav => fav.ReadingListId == id && fav.UserId == requestingUserId);
                 ReadingListRating? rating = _db.ReadingListRatings.FirstOrDefault(rating => rating.ReadingListId == id && rating.UserId == requestingUserId);
-                var response = new APIResponseDto("success", 200, new { list, userInfo = new { favorite, rating } });
+                var response = new APIResponseDto("success", 200, new { list, userInfo = new { favorite, rating = rating?.Positive } });
                 return Ok(response);
 
             }
@@ -189,9 +189,26 @@ public class ReadingListController : Controller
         }
 
         ReadingListRating? rating = _db.ReadingListRatings.FirstOrDefault(rating => rating.ReadingListId == readingListId && rating.UserId == requestingUserId);
+        if (rating != null)
+        {
+            if (rating.Positive != positive)
+            {
+                rating.Positive = positive;
+                _db.ReadingListRatings.Update(rating);
+                _db.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, "Rating Updated"));
+
+            }
+            else if (rating.Positive == positive)
+            {
+                _db.ReadingListRatings.Remove(rating);
+                _db.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, "Rating Removed"));
+            }
+        }
         if (rating == null)
         {
-            rating = new ReadingListRating() { ReadingListRatingId = readingListId, Positive = positive, UserId = requestingUserId };
+            rating = new ReadingListRating() { ReadingListId = readingListId, Positive = positive, UserId = requestingUserId };
 
             _db.ReadingListRatings.Add(rating);
             _db.SaveChanges();

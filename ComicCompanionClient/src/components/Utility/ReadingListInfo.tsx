@@ -85,6 +85,16 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
     }
   };
 
+  const handleRateReadingList = async (rating: boolean) => {
+    if (!currentUser || !apiResult || !userInfo) return;
+    const response = await ComicCompanionAPIService.rateReadingList(apiResult.readingListId, rating, currentUser.token);
+    if (response.data === "Rating Posted" || response.data === "Rating Updated") {
+      setUserInfo({ ...userInfo, rating: rating });
+    } else if (response.data === "Rating Removed") {
+      setUserInfo({ ...userInfo, rating: null });
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -135,8 +145,16 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
                     </>
                   )}
                   <div>
-                    {userInfo.rating ? <ThumbUpIcon color="success" /> : <ThumbUpIcon />}
-                    {userInfo.rating === false ? <ThumbDownIcon color="error" /> : <ThumbDownIcon />}
+                    {userInfo.rating ? (
+                      <ThumbUpIcon color="success" onClick={() => handleRateReadingList(true)} />
+                    ) : (
+                      <ThumbUpIcon onClick={() => handleRateReadingList(true)} />
+                    )}
+                    {userInfo.rating === false ? (
+                      <ThumbDownIcon color="error" onClick={() => handleRateReadingList(false)} />
+                    ) : (
+                      <ThumbDownIcon onClick={() => handleRateReadingList(false)} />
+                    )}
                   </div>
                 </>
               ) : (

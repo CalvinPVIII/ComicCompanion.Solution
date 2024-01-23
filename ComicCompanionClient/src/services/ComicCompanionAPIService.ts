@@ -3,6 +3,7 @@ import {
   ComicSearchResultAPIResponse,
   FavoriteReadingListResponse,
   Issue,
+  RateReadingListAPIResponse,
   ReadingListAPIResponse,
   ReadingListPostResponse,
   ReadingListSearchResultAPIResponse,
@@ -172,5 +173,18 @@ export default class ComicCompanionAPIService {
     });
     const jsonResponse = await response.json();
     return jsonResponse as FavoriteReadingListResponse;
+  }
+
+  static async rateReadingList(readingListId: number, rating: boolean, jwt: string): Promise<RateReadingListAPIResponse> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/${readingListId}/vote`, {
+      method: "PUT",
+      body: JSON.stringify(rating),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse as RateReadingListAPIResponse;
   }
 }

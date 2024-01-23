@@ -105,3 +105,7 @@ export interface ReadingListPostResponse {
 export interface FavoriteReadingListResponse extends APIResponse {
   data: "Favorite Added" | "Favorite Removed";
 }
+
+export interface RateReadingListAPIResponse extends APIResponse {
+  data: "Rating Posted" | "Rating Updated" | "Rating Removed" | "Bad Request";
+}
