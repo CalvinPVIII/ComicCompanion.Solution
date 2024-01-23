@@ -34,3 +34,7 @@
   margin-top: 50px;
   cursor: pointer;
 }
+
+.secondary-button {
+  opacity: 0.5;
+}

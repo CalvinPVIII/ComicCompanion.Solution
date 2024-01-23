@@ -77,6 +77,10 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
 
   const handleToggleFavorite = async () => {
     if (!currentUser || !userInfo || !apiResult) return;
+    if (currentUser.userId === apiResult.userId) {
+      // alert popup
+      return;
+    }
     const response = await ComicCompanionAPIService.favoriteReadingList(apiResult.readingListId, currentUser.token);
     if (response.data === "Favorite Added") {
       setUserInfo({ ...userInfo, favorite: true });
@@ -87,11 +91,18 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
 
   const handleRateReadingList = async (rating: boolean) => {
     if (!currentUser || !apiResult || !userInfo) return;
+    if (currentUser.userId === apiResult.userId) {
+      // alert popup
+      return;
+    }
     const response = await ComicCompanionAPIService.rateReadingList(apiResult.readingListId, rating, currentUser.token);
     if (response.data === "Rating Posted" || response.data === "Rating Updated") {
       setUserInfo({ ...userInfo, rating: rating });
+      rating ? setApiResult({ ...apiResult, rating: apiResult.rating + 1 }) : setApiResult({ ...apiResult, rating: apiResult.rating - 1 });
     } else if (response.data === "Rating Removed") {
+      // look into how rating works better
       setUserInfo({ ...userInfo, rating: null });
+      rating ? setApiResult({ ...apiResult, rating: apiResult.rating - 1 }) : setApiResult({ ...apiResult });
     }
   };
 
@@ -127,39 +138,43 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
             {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
             <div>
               <p id="list-info-header">{apiResult.name}</p>
-              {currentUser?.userId !== apiResult.userId && userInfo ? (
-                <>
-                  {userInfo.favorite ? (
-                    <>
-                      <Button variant="outlined" onClick={handleToggleFavorite}>
-                        <StarIcon />
-                        Remove From Favorites
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button variant="outlined" onClick={handleToggleFavorite}>
-                        <StarOutlineIcon />
-                        Add to Favorites
-                      </Button>
-                    </>
-                  )}
-                  <div>
-                    {userInfo.rating ? (
-                      <ThumbUpIcon color="success" onClick={() => handleRateReadingList(true)} />
-                    ) : (
-                      <ThumbUpIcon onClick={() => handleRateReadingList(true)} />
-                    )}
-                    {userInfo.rating === false ? (
-                      <ThumbDownIcon color="error" onClick={() => handleRateReadingList(false)} />
-                    ) : (
-                      <ThumbDownIcon onClick={() => handleRateReadingList(false)} />
-                    )}
-                  </div>
-                </>
-              ) : (
-                <></>
-              )}
+
+              <div id="rating-buttons">
+                {userInfo?.favorite ? (
+                  <>
+                    <Button variant="contained" onClick={handleToggleFavorite}>
+                      <StarIcon />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outlined" onClick={handleToggleFavorite}>
+                      <StarOutlineIcon />
+                    </Button>
+                  </>
+                )}
+
+                {userInfo?.rating ? (
+                  <Button variant="outlined" color="success">
+                    <ThumbUpIcon color="success" onClick={() => handleRateReadingList(true)} />
+                  </Button>
+                ) : (
+                  <Button variant="outlined" color="secondary" className="secondary-button">
+                    <ThumbUpIcon onClick={() => handleRateReadingList(true)} />
+                  </Button>
+                )}
+
+                {userInfo?.rating === false ? (
+                  <Button variant="outlined" color="error">
+                    <ThumbDownIcon color="error" onClick={() => handleRateReadingList(false)} />
+                  </Button>
+                ) : (
+                  <Button variant="outlined" color="secondary" className="secondary-button">
+                    <ThumbDownIcon onClick={() => handleRateReadingList(false)} />
+                  </Button>
+                )}
+              </div>
+
               <p id="list-info-author">Created by {apiResult.createdBy}</p>
               <p id="list-info-description">{apiResult.description}</p>
               {currentUser?.userId === apiResult.userId ? (
