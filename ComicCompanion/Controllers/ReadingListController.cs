@@ -95,6 +95,14 @@ public class ReadingListController : Controller
                 }
             }
             var list = new ReadingListDto(readingList, true);
+            if (requestingUserId != null)
+            {
+                bool favorite = _db.UserReadingListFavorites.Any(fav => fav.ReadingListId == id && fav.UserId == requestingUserId);
+                ReadingListRating? rating = _db.ReadingListRatings.FirstOrDefault(rating => rating.ReadingListId == id && rating.UserId == requestingUserId);
+                var response = new APIResponseDto("success", 200, new { list, userInfo = new { favorite, rating } });
+                return Ok(response);
+
+            }
             return Ok(new APIResponseDto("success", 200, list));
         }
         else
@@ -102,6 +110,7 @@ public class ReadingListController : Controller
             return NotFound(new APIResponseDto("error", 404, "Not Found"));
         }
     }
+
 
 
     [HttpGet("ReadingLists/popular")]

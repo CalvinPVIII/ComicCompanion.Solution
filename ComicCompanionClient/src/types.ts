@@ -62,6 +62,16 @@ export interface ReadingListAPIResponse extends APIResponse {
   data: ReadingListDto;
 }
 
+export interface ReadingListWithUserInfoAPIResponse extends APIResponse {
+  data: {
+    list: ReadingListDto;
+    userInfo: {
+      favorite: boolean;
+      rating: boolean | null;
+    };
+  };
+}
+
 interface ICreatedReadingList {
   [key: string]: string | Issue[] | boolean | undefined | number;
 }
@@ -90,4 +100,8 @@ export interface ReadingListPostResponse {
   status: string;
   statusCode: number;
   data: ReadingListDto;
+}
+
+export interface FavoriteReadingListResponse extends APIResponse {
+  data: "Favorite Added" | "Favorite Removed";
 }

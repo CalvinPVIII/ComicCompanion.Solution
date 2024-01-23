@@ -1,10 +1,12 @@
 import {
   Comic,
   ComicSearchResultAPIResponse,
+  FavoriteReadingListResponse,
   Issue,
   ReadingListAPIResponse,
   ReadingListPostResponse,
   ReadingListSearchResultAPIResponse,
+  ReadingListWithUserInfoAPIResponse,
   SearchResultDto,
   UserAuthResponse,
   UserReadingListPostRequest,
@@ -66,10 +68,24 @@ export default class ComicCompanionAPIService {
     return jsonResponse as ReadingListSearchResultAPIResponse;
   }
 
-  static async getReadingList(readingListId: string): Promise<ReadingListAPIResponse> {
+  static async getReadingList(readingListId: string, jwt?: string): Promise<ReadingListAPIResponse | ReadingListWithUserInfoAPIResponse> {
     const fetchUrl = `${import.meta.env.VITE_API_URL}/readinglists/${readingListId}?`;
-    const apiResponse = await fetch(fetchUrl);
+    let options = {};
+    if (jwt) {
+      options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+      };
+    }
+    const apiResponse = await fetch(fetchUrl, options);
     const jsonResponse = await apiResponse.json();
+    console.log(jsonResponse);
+    if (jwt) {
+      return jsonResponse as unknown as ReadingListWithUserInfoAPIResponse;
+    }
     return jsonResponse as unknown as ReadingListAPIResponse;
   }
 
@@ -144,5 +160,17 @@ export default class ComicCompanionAPIService {
     } else {
       return false;
     }
+  }
+
+  static async favoriteReadingList(readingListId: number, jwt: string): Promise<FavoriteReadingListResponse> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/${readingListId}/favorite`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse as FavoriteReadingListResponse;
   }
 }

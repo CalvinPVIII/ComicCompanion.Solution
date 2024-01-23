@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CurrentlyCreatedReadingList, ReadingListDto } from "../../types";
+import { CurrentlyCreatedReadingList, ReadingListAPIResponse, ReadingListDto, ReadingListWithUserInfoAPIResponse } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import { Alert, Button, Modal } from "@mui/material";
@@ -16,12 +16,23 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleCreating, setCurrentList } from "../../redux/listCreationSlice";
 
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import StarIcon from "@mui/icons-material/Star";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+
 interface ReadingListInfoProps {
   listId: string;
 }
 
+type ReadingListUserInfo = {
+  favorite: boolean;
+  rating: boolean | null;
+};
+
 export default function ReadingListInfo(props: ReadingListInfoProps) {
   const [apiResult, setApiResult] = useState<ReadingListDto | null>(null);
+  const [userInfo, setUserInfo] = useState<ReadingListUserInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState<boolean>(false);
@@ -64,14 +75,31 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
     }
   };
 
+  const handleToggleFavorite = async () => {
+    if (!currentUser || !userInfo || !apiResult) return;
+    const response = await ComicCompanionAPIService.favoriteReadingList(apiResult.readingListId, currentUser.token);
+    if (response.data === "Favorite Added") {
+      setUserInfo({ ...userInfo, favorite: true });
+    } else if (response.data === "Favorite Removed") {
+      setUserInfo({ ...userInfo, favorite: false });
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
-        const readingList = await ComicCompanionAPIService.getReadingList(props.listId);
+        let readingList = await ComicCompanionAPIService.getReadingList(props.listId, currentUser?.token);
         if (readingList.status === "error") {
           throw new Error(readingList.data as unknown as string);
         }
-        setApiResult(readingList.data);
+        if (currentUser) {
+          readingList = readingList as ReadingListWithUserInfoAPIResponse;
+          setApiResult(readingList.data.list);
+          setUserInfo(readingList.data.userInfo);
+        } else {
+          readingList = readingList as ReadingListAPIResponse;
+          setApiResult(readingList.data);
+        }
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
@@ -89,6 +117,31 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
             {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
             <div>
               <p id="list-info-header">{apiResult.name}</p>
+              {currentUser?.userId !== apiResult.userId && userInfo ? (
+                <>
+                  {userInfo.favorite ? (
+                    <>
+                      <Button variant="outlined" onClick={handleToggleFavorite}>
+                        <StarIcon />
+                        Remove From Favorites
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="outlined" onClick={handleToggleFavorite}>
+                        <StarOutlineIcon />
+                        Add to Favorites
+                      </Button>
+                    </>
+                  )}
+                  <div>
+                    {userInfo.rating ? <ThumbUpIcon color="success" /> : <ThumbUpIcon />}
+                    {userInfo.rating === false ? <ThumbDownIcon color="error" /> : <ThumbDownIcon />}
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
               <p id="list-info-author">Created by {apiResult.createdBy}</p>
               <p id="list-info-description">{apiResult.description}</p>
               {currentUser?.userId === apiResult.userId ? (
