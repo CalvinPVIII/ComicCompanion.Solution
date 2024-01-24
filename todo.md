@@ -28,3 +28,4 @@
 - Tags?
 - Clean up helpers && Issue/Comic controllers
 - ~~Add some auth checking in create reading list~~
+- Max text length for reading list name/desc

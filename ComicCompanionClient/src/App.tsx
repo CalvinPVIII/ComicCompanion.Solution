@@ -20,6 +20,7 @@ import AppAlert from "./components/AppAlert";
 
 import { useSelector } from "react-redux";
 import { alertSelector } from "./redux/store";
+import UserDashboardPage from "./components/pages/UserDashboardPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -55,6 +56,7 @@ function App() {
             <Route path="/lists" element={<ReadingListsPage />} />
 
             <Route path="/account" element={<UserAuthPage />} />
+            <Route path="/dashboard" element={<UserDashboardPage />} />
 
             <Route path="/comics/:comicId" element={<ComicInfoPage />} />
             <Route path="/comics/:comicId/issue/:issueId" element={<IssuePage />} />

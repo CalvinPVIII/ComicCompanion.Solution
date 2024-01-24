@@ -187,4 +187,20 @@ export default class ComicCompanionAPIService {
     const jsonResponse = await response.json();
     return jsonResponse as RateReadingListAPIResponse;
   }
+
+  static async getReadingListsFromUser(userId: string, jwt: string, pageNumber?: number): Promise<ReadingListSearchResultAPIResponse> {
+    let fetchUrl = `${import.meta.env.VITE_API_URL}/readinglists?userId=${userId}`;
+    if (pageNumber) {
+      fetchUrl += `&page=${pageNumber}`;
+    }
+    const response = await fetch(fetchUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse as ReadingListSearchResultAPIResponse;
+  }
 }

@@ -22,7 +22,7 @@ public class ReadingListController : Controller
     public IActionResult Get([FromQuery] int page = 1, [FromQuery] string? userId = null, [FromQuery] string? userName = null, [FromQuery] string? listName = null)
     {
 
-        var readingListQuery = _db.ReadingLists.Include(l => l.Ratings).AsQueryable();
+        var readingListQuery = _db.ReadingLists.Include(l => l.Ratings).Include(l => l.User).AsQueryable();
 
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
 
@@ -53,8 +53,8 @@ public class ReadingListController : Controller
         }
 
 
-        int skipBy = (page - 1) * 10;
-        var readingLists = readingListQuery.Include(list => list.User).Skip(skipBy).Take(10).ToList().Select(readingList => new ReadingListDto(readingList, true));
+        int skipBy = (page - 1) * 100;
+        var readingLists = readingListQuery.Skip(skipBy).Take(100).ToList().Select(readingList => new ReadingListDto(readingList, true));
 
 
         // searching by user name?
@@ -70,7 +70,7 @@ public class ReadingListController : Controller
         //     return NotFound(new APIResponseDto("error", 404, "Not Found"));
         // }
 
-        int maxPage = (int)Math.Ceiling((double)_db.ReadingLists.Count() / 10);
+        int maxPage = (int)Math.Ceiling((double)_db.ReadingLists.Count() / 100);
         return Ok(new APIResponseDto("success", 200, readingLists, page, maxPage));
     }
 

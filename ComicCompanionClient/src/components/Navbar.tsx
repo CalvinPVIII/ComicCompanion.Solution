@@ -14,7 +14,7 @@ export default function NavBar() {
     home: 0,
     lists: 1,
     comics: 2,
-    account: 3,
+    dashboard: 3,
     settings: 4,
   };
 
@@ -25,8 +25,8 @@ export default function NavBar() {
       ? ICON_VALUES.lists
       : location.pathname.includes("/comic")
       ? ICON_VALUES.comics
-      : location.pathname.includes("/account")
-      ? ICON_VALUES.account
+      : location.pathname.includes("/dashboard")
+      ? ICON_VALUES.dashboard
       : location.pathname.includes("/settings")
       ? ICON_VALUES.settings
       : ICON_VALUES.home;
@@ -37,7 +37,7 @@ export default function NavBar() {
         <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction component={Link} to="/lists" label="Lists" icon={<ListAltIcon />} />
         <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
-        <BottomNavigationAction component={Link} to="/account" label="Account" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to="/dashboard" label="Dashboard" icon={<AccountCircleIcon />} />
         <BottomNavigationAction component={Link} to="/settings" label="Settings" icon={<SettingsIcon />} />
       </BottomNavigation>
     </div>
