@@ -57,3 +57,13 @@
   gap: 20px;
   width: 100px;
 }
+
+.active-dislike {
+  color: #f44336;
+  font-weight: 900;
+}
+
+.active-like {
+  color: #66bb6a;
+  font-weight: 900;
+}
