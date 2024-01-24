@@ -196,14 +196,16 @@ public class ReadingListController : Controller
                 rating.Positive = positive;
                 _db.ReadingListRatings.Update(rating);
                 _db.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, "Rating Updated"));
+                var data = new { message = "Rating Updated", content = new ReadingListDto(_db.ReadingLists.Include(l => l.Ratings).Include(l => l.User).FirstOrDefault(l => l.ReadingListId == readingListId), true) };
+                return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, data));
 
             }
             else if (rating.Positive == positive)
             {
                 _db.ReadingListRatings.Remove(rating);
                 _db.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, "Rating Removed"));
+                var data = new { message = "Rating Removed", content = new ReadingListDto(_db.ReadingLists.Include(l => l.Ratings).Include(l => l.User).FirstOrDefault(l => l.ReadingListId == readingListId), true) };
+                return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, data));
             }
         }
         if (rating == null)
@@ -212,7 +214,8 @@ public class ReadingListController : Controller
 
             _db.ReadingListRatings.Add(rating);
             _db.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, "Rating Posted"));
+            var data = new { message = "Rating Posted", content = new ReadingListDto(_db.ReadingLists.Include(l => l.Ratings).Include(l => l.User).FirstOrDefault(l => l.ReadingListId == readingListId), true) };
+            return StatusCode(StatusCodes.Status201Created, new APIResponseDto("success", 201, data));
 
         }
         else

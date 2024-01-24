@@ -40,6 +40,8 @@ export interface ReadingListDto {
   name: string;
   description: string;
   coverImg?: string;
+  likes: number;
+  dislikes: number;
   rating: number;
   createdBy: string;
 }
@@ -107,5 +109,8 @@ export interface FavoriteReadingListResponse extends APIResponse {
 }
 
 export interface RateReadingListAPIResponse extends APIResponse {
-  data: "Rating Posted" | "Rating Updated" | "Rating Removed" | "Bad Request";
+  data: {
+    message: "Rating Posted" | "Rating Updated" | "Rating Removed" | "Bad Request";
+    content: ReadingListDto;
+  };
 }

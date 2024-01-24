@@ -18,7 +18,9 @@ import { toggleCreating, setCurrentList } from "../../redux/listCreationSlice";
 
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import StarIcon from "@mui/icons-material/Star";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 interface ReadingListInfoProps {
@@ -96,14 +98,12 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
       return;
     }
     const response = await ComicCompanionAPIService.rateReadingList(apiResult.readingListId, rating, currentUser.token);
-    if (response.data === "Rating Posted" || response.data === "Rating Updated") {
-      setUserInfo({ ...userInfo, rating: rating });
-      rating ? setApiResult({ ...apiResult, rating: apiResult.rating + 1 }) : setApiResult({ ...apiResult, rating: apiResult.rating - 1 });
-    } else if (response.data === "Rating Removed") {
-      // look into how rating works better
+    if (userInfo.rating === rating) {
       setUserInfo({ ...userInfo, rating: null });
-      rating ? setApiResult({ ...apiResult, rating: apiResult.rating - 1 }) : setApiResult({ ...apiResult });
+    } else {
+      setUserInfo({ ...userInfo, rating: rating });
     }
+    setApiResult(response.data.content);
   };
 
   useEffect(() => {
@@ -141,38 +141,38 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
 
               <div id="rating-buttons">
                 {userInfo?.favorite ? (
-                  <>
-                    <Button variant="contained" onClick={handleToggleFavorite}>
-                      <StarIcon />
-                    </Button>
-                  </>
+                  <StarIcon onClick={handleToggleFavorite} color="primary" />
                 ) : (
-                  <>
-                    <Button variant="outlined" onClick={handleToggleFavorite}>
-                      <StarOutlineIcon />
-                    </Button>
-                  </>
+                  <StarOutlineIcon onClick={handleToggleFavorite} className="secondary-button" />
                 )}
 
-                {userInfo?.rating ? (
-                  <Button variant="outlined" color="success">
-                    <ThumbUpIcon color="success" onClick={() => handleRateReadingList(true)} />
-                  </Button>
-                ) : (
-                  <Button variant="outlined" color="secondary" className="secondary-button">
-                    <ThumbUpIcon onClick={() => handleRateReadingList(true)} />
-                  </Button>
-                )}
+                <div className="rating-button-content">
+                  {userInfo?.rating ? (
+                    <>
+                      <ThumbUpIcon color="success" onClick={() => handleRateReadingList(true)} />
+                      <span className="rating-number active-like">{apiResult?.likes}</span>
+                    </>
+                  ) : (
+                    <>
+                      <ThumbUpOutlinedIcon className="secondary-button" onClick={() => handleRateReadingList(true)} />
+                      <span className="rating-number secondary-button">{apiResult?.likes}</span>
+                    </>
+                  )}
+                </div>
 
-                {userInfo?.rating === false ? (
-                  <Button variant="outlined" color="error">
-                    <ThumbDownIcon color="error" onClick={() => handleRateReadingList(false)} />
-                  </Button>
-                ) : (
-                  <Button variant="outlined" color="secondary" className="secondary-button">
-                    <ThumbDownIcon onClick={() => handleRateReadingList(false)} />
-                  </Button>
-                )}
+                <div className="rating-button-content">
+                  {userInfo?.rating === false ? (
+                    <>
+                      <ThumbDownIcon color="error" onClick={() => handleRateReadingList(false)} />
+                      <span className="rating-number active-dislike">{apiResult?.dislikes}</span>
+                    </>
+                  ) : (
+                    <>
+                      <ThumbDownOutlinedIcon className="secondary-button" onClick={() => handleRateReadingList(false)} />
+                      <span className="rating-number secondary-button">{apiResult?.dislikes}</span>
+                    </>
+                  )}
+                </div>
               </div>
 
               <p id="list-info-author">Created by {apiResult.createdBy}</p>

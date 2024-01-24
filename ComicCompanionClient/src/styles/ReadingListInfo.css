@@ -38,3 +38,22 @@
 .secondary-button {
   opacity: 0.5;
 }
+
+.rating-button-content {
+  display: flex;
+  /* justify-content: space-around; */
+  gap: 7px;
+}
+
+.rating-number {
+  font-size: 16px;
+  margin-top: -1px;
+}
+
+#rating-buttons {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100px;
+}
