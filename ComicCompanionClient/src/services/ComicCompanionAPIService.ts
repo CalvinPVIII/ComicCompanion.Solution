@@ -203,4 +203,16 @@ export default class ComicCompanionAPIService {
     const jsonResponse = await response.json();
     return jsonResponse as ReadingListSearchResultAPIResponse;
   }
+
+  static async getFavoriteReadingLists(jwt: string): Promise<ReadingListSearchResultAPIResponse> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/favorite`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse as ReadingListSearchResultAPIResponse;
+  }
 }

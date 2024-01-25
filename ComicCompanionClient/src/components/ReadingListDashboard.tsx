@@ -10,6 +10,8 @@ import ReadingListGrid from "./Utility/ReadingListGrid";
 export default function ReadingListDashboard() {
   const [currentTab, setCurrentTab] = useState(1);
   const [userReadingLists, setUserReadingLists] = useState<ReadingListDto[] | null>(null);
+  const [favoriteReadingLists, setFavoriteReadingLists] = useState<ReadingListDto[] | null>(null);
+
   const handleTabChange = (event: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);
   };
@@ -27,8 +29,18 @@ export default function ReadingListDashboard() {
     };
     getUserLists();
   }, [currentUser]);
-  console.log(userReadingLists);
-  console.log(currentUser?.userId);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const getFavoriteLists = async () => {
+      const response = await ComicCompanionAPIService.getFavoriteReadingLists(currentUser.token);
+      console.log(response);
+      if (response.status === "success") {
+        setFavoriteReadingLists(response.data);
+      }
+    };
+    getFavoriteLists();
+  }, [currentUser]);
 
   return (
     <>
@@ -38,7 +50,13 @@ export default function ReadingListDashboard() {
       </Tabs>
       {currentTab === 1 ? (
         <>
-          <h1>Favorites</h1>
+          {favoriteReadingLists ? (
+            <>
+              <ReadingListGrid lists={favoriteReadingLists} />
+            </>
+          ) : (
+            <></>
+          )}
         </>
       ) : currentTab === 2 ? (
         <>

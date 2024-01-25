@@ -10,7 +10,7 @@ public class ReadingListController : Controller
 {
     private readonly ComicCompanionContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
-
+    private object l;
 
     public ReadingListController(ComicCompanionContext db, UserManager<ApplicationUser> userManager)
     {
@@ -120,6 +120,22 @@ public class ReadingListController : Controller
         ).Where(l => l.IsPrivate == false).OrderByDescending(readingList => readingList.Ratings.Where(rating => rating.Positive == true).Count() - readingList.Ratings.Where(rating => rating.Positive == false).Count()).ToList().Select(list => new ReadingListDto(list, false));
 
         return Ok(new APIResponseDto("success", 200, popularLists));
+    }
+
+    [HttpGet("ReadingLists/favorite")]
+    public IActionResult Favorites()
+    {
+        string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+        if (requestingUserId == null)
+        {
+            return NotFound(new APIResponseDto("error", 401, "Bad Request"));
+
+        }
+        else
+        {
+            var favorites = _db.UserReadingListFavorites.Where(fav => fav.UserId == requestingUserId).Include(fav => fav.ReadingList).ThenInclude(list => list.User).Include(fav => fav.ReadingList).ThenInclude(list => list.Ratings).ToList().Select(fav => new ReadingListDto(fav.ReadingList));
+            return Ok(new APIResponseDto("success", 200, favorites));
+        }
     }
 
     [HttpPost("ReadingLists")]
