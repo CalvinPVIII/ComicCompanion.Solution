@@ -48,29 +48,31 @@ export default function ReadingListDashboard() {
         <Tab label="Favorites" value={1} />
         <Tab label="Created" value={2} />
       </Tabs>
-      {currentTab === 1 ? (
-        <>
-          {favoriteReadingLists ? (
-            <>
-              <ReadingListGrid lists={favoriteReadingLists} />
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      ) : currentTab === 2 ? (
-        <>
-          {userReadingLists ? (
-            <>
-              <ReadingListGrid lists={userReadingLists} />
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      ) : (
-        <></>
-      )}
+      <div className="dashboard-content">
+        {currentTab === 1 ? (
+          <>
+            {favoriteReadingLists ? (
+              <>
+                <ReadingListGrid lists={favoriteReadingLists} />
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        ) : currentTab === 2 ? (
+          <>
+            {userReadingLists ? (
+              <>
+                <ReadingListGrid lists={userReadingLists} />
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
     </>
   );
 }

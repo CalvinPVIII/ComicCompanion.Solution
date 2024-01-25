@@ -12,7 +12,9 @@ export default function ReadingListGrid(props: ReadingListGridProps) {
         <Link to={`/lists/${list.readingListId}`} key={index}>
           <div className="grid-list-item" style={{ backgroundImage: `url(${list.coverImg})` }}>
             <div className="grid-list-text-wrapper">
-              <p className="grid-list-text">{list.name}</p>
+              <span className="text-wrapper">
+                <p className="grid-list-text">{list.name}</p>
+              </span>
             </div>
           </div>
         </Link>
