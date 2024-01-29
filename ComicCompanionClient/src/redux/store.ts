@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 
 import userReducer, { UserReducerState } from "./userSlice";
 import listCreationReducer, { ListCreationState } from "./listCreationSlice";
+import readingHistoryReducer, { ReadingHistoryState } from "./readingHistorySlice";
 import modalReducer, { ModalState } from "./modalSlice";
 import alertReducer, { AlertState } from "./alertSlice";
 
@@ -17,10 +18,12 @@ export interface ApplicationState {
   listCreation: ListCreationState;
   modal: ModalState;
   alert: AlertState;
+  readingHistory: ReadingHistoryState;
 }
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer); // not persisting?
+const persistedReadingHistoryReducer = persistReducer(persistConfig, readingHistoryReducer);
 
 const store = configureStore({
   reducer: {
@@ -28,6 +31,7 @@ const store = configureStore({
     listCreation: persistedListCreationReducer,
     modal: modalReducer,
     alert: alertReducer,
+    readingHistory: persistedReadingHistoryReducer,
   },
   devTools: true,
 });
@@ -46,3 +50,7 @@ export const modalOpenSelector = (state: ApplicationState) => state.modal.isOpen
 export const modalContentSelector = (state: ApplicationState) => state.modal.content;
 
 export const alertSelector = (state: ApplicationState) => state.alert;
+
+export const readingHistorySelector = (state: ApplicationState) => state.readingHistory.history;
+
+export const readingHistoryStatus = (state: ApplicationState) => state.readingHistory.paused;
