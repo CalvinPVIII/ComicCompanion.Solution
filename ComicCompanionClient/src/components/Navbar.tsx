@@ -32,14 +32,20 @@ export default function NavBar() {
       : ICON_VALUES.home;
 
   return (
-    <div className="bottom-nav">
-      <BottomNavigation showLabels value={value}>
-        <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction component={Link} to="/lists" label="Lists" icon={<ListAltIcon />} />
-        <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
-        <BottomNavigationAction component={Link} to="/dashboard" label="Dashboard" icon={<AccountCircleIcon />} />
-        <BottomNavigationAction component={Link} to="/settings" label="Settings" icon={<SettingsIcon />} />
-      </BottomNavigation>
-    </div>
+    <>
+      {location.pathname.includes("/issue") ? (
+        <></>
+      ) : (
+        <div className="bottom-nav">
+          <BottomNavigation showLabels value={value}>
+            <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
+            <BottomNavigationAction component={Link} to="/lists" label="Lists" icon={<ListAltIcon />} />
+            <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
+            <BottomNavigationAction component={Link} to="/dashboard" label="Dashboard" icon={<AccountCircleIcon />} />
+            <BottomNavigationAction component={Link} to="/settings" label="Settings" icon={<SettingsIcon />} />
+          </BottomNavigation>
+        </div>
+      )}
+    </>
   );
 }

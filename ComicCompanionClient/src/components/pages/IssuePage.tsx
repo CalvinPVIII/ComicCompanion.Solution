@@ -14,6 +14,9 @@ export default function IssuePage() {
   const [apiResponse, setApiResponse] = useState<Issue | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
+  const [portraitOrLandscape, setPortraitOrLandscape] = useState<"portrait" | "landscape">("portrait");
+
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -32,20 +35,44 @@ export default function IssuePage() {
     getData();
   }, [comicId, issueId]);
 
+  useEffect(() => {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    if (screenHeight > screenWidth) {
+      setPortraitOrLandscape("portrait");
+    } else {
+      setPortraitOrLandscape("landscape");
+    }
+  }, [window.innerHeight, window.innerWidth]);
+
+  const handleMoveToNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  console.log(portraitOrLandscape);
   return (
     <>
       {loading ? (
         <Loading />
       ) : !loading && error ? (
         <Alert severity="error">{error}</Alert>
-      ) : (
+      ) : apiResponse && apiResponse.pages ? (
         <>
-          <div className="pages">
+          <div className="page-wrapper">
+            <img
+              className={`${portraitOrLandscape}-page`}
+              src={apiResponse.pages[currentPage]}
+              alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
+              onClick={handleMoveToNextPage}
+            />
+          </div>
+          {/* <div className="pages">
             {apiResponse?.pages?.map((page, index) => (
               <img src={page} key={index} className="issue-page" />
             ))}
-          </div>
+          </div> */}
         </>
+      ) : (
+        <></>
       )}
     </>
   );

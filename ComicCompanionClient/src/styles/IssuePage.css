@@ -5,3 +5,18 @@
 .issue-page {
   width: 99vw;
 }
+
+.portrait-page {
+  /* width: 100vw; */
+  height: 100vh;
+}
+
+.landscape-page {
+  height: 100vh;
+  /* width: 100vw; */
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+}
