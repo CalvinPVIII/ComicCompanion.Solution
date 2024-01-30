@@ -1,22 +1,120 @@
-.pages {
-  margin: -30px;
-}
-
-.issue-page {
-  width: 99vw;
-}
-
-.portrait-page {
-  /* width: 100vw; */
-  height: 100vh;
-}
-
-.landscape-page {
-  height: 100vh;
-  /* width: 100vw; */
+.page {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: auto;
+  height: auto;
 }
 
 .page-wrapper {
   display: flex;
   justify-content: center;
+}
+
+.page-left {
+  width: 30vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  opacity: 0.5;
+}
+
+.page-right {
+  width: 30vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  opacity: 0.5;
+}
+
+.page-middle {
+  width: 40vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 30vw;
+  opacity: 0.5;
+}
+
+.page-navbar-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50vw;
+  transform: translate(-50%);
+  width: 100vw;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+}
+
+.page-navbar {
+  width: 80vw;
+  background-color: rgba(13, 7, 45, 0.772);
+  display: flex;
+  border-radius: 40px;
+}
+
+.page-navbar-wrapper:hover:not(.sticky) {
+  animation-duration: 0.2s;
+  animation-name: fadeIn;
+  opacity: 1;
+}
+
+.page-navbar-wrapper:not(hover):not(.sticky) {
+  animation-duration: 0.2s;
+  animation-name: fadeOut;
+}
+
+.slider-number {
+  margin: 10px;
+  display: flex;
+}
+
+.slider-number > svg {
+  cursor: pointer;
+}
+
+#page-slider {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+#slider-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.sticky {
+  opacity: 1;
+  animation-duration: 0.2s;
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

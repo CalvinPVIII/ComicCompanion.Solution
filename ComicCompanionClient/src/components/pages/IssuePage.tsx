@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { Issue } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert } from "@mui/material";
+import { Alert, Slider } from "@mui/material";
 useParams;
 import "../../styles/IssuePage.css";
 import Loading from "../Utility/Loading";
+
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 export default function IssuePage() {
   const { comicId, issueId } = useParams();
@@ -14,7 +17,11 @@ export default function IssuePage() {
   const [apiResponse, setApiResponse] = useState<Issue | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
-  const [portraitOrLandscape, setPortraitOrLandscape] = useState<"portrait" | "landscape">("portrait");
+  // const [portraitOrLandscape, setPortraitOrLandscape] = useState<"portrait" | "landscape">("portrait");
+
+  const [pageMenuVisible, setPageMenuVisible] = useState<boolean>(false);
+
+  const [navbarClass, setNavbarClass] = useState<"sticky" | "fade-in fade-out">("fade-in fade-out");
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -35,20 +42,42 @@ export default function IssuePage() {
     getData();
   }, [comicId, issueId]);
 
-  useEffect(() => {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    if (screenHeight > screenWidth) {
-      setPortraitOrLandscape("portrait");
-    } else {
-      setPortraitOrLandscape("landscape");
-    }
-  }, [window.innerHeight, window.innerWidth]);
-
   const handleMoveToNextPage = () => {
     setCurrentPage(currentPage + 1);
   };
-  console.log(portraitOrLandscape);
+
+  const handleMoveToPreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleMiddlePageClick = () => {
+    if (navbarClass === "sticky") {
+      setNavbarClass("fade-in fade-out");
+      setTimeout(() => {
+        setPageMenuVisible(false);
+      }, 200);
+    } else {
+      setNavbarClass("sticky");
+      setPageMenuVisible(true);
+    }
+    console.log("click");
+  };
+
+  const handleSlider = (event: Event, newValue: number | number[]) => {
+    setCurrentPage((newValue as number) - 1);
+  };
+
+  const handleBottomMouseEnter = () => {
+    setPageMenuVisible(true);
+  };
+  const handleBottomMouseLeave = () => {
+    if (navbarClass !== "sticky") {
+      setTimeout(() => {
+        setPageMenuVisible(false);
+      }, 200);
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -58,18 +87,42 @@ export default function IssuePage() {
       ) : apiResponse && apiResponse.pages ? (
         <>
           <div className="page-wrapper">
+            <div className="page-left" onClick={handleMoveToPreviousPage}></div>
+            <div className="page-middle" onClick={handleMiddlePageClick}></div>
+            <div className="page-right" onClick={handleMoveToNextPage}></div>
             <img
-              className={`${portraitOrLandscape}-page`}
+              className={`page`}
               src={apiResponse.pages[currentPage]}
               alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
-              onClick={handleMoveToNextPage}
             />
           </div>
-          {/* <div className="pages">
-            {apiResponse?.pages?.map((page, index) => (
-              <img src={page} key={index} className="issue-page" />
-            ))}
-          </div> */}
+          <div className={`page-navbar-wrapper ${navbarClass}`} onMouseEnter={handleBottomMouseEnter} onMouseLeave={handleBottomMouseLeave}>
+            {pageMenuVisible ? (
+              <div className="page-navbar">
+                <p className="slider-number">
+                  <ArrowBackIosIcon onClick={handleMoveToPreviousPage} />
+                  {currentPage + 1}
+                </p>
+                <div id="slider-wrapper">
+                  <Slider
+                    min={1}
+                    max={apiResponse.pages.length}
+                    step={1}
+                    valueLabelDisplay="auto"
+                    marks
+                    value={currentPage + 1}
+                    onChange={handleSlider}
+                    id="page-slider"
+                  />
+                </div>
+                <p className="slider-number">
+                  {apiResponse.pages.length} <ArrowForwardIosIcon onClick={handleMoveToNextPage} />
+                </p>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </>
       ) : (
         <></>
