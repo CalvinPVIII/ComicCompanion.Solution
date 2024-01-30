@@ -54,7 +54,6 @@
   padding-bottom: 50px;
   display: flex;
   justify-content: center;
-  opacity: 0;
 }
 
 .page-navbar {
@@ -62,17 +61,27 @@
   background-color: rgba(13, 7, 45, 0.772);
   display: flex;
   border-radius: 40px;
-}
-
-.page-navbar-wrapper:hover:not(.sticky) {
   animation-duration: 0.2s;
   animation-name: fadeIn;
   opacity: 1;
 }
 
-.page-navbar-wrapper:not(hover):not(.sticky) {
-  animation-duration: 0.2s;
-  animation-name: fadeOut;
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.772);
+  text-transform: capitalize;
+  z-index: 100;
+  width: 100vw;
+  display: flex;
+
+  justify-content: space-around;
+}
+
+#back-icon {
+  display: flex;
+  align-items: center;
 }
 
 .slider-number {
@@ -96,6 +105,24 @@
 }
 
 .sticky {
+  opacity: 1;
+  animation-duration: 0.2s;
+  animation-name: fadeIn;
+}
+
+.fade-in {
+  opacity: 1;
+  animation-duration: 0.2s;
+  animation-name: fadeIn;
+}
+
+.fade-out {
+  opacity: 1;
+  animation-duration: 0.2s;
+  animation-name: fade-out;
+}
+
+.page-header.none {
   opacity: 1;
   animation-duration: 0.2s;
   animation-name: fadeIn;
