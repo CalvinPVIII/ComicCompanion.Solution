@@ -56,3 +56,5 @@ export const readingHistorySelector = (state: ApplicationState) => state.reading
 export const readingHistoryStatusSelector = (state: ApplicationState) => state.readingHistory.paused;
 
 export const currentPlaylistSelector = (state: ApplicationState) => state.readingHistory.currentPlaylist;
+
+export const previousPageSelector = (state: ApplicationState) => state.readingHistory.previousPage;

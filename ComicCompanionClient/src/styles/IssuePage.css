@@ -66,6 +66,16 @@
   opacity: 1;
 }
 
+.page-header-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  z-index: 2;
+}
+
 .page-header {
   position: fixed;
   top: 0;
@@ -126,6 +136,14 @@
   opacity: 1;
   animation-duration: 0.2s;
   animation-name: fadeIn;
+}
+
+.next-issue-info {
+  text-align: center;
+}
+
+.next-issue-info > h2 {
+  text-transform: capitalize;
 }
 
 @keyframes fadeIn {

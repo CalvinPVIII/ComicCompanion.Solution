@@ -3,14 +3,14 @@ import "../../styles/IssuesList.css";
 import { SyntheticEvent, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
-import { setPlaylist } from "../../redux/readingHistorySlice";
+import { setPlaylist, setPreviousPage } from "../../redux/readingHistorySlice";
 import { Issue } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
 import React from "react";
@@ -29,6 +29,7 @@ export default function IssuesList(props: IssuesListProps) {
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">(props.defaultSorting || "descend");
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const isCreating = useSelector(isCreatingSelector);
 
@@ -72,6 +73,7 @@ export default function IssuesList(props: IssuesListProps) {
   const handleSetPlaylist = () => {
     if (props.issues) {
       dispatch(setPlaylist(props.issues.reverse()));
+      dispatch(setPreviousPage(location.pathname));
     }
   };
 
