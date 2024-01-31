@@ -1,10 +1,9 @@
 import { useDispatch } from "react-redux";
-// import { useSelector } from "react-redux";
 import { setUser } from "../../redux/userSlice";
-// import { userSelector } from "../../redux/store";
+import { Button } from "@mui/material";
+
 export default function SignOutButton() {
   const dispatch = useDispatch();
-  //   const currentUser = useSelector(userSelector);
 
   const signOut = () => {
     dispatch(setUser(null));
@@ -12,7 +11,9 @@ export default function SignOutButton() {
 
   return (
     <>
-      <h3 onClick={signOut}>Sign Out</h3>
+      <Button color="error" variant="outlined" onClick={signOut}>
+        Sign Out
+      </Button>
     </>
   );
 }

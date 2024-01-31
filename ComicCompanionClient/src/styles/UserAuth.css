@@ -7,6 +7,6 @@
   flex-flow: column;
   background-color: black;
   height: fit-content;
-  width: 50%;
+  width: max-content;
   padding: 40px;
 }

@@ -83,6 +83,7 @@ export default function SignInForm(props: AuthProps) {
         />
         {errorMessage ? <p className="auth-error">{errorMessage}</p> : <></>}
         {successMessage ? <p className="auth-success">{successMessage}</p> : <></>}
+        <br />
         <Button variant="contained" color="success" className="auth-form-button" onClick={handleForm}>
           Sign In
         </Button>

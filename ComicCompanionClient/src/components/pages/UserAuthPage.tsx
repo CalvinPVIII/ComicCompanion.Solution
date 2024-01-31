@@ -8,14 +8,15 @@ export default function UserAuthPage() {
 
   return (
     <>
-      <UserAuth />
       {currentUser ? (
         <>
-          <h1>{currentUser.email}</h1>
+          <h2> Current User: {currentUser.email}</h2>
           <SignOutButton />
         </>
       ) : (
-        <></>
+        <>
+          <UserAuth />
+        </>
       )}
     </>
   );

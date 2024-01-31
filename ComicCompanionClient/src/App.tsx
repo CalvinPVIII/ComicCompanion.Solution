@@ -21,6 +21,7 @@ import AppAlert from "./components/AppAlert";
 import { useSelector } from "react-redux";
 import { alertSelector } from "./redux/store";
 import UserDashboardPage from "./components/pages/UserDashboardPage";
+import SettingsPage from "./components/pages/SettingsPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -63,6 +64,7 @@ function App() {
 
             <Route path="/lists/new" element={<NewReadingListPage />} />
             <Route path="/lists/:listId" element={<ReadingListInfoPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </div>
         <NavBar />

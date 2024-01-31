@@ -1,0 +1,8 @@
+.settings-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.settings-link:hover {
+  font-weight: 700;
+}
