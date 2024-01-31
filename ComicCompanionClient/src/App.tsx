@@ -15,7 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import GlobalModal from "./components/GlobalModal";
 import ReadingListFAB from "./components/ReadingListFAB";
-import UserAuthPage from "./components/pages/UserAuthPage";
+import UserSettingsPage from "./components/pages/UserSettingsPage";
 import AppAlert from "./components/AppAlert";
 
 import { useSelector } from "react-redux";
@@ -56,7 +56,7 @@ function App() {
             <Route path="/comics" element={<ComicPage />} />
             <Route path="/lists" element={<ReadingListsPage />} />
 
-            <Route path="/account" element={<UserAuthPage />} />
+            <Route path="/account" element={<UserSettingsPage />} />
             <Route path="/dashboard" element={<UserDashboardPage />} />
 
             <Route path="/comics/:comicId" element={<ComicInfoPage />} />

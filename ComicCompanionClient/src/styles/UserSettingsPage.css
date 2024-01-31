@@ -1,0 +1,29 @@
+.update-inputs-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.update-inputs {
+  display: flex;
+  flex-flow: column;
+}
+.input-fields {
+  display: flex;
+  flex-flow: column;
+  width: fit-content;
+}
+
+.confirm-settings-content {
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  width: fit-content;
+  border: 1px solid rgb(44, 42, 42);
+  padding: 75px;
+  background-color: black;
+  position: absolute;
+
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%);
+}

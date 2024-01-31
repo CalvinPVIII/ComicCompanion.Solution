@@ -9,6 +9,8 @@ import {
   ReadingListSearchResultAPIResponse,
   ReadingListWithUserInfoAPIResponse,
   SearchResultDto,
+  UpdateUserData,
+  UpdateUserResponse,
   UserAuthResponse,
   UserReadingListPostRequest,
 } from "../types";
@@ -214,5 +216,18 @@ export default class ComicCompanionAPIService {
     });
     const jsonResponse = await response.json();
     return jsonResponse as ReadingListSearchResultAPIResponse;
+  }
+
+  static async updateUser(jwt: string, userInfo: UpdateUserData): Promise<UpdateUserResponse> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/update`, {
+      method: "PATCH",
+      body: JSON.stringify(userInfo),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse as UpdateUserResponse;
   }
 }

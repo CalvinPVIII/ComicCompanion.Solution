@@ -3,17 +3,29 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector } from "../../redux/store";
 import { toggleModal, setContent } from "../../redux/modalSlice";
+import { useNavigate } from "react-router-dom";
 
 import "../../styles/SettingsPage.css";
 import SignOutButton from "../Utility/SignOutButton";
 export default function SettingsPage() {
   const currentUser = useSelector(userSelector);
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
-  const handleSignIn = () => {
+  const toggleSignInModal = () => {
     dispatch(setContent({ type: "User Auth" }));
     dispatch(toggleModal(true));
   };
+
+  const handleUserSettingsClick = () => {
+    if (!currentUser) {
+      toggleSignInModal();
+      return;
+    } else {
+      nav("/account");
+    }
+  };
+
   return (
     <>
       <div>
@@ -22,12 +34,12 @@ export default function SettingsPage() {
       {currentUser ? (
         <SignOutButton />
       ) : (
-        <p className="settings-link" onClick={handleSignIn}>
+        <p className="settings-link" onClick={toggleSignInModal}>
           Sign In
         </p>
       )}
       <List>
-        <ListItemButton>
+        <ListItemButton onClick={handleUserSettingsClick}>
           <ListItem>
             <ListItemIcon>
               <PersonIcon />

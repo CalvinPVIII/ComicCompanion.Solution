@@ -114,3 +114,15 @@ export interface RateReadingListAPIResponse extends APIResponse {
     content: ReadingListDto;
   };
 }
+
+export interface UpdateUserData {
+  userName?: string;
+  password?: string;
+  email?: string;
+}
+
+export interface UpdateUserResponse {
+  status: "success" | "error";
+  statusCode: 401 | 404 | 200;
+  data: "Unauthorized" | "No user found" | "User Info Updated";
+}

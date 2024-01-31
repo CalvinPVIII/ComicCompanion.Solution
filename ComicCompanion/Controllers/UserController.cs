@@ -74,6 +74,42 @@ namespace ComicCompanion.Controllers
 
         }
 
+        [HttpPatch("Update")]
+        public async Task<IActionResult> Update([FromBody] UpdateUserDto userInfo)
+        {
+            var requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
+            var user = await _userManager.FindByIdAsync(requestingUserId);
+            if (user == null)
+            {
+                return NotFound(new APIResponseDto("error", 404, "No user found"));
+            }
+            var originalPasswordCheck = await _signInManager.CheckPasswordSignInAsync(user, userInfo.OriginalPassword, false);
+            if (userInfo.UserId != requestingUserId || originalPasswordCheck.IsNotAllowed == true)
+            {
+                return Unauthorized(new APIResponseDto("error", 401, "Unauthorized"));
+            }
+
+
+            if (userInfo.UserName != null)
+            {
+                user.UserName = userInfo.UserName;
+            }
+            if (userInfo.Email != null)
+            {
+                user.Email = userInfo.Email;
+            }
+            if (userInfo.Password != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, token, userInfo.Password);
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok(new APIResponseDto("success", 200, "User Info Updated"));
+
+        }
+
 
         private string CreateToken(List<Claim> authClaims)
         {
