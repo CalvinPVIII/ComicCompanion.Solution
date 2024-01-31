@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
+import { setPlaylist } from "../../redux/readingHistorySlice";
 import { Issue } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
 import React from "react";
@@ -68,6 +69,12 @@ export default function IssuesList(props: IssuesListProps) {
     addComicAlert(dispatch);
   };
 
+  const handleSetPlaylist = () => {
+    if (props.issues) {
+      dispatch(setPlaylist(props.issues.reverse()));
+    }
+  };
+
   const issueAutoComplete = props.showComicNames
     ? props.issues?.map((issue) => `${issue.comicId} Issue - ${issue.issueId}`)
     : props.issues?.map((issue) => issue.issueId);
@@ -98,7 +105,7 @@ export default function IssuesList(props: IssuesListProps) {
             </ListSubheader>
             {issueList.map((issue, index) => (
               <React.Fragment key={index}>
-                <ListItem>
+                <ListItem onClick={handleSetPlaylist}>
                   <div className="issue-list-items">
                     <ListItemButton>
                       <Link to={`/comics/${issue.comicId}/issue/${issue.issueId}`} className="issue-link">

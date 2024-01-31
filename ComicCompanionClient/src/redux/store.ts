@@ -53,4 +53,6 @@ export const alertSelector = (state: ApplicationState) => state.alert;
 
 export const readingHistorySelector = (state: ApplicationState) => state.readingHistory.history;
 
-export const readingHistoryStatus = (state: ApplicationState) => state.readingHistory.paused;
+export const readingHistoryStatusSelector = (state: ApplicationState) => state.readingHistory.paused;
+
+export const currentPlaylistSelector = (state: ApplicationState) => state.readingHistory.currentPlaylist;

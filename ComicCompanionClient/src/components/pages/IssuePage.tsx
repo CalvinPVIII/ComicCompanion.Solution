@@ -8,12 +8,18 @@ useParams;
 import "../../styles/IssuePage.css";
 import Loading from "../Utility/Loading";
 
+import { useSelector } from "react-redux";
+import { currentPlaylistSelector } from "../../redux/store";
+
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+import { useNavigate } from "react-router-dom";
+
 export default function IssuePage() {
   const { comicId, issueId } = useParams();
+  const nav = useNavigate();
 
   const [apiResponse, setApiResponse] = useState<Issue | null>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,6 +32,9 @@ export default function IssuePage() {
   const [overlayClass, setOverlayClass] = useState("fade-out");
 
   const [currentPage, setCurrentPage] = useState(0);
+
+  const currentPlaylist = useSelector(currentPlaylistSelector);
+  const [playlistIssueInfo, setPlaylistIssueInfo] = useState({ next: 0, prev: 0, current: 0 });
 
   useEffect(() => {
     const getData = async () => {
@@ -44,15 +53,39 @@ export default function IssuePage() {
     getData();
   }, [comicId, issueId]);
 
+  useEffect(() => {
+    if (apiResponse) {
+      const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.comicId + issue.issueId === apiResponse?.comicId + apiResponse?.issueId);
+      console.log(indexOfCurrentIssue);
+      const newPlaylistInfo = { next: indexOfCurrentIssue, prev: indexOfCurrentIssue, current: indexOfCurrentIssue };
+      if (currentPlaylist[indexOfCurrentIssue + 1]) {
+        newPlaylistInfo.next = indexOfCurrentIssue + 1;
+      }
+      if (currentPlaylist[indexOfCurrentIssue - 1]) {
+        newPlaylistInfo.prev = indexOfCurrentIssue - 1;
+      }
+      setPlaylistIssueInfo(newPlaylistInfo);
+    }
+  }, [apiResponse]);
+
   const handleMoveToNextPage = () => {
-    if (currentPage + 1 !== apiResponse?.pages?.length) {
-      setCurrentPage(currentPage + 1);
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    if (apiResponse && apiResponse.pages) {
+      if (nextPage === apiResponse?.pages?.length + 1) {
+        setCurrentPage(0);
+        nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
+      }
     }
   };
 
   const handleMoveToPreviousPage = () => {
-    if (currentPage - 1 !== -1) {
-      setCurrentPage(currentPage - 1);
+    const nextPage = currentPage - 1;
+    setCurrentPage(nextPage);
+
+    if (nextPage === -2) {
+      setCurrentPage(0);
+      nav(`/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].issueId}`);
     }
   };
 
@@ -121,11 +154,17 @@ export default function IssuePage() {
             <div className="page-left" onClick={handleMoveToPreviousPage}></div>
             <div className="page-middle" onClick={handleMiddlePageClick}></div>
             <div className="page-right" onClick={handleMoveToNextPage}></div>
-            <img
-              className={`page`}
-              src={apiResponse.pages[currentPage]}
-              alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
-            />
+            {currentPage + 1 > apiResponse.pages.length ? (
+              <h1>NEXT ISSUE</h1>
+            ) : currentPage - 1 === -2 ? (
+              <h1>PREV ISSUE</h1>
+            ) : (
+              <img
+                className={`page`}
+                src={apiResponse.pages[currentPage]}
+                alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
+              />
+            )}
           </div>
           <div className={`page-navbar-wrapper ${overlayClass}`} onMouseEnter={handleMouseEnter} onMouseLeave={handelMouseLeave}>
             {pageMenuVisible ? (

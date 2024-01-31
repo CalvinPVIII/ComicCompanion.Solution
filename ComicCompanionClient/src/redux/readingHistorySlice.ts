@@ -9,9 +9,10 @@ type HistoryItem = {
 export interface ReadingHistoryState {
   history: HistoryItem[];
   paused: boolean;
+  currentPlaylist: Issue[];
 }
 
-const initialState: ReadingHistoryState = { history: [], paused: false };
+const initialState: ReadingHistoryState = { history: [], paused: false, currentPlaylist: [] };
 
 const readingHistorySlice = createSlice({
   name: "readingHistory",
@@ -36,9 +37,12 @@ const readingHistorySlice = createSlice({
     togglePauseHistory: (state, action: PayloadAction<boolean>) => {
       state.paused = action.payload;
     },
+    setPlaylist: (state, action: PayloadAction<Issue[]>) => {
+      state.currentPlaylist = action.payload;
+    },
   },
 });
 
-export const { updateHistory, removeFromHistory, togglePauseHistory } = readingHistorySlice.actions;
+export const { updateHistory, removeFromHistory, togglePauseHistory, setPlaylist } = readingHistorySlice.actions;
 
 export default readingHistorySlice.reducer;
