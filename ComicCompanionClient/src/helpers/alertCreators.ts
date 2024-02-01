@@ -8,3 +8,10 @@ export const addComicAlert = (dispatch: Dispatch) => {
     dispatch(setAlert({ message: "Added issue", severity: "success", durationInSeconds: 2, visible: true }));
   }, 70);
 };
+
+export const successfulUserUpdate = (dispatch: Dispatch) => {
+  dispatch(toggleAlert(false));
+  setTimeout(() => {
+    dispatch(setAlert({ message: "User Info Updated", severity: "success", durationInSeconds: 2, visible: true }));
+  }, 70);
+};

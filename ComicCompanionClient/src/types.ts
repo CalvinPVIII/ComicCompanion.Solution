@@ -119,6 +119,8 @@ export interface UpdateUserData {
   userName?: string;
   password?: string;
   email?: string;
+  userId: string;
+  originalPassword: string;
 }
 
 export interface UpdateUserResponse {

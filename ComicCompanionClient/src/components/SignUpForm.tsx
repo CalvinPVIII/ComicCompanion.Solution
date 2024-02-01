@@ -70,7 +70,7 @@ export default function SignUpForm(props: AuthProps) {
       } else if (result.status === "success") {
         const userInfo = result.data as UserInfo;
         dispatch(setUser(userInfo));
-        setSuccessMessage("Successfully Sign In");
+        setSuccessMessage("Successfully Signed In");
         if (props.onAuthCallback) {
           props.onAuthCallback();
         } else {

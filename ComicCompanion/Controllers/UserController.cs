@@ -92,21 +92,37 @@ namespace ComicCompanion.Controllers
 
             if (userInfo.UserName != null)
             {
+
                 user.UserName = userInfo.UserName;
+
+
+
             }
             if (userInfo.Email != null)
             {
-                user.Email = userInfo.Email;
+                var token = await _userManager.GenerateChangeEmailTokenAsync(user, userInfo.Email);
+                var changeResult = await _userManager.SetEmailAsync(user, userInfo.Email);
+                await _userManager.ConfirmEmailAsync(user, token);
+
             }
             if (userInfo.Password != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var result = await _userManager.ResetPasswordAsync(user, token, userInfo.Password);
+                var changeResult = await _userManager.ResetPasswordAsync(user, token, userInfo.Password);
             }
 
-            await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(new APIResponseDto("success", 200, "User Info Updated"));
 
-            return Ok(new APIResponseDto("success", 200, "User Info Updated"));
+            }
+            else
+            {
+                return BadRequest(new APIResponseDto("error", 400, string.Join(" ", result.Errors)));
+            }
+
+
 
         }
 
