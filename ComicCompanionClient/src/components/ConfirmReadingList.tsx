@@ -80,6 +80,10 @@ export default function ConfirmReadingList() {
     }
   };
 
+  const handleCancel = () => {
+    dispatch(toggleModal(false));
+  };
+
   if (readingList) {
     return (
       <div id="confirm-reading-list-modal">
@@ -112,7 +116,7 @@ export default function ConfirmReadingList() {
           <Button variant="contained" color="success" onClick={handleSubmit}>
             Create
           </Button>
-          <Button variant="outlined" color="error">
+          <Button variant="outlined" color="error" onClick={handleCancel}>
             Cancel
           </Button>
         </div>

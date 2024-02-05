@@ -78,6 +78,7 @@ export default function ReadingListForm() {
               variant="standard"
               value={list.name}
               error={listNameError}
+              inputProps={{ maxLength: 50 }}
               onChange={(e) => handleUpdateProperty("name", e.target.value)}
             />
             <TextField
@@ -86,6 +87,7 @@ export default function ReadingListForm() {
               multiline
               rows={4}
               variant="standard"
+              inputProps={{ maxLength: 250 }}
               value={list.description}
               error={listDescriptionError}
               onChange={(e) => handleUpdateProperty("description", e.target.value)}

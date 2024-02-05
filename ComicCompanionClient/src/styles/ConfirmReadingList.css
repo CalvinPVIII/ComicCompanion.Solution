@@ -9,6 +9,11 @@
   margin-right: 20px;
 }
 
+#confirm-desc > p {
+  word-wrap: break-word;
+  width: 50%;
+}
+
 #confirm-buttons {
   margin: auto;
   width: max-content;

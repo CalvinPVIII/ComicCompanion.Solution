@@ -5,6 +5,7 @@
   width: fit-content;
   gap: 20px;
   justify-content: center;
+  max-width: 75%;
 }
 
 #list-info-header {
@@ -15,9 +16,15 @@
 #list-info-author {
   font-style: italic;
 }
-
+#list-info-description {
+  word-wrap: break-word;
+}
 .list-info > img {
   width: 300px;
+}
+
+.list-info-bottom-section {
+  max-width: 50%;
 }
 
 #confirm-delete-modal {

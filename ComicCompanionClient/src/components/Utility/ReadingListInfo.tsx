@@ -136,7 +136,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
         <>
           <div className="list-info">
             {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
-            <div>
+            <div className="list-info-bottom-section">
               <p id="list-info-header">{apiResult.name}</p>
 
               <div id="rating-buttons">
