@@ -44,20 +44,20 @@ export default function SettingsPage() {
         </p>
       )}
       <List>
-        <ListItemButton onClick={handleUserSettingsClick}>
-          <ListItem>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText>User Settings</ListItemText>
-          </ListItem>
-        </ListItemButton>
         <ListItemButton onClick={handleLibrarySettingsClick}>
           <ListItem>
             <ListItemIcon>
               <CollectionsBookmarkIcon />
             </ListItemIcon>
             <ListItemText>Library Settings</ListItemText>
+          </ListItem>
+        </ListItemButton>
+        <ListItemButton onClick={handleUserSettingsClick}>
+          <ListItem>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText>User Settings</ListItemText>
           </ListItem>
         </ListItemButton>
       </List>

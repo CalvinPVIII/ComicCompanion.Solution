@@ -6,6 +6,8 @@ import { getErrorMessage } from "../../helpers/helperFunctions";
 import { Alert } from "@mui/material";
 import IssuesList from "./IssuesList";
 import Loading from "./Loading";
+import AddIcon from "@mui/icons-material/Add";
+import AddToLibraryModal from "./AddToLibraryModal";
 interface ComicInfoProps {
   comicId: string;
 }
@@ -15,6 +17,9 @@ export default function ComicInfo(props: ComicInfoProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [issuesArray, setIssuesArray] = useState<Issue[] | null>(null);
+  const [libraryModalOpen, setLibraryModalOpen] = useState(false);
+  const openLibraryModel = () => setLibraryModalOpen(true);
+  const closeLibraryModel = () => setLibraryModalOpen(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -36,11 +41,18 @@ export default function ComicInfo(props: ComicInfoProps) {
   return (
     <>
       {!loading && apiResult ? (
-        <div className="comic-info">
-          <h1>{apiResult.name}</h1>
-          <img src={apiResult.coverImg} alt={apiResult.name} />
-          <IssuesList showComicNames={false} issues={issuesArray} />
-        </div>
+        <>
+          <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} />
+          <div className="comic-info">
+            <h1>{apiResult.name}</h1>
+            <img src={apiResult.coverImg} alt={apiResult.name} />
+            <div id="add-to-library-icon" onClick={openLibraryModel}>
+              <AddIcon />
+              <p>Add to library</p>
+            </div>
+            <IssuesList showComicNames={false} issues={issuesArray} />
+          </div>
+        </>
       ) : !loading && error ? (
         <>
           <Alert severity="error">{error} </Alert>

@@ -15,6 +15,11 @@ type AddComicAction = {
   comic: Comic;
 };
 
+type UpdateTagAction = {
+  tagId: string;
+  name: string;
+};
+
 const librarySlice = createSlice({
   name: "library",
   initialState,
@@ -37,9 +42,12 @@ const librarySlice = createSlice({
     removeTag: (state, action: PayloadAction<string>) => {
       delete state.libraryCategories[action.payload];
     },
+    updateTag: (state, action: PayloadAction<UpdateTagAction>) => {
+      state.libraryCategories[action.payload.tagId].tagName = action.payload.name;
+    },
   },
 });
 
-export const { addComic, removeComic, addTag, removeTag } = librarySlice.actions;
+export const { addComic, removeComic, addTag, removeTag, updateTag } = librarySlice.actions;
 
 export default librarySlice.reducer;

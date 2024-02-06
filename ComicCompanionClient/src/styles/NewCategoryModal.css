@@ -1,0 +1,8 @@
+#new-category-modal-form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-top: 10vw;
+  gap: 20px;
+  background-color: black;
+}

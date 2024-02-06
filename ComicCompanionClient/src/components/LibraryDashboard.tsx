@@ -1,29 +1,25 @@
 import "../styles/LibraryDashboard.css";
 import { Tabs, Tab } from "@mui/material";
 import { useState } from "react";
-
+import { useSelector } from "react-redux";
+import { librarySelector } from "../redux/store";
 export default function LibraryDashboard() {
+  const library = useSelector(librarySelector);
+  const categoriesArray = Object.values(library.libraryCategories);
   const [currentTab, setCurrentTab] = useState(1);
-  const handleTabChange = (event: React.SyntheticEvent, value: number) => {
+  const [currentCategory, setCurrentCategory] = useState(categoriesArray[0]);
+  const handleTabChange = (_: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);
+    setCurrentCategory(categoriesArray[value - 1]);
   };
   return (
     <>
       <Tabs onChange={handleTabChange} value={currentTab}>
-        <Tab label="Example category one" value={1} />
-        <Tab label="Example category two" value={2} />
+        {categoriesArray.map((cat, index) => (
+          <Tab label={cat.tagName} value={index + 1} key={index + 1} />
+        ))}
       </Tabs>
-      {currentTab === 1 ? (
-        <>
-          <h1>Favorites</h1>
-        </>
-      ) : currentTab === 2 ? (
-        <>
-          <h1>Created</h1>
-        </>
-      ) : (
-        <></>
-      )}
+      <h1>{currentCategory.tagName}</h1>
     </>
   );
 }
