@@ -1,5 +1,6 @@
 import { List, ListItem, ListItemText, ListItemIcon, ListItemButton } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector } from "../../redux/store";
 import { toggleModal, setContent } from "../../redux/modalSlice";
@@ -26,6 +27,10 @@ export default function SettingsPage() {
     }
   };
 
+  const handleLibrarySettingsClick = () => {
+    nav("/settings/library");
+  };
+
   return (
     <>
       <div>
@@ -45,6 +50,14 @@ export default function SettingsPage() {
               <PersonIcon />
             </ListItemIcon>
             <ListItemText>User Settings</ListItemText>
+          </ListItem>
+        </ListItemButton>
+        <ListItemButton onClick={handleLibrarySettingsClick}>
+          <ListItem>
+            <ListItemIcon>
+              <CollectionsBookmarkIcon />
+            </ListItemIcon>
+            <ListItemText>Library Settings</ListItemText>
           </ListItem>
         </ListItemButton>
       </List>

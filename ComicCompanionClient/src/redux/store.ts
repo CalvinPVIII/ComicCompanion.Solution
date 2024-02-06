@@ -7,6 +7,7 @@ import listCreationReducer, { ListCreationState } from "./listCreationSlice";
 import readingHistoryReducer, { ReadingHistoryState } from "./readingHistorySlice";
 import modalReducer, { ModalState } from "./modalSlice";
 import alertReducer, { AlertState } from "./alertSlice";
+import libraryReducer, { LibraryState } from "./librarySlice";
 
 const persistConfig = {
   key: "root",
@@ -19,11 +20,13 @@ export interface ApplicationState {
   modal: ModalState;
   alert: AlertState;
   readingHistory: ReadingHistoryState;
+  library: LibraryState;
 }
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
-const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer); // not persisting?
+const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer);
 const persistedReadingHistoryReducer = persistReducer(persistConfig, readingHistoryReducer);
+const persistedLibraryReducer = persistReducer(persistConfig, libraryReducer);
 
 const store = configureStore({
   reducer: {
@@ -32,6 +35,7 @@ const store = configureStore({
     modal: modalReducer,
     alert: alertReducer,
     readingHistory: persistedReadingHistoryReducer,
+    library: persistedLibraryReducer,
   },
   devTools: true,
 });
@@ -58,3 +62,5 @@ export const readingHistoryStatusSelector = (state: ApplicationState) => state.r
 export const currentPlaylistSelector = (state: ApplicationState) => state.readingHistory.currentPlaylist;
 
 export const previousPageSelector = (state: ApplicationState) => state.readingHistory.previousPage;
+
+export const librarySelector = (state: ApplicationState) => state.library;

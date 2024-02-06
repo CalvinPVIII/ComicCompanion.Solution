@@ -17,3 +17,13 @@ a {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.settings-header > a {
+  margin-top: 10px;
+}

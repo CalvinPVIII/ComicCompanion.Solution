@@ -5,7 +5,8 @@ import UserAuth from "../Utility/UserAuth";
 import SignOutButton from "../Utility/SignOutButton";
 import { TextField, Modal, Button } from "@mui/material";
 import { useState } from "react";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link } from "react-router-dom";
 import "../../styles/UserSettingsPage.css";
 import { UpdateUserData } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
@@ -132,7 +133,12 @@ export default function UserSettingsPage() {
             </div>
           </Modal>
 
-          <h2>Update User Settings</h2>
+          <div className="settings-header">
+            <Link to="/settings">
+              <ArrowBackIcon />
+            </Link>
+            <h2>User Settings</h2>
+          </div>
           <div className="update-inputs-wrapper">
             <div className="update-inputs">
               <div className="input-fields">
