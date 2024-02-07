@@ -24,7 +24,7 @@ export default function ManageCategoryItem(props: ManageCategoryItemProps) {
 
   const confirmEdit = () => {
     setIsEditing(false);
-    dispatch(updateTag({ tagId: info.tagId, name: inputValue }));
+    dispatch(updateTag({ tagId: info.tagId, name: inputValue, readingListOrComic: "comic" }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +37,8 @@ export default function ManageCategoryItem(props: ManageCategoryItemProps) {
   };
 
   const handleDelete = () => {
-    dispatch(removeTag(info.tagId));
+    dispatch(removeTag({ tagId: info.tagId, readingListOrComic: "comic" }));
+    setConfirmDelete(false);
   };
 
   const toggleConfirmDelete = () => {

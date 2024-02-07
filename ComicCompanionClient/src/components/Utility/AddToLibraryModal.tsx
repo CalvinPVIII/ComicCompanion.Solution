@@ -35,7 +35,12 @@ export default function AddToLibraryModal(props: AddToLibraryModalProps) {
   return (
     <Modal open={props.open} onClose={props.setClose}>
       <div id="add-library-modal-wrapper">
-        <NewCategoryModal open={addCatModalOpen} setClose={handleCloseCatModal} addCategoryCallback={handleAddingComicToLibrary} />
+        <NewCategoryModal
+          open={addCatModalOpen}
+          setClose={handleCloseCatModal}
+          addCategoryCallback={handleAddingComicToLibrary}
+          readingListOrComic="comic"
+        />
         <div id="add-to-library-modal">
           <h4>Add to library</h4>
           <div className="category-options">

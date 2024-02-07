@@ -29,7 +29,7 @@ export default function LibrarySettingsPage() {
         </Link>
         <h2>Library Settings</h2>
       </div>
-      <NewCategoryModal open={modalOpen} setClose={handleClose} />
+      <NewCategoryModal open={modalOpen} setClose={handleClose} readingListOrComic="comic" />
       <div>
         <List>
           <ListItemButton onClick={handleToggleCatSettings}>

@@ -9,13 +9,16 @@ interface NewCategoryModalProps {
   open: boolean;
   setClose: () => void;
   addCategoryCallback?: (tagId: string) => void;
+  readingListOrComic: "readingList" | "comic";
 }
 
 export default function NewCategoryModal(props: NewCategoryModalProps) {
   const [inputValue, setInputValue] = useState("");
   const [inputError, setInputError] = useState(false);
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    if (inputValue.length <= 25) {
+      setInputValue(e.target.value);
+    }
   };
   const dispatch = useDispatch();
 
@@ -27,7 +30,7 @@ export default function NewCategoryModal(props: NewCategoryModalProps) {
       return;
     }
     const tagId = uuidv4();
-    dispatch(addTag({ tagId: tagId, name: inputValue }));
+    dispatch(addTag({ tagId: tagId, name: inputValue, readingListOrComic: props.readingListOrComic }));
     if (props.addCategoryCallback) {
       props.addCategoryCallback(tagId);
     }

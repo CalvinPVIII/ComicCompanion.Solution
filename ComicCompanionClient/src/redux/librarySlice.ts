@@ -1,12 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Comic } from "../types";
+import { Comic, ReadingListDto } from "../types";
 
 export interface LibraryState {
   libraryCategories: { [key: string]: { tagName: string; comics: Comic[]; tagId: string } };
+  readingListCategories: { [key: string]: { tagName: string; readingLists: ReadingListDto[]; tagId: string } };
 }
 
 const initialState: LibraryState = {
   libraryCategories: { "1": { tagName: "default", comics: [], tagId: "1" } },
+  readingListCategories: {},
 };
 
 type AddComicAction = {
@@ -17,6 +19,17 @@ type AddComicAction = {
 type TagAction = {
   tagId: string;
   name: string;
+  readingListOrComic: "comic" | "readingList";
+};
+
+type AddReadingListAction = {
+  tagId: string;
+  readingList: ReadingListDto;
+};
+
+type DeleteTagAction = {
+  tagId: string;
+  readingListOrComic: "comic" | "readingList";
 };
 
 const librarySlice = createSlice({
@@ -34,18 +47,45 @@ const librarySlice = createSlice({
       );
       state.libraryCategories[action.payload.tagId].comics = updatedCategoryComics;
     },
-    addTag: (state, action: PayloadAction<TagAction>) => {
-      state.libraryCategories[action.payload.tagId] = { tagName: action.payload.name, comics: [], tagId: action.payload.tagId };
+    addReadingList: (state, action: PayloadAction<AddReadingListAction>) => {
+      if (
+        state.readingListCategories[action.payload.tagId].readingLists.findIndex(
+          (readingList) => readingList.readingListId === action.payload.readingList.readingListId
+        )
+      ) {
+        state.readingListCategories[action.payload.tagId].readingLists.push(action.payload.readingList);
+      }
     },
-    removeTag: (state, action: PayloadAction<string>) => {
-      delete state.libraryCategories[action.payload];
+    removeReadingList: (state, action: PayloadAction<AddReadingListAction>) => {
+      const updatedCategoryComics = state.readingListCategories[action.payload.tagId].readingLists.filter(
+        (readingList) => readingList.readingListId !== action.payload.readingList.readingListId
+      );
+      state.readingListCategories[action.payload.tagId].readingLists = updatedCategoryComics;
+    },
+    addTag: (state, action: PayloadAction<TagAction>) => {
+      if (action.payload.readingListOrComic === "comic") {
+        state.libraryCategories[action.payload.tagId] = { tagName: action.payload.name, comics: [], tagId: action.payload.tagId };
+      } else {
+        state.readingListCategories[action.payload.tagId] = { tagName: action.payload.name, readingLists: [], tagId: action.payload.tagId };
+      }
+    },
+    removeTag: (state, action: PayloadAction<DeleteTagAction>) => {
+      if (action.payload.readingListOrComic === "comic") {
+        delete state.libraryCategories[action.payload.tagId];
+      } else {
+        delete state.readingListCategories[action.payload.tagId];
+      }
     },
     updateTag: (state, action: PayloadAction<TagAction>) => {
-      state.libraryCategories[action.payload.tagId].tagName = action.payload.name;
+      if (action.payload.readingListOrComic === "comic") {
+        state.libraryCategories[action.payload.tagId].tagName = action.payload.name;
+      } else {
+        state.readingListCategories[action.payload.tagId].tagName = action.payload.name;
+      }
     },
   },
 });
 
-export const { addComic, removeComic, addTag, removeTag, updateTag } = librarySlice.actions;
+export const { addComic, removeComic, addTag, removeTag, updateTag, addReadingList, removeReadingList } = librarySlice.actions;
 
 export default librarySlice.reducer;
