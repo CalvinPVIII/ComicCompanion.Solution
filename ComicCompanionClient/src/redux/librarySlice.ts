@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Comic } from "../types";
-import { v4 as uuidv4 } from "uuid";
 
 export interface LibraryState {
   libraryCategories: { [key: string]: { tagName: string; comics: Comic[]; tagId: string } };
@@ -15,7 +14,7 @@ type AddComicAction = {
   comic: Comic;
 };
 
-type UpdateTagAction = {
+type TagAction = {
   tagId: string;
   name: string;
 };
@@ -35,14 +34,13 @@ const librarySlice = createSlice({
       );
       state.libraryCategories[action.payload.tagId].comics = updatedCategoryComics;
     },
-    addTag: (state, action: PayloadAction<string>) => {
-      const catId = uuidv4();
-      state.libraryCategories[catId] = { tagName: action.payload, comics: [], tagId: catId };
+    addTag: (state, action: PayloadAction<TagAction>) => {
+      state.libraryCategories[action.payload.tagId] = { tagName: action.payload.name, comics: [], tagId: action.payload.tagId };
     },
     removeTag: (state, action: PayloadAction<string>) => {
       delete state.libraryCategories[action.payload];
     },
-    updateTag: (state, action: PayloadAction<UpdateTagAction>) => {
+    updateTag: (state, action: PayloadAction<TagAction>) => {
       state.libraryCategories[action.payload.tagId].tagName = action.payload.name;
     },
   },

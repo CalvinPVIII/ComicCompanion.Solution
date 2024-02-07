@@ -1,0 +1,39 @@
+#add-to-library-modal {
+  background-color: #20132e;
+  width: 50vw;
+  display: flex;
+  padding-left: 10px;
+  flex-flow: column;
+  padding-bottom: 40px;
+  position: absolute;
+  top: 200px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid black;
+  border-radius: 3%;
+}
+
+#add-to-library-modal > p {
+  opacity: 0.5;
+}
+
+.category-options {
+  background-color: #20132e;
+  min-width: 50%;
+  max-width: 100%;
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
+#add-category-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.category-label {
+  word-wrap: break-word;
+  max-width: 20vw;
+}

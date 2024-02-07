@@ -2,11 +2,13 @@ import { Button, TextField, Modal } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTag } from "../../redux/librarySlice";
+import { v4 as uuidv4 } from "uuid";
 import "../../styles/NewCategoryModal.css";
 
 interface NewCategoryModalProps {
   open: boolean;
   setClose: () => void;
+  addCategoryCallback?: (tagId: string) => void;
 }
 
 export default function NewCategoryModal(props: NewCategoryModalProps) {
@@ -24,7 +26,11 @@ export default function NewCategoryModal(props: NewCategoryModalProps) {
       setInputError(true);
       return;
     }
-    dispatch(addTag(inputValue));
+    const tagId = uuidv4();
+    dispatch(addTag({ tagId: tagId, name: inputValue }));
+    if (props.addCategoryCallback) {
+      props.addCategoryCallback(tagId);
+    }
     setInputValue("");
     props.setClose();
   };

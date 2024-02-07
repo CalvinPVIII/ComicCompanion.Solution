@@ -55,7 +55,7 @@ export default function ManageCategoryItem(props: ManageCategoryItemProps) {
         </>
       ) : (
         <>
-          <p>{info.tagName}</p>
+          <p style={{ maxWidth: "200px", wordWrap: "break-word" }}>{info.tagName}</p>
           <EditIcon onClick={toggleEditing} />
         </>
       )}

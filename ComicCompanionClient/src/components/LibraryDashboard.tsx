@@ -20,6 +20,11 @@ export default function LibraryDashboard() {
         ))}
       </Tabs>
       <h1>{currentCategory.tagName}</h1>
+      <div>
+        {currentCategory.comics.map((comic, index) => (
+          <div key={index}>{comic.name}</div>
+        ))}
+      </div>
     </>
   );
 }
