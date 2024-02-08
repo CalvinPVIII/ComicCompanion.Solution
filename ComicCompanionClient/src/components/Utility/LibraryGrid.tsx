@@ -7,6 +7,7 @@ interface LibraryGridProps {
 }
 
 export default function LibraryGrid(props: LibraryGridProps) {
+  console.log(props);
   return (
     <div className="grid-list">
       {props.comics.map((comic, index) => (

@@ -42,7 +42,7 @@ export default function ComicInfo(props: ComicInfoProps) {
     <>
       {!loading && apiResult ? (
         <>
-          <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} comicInfo={apiResult} />
+          <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} itemInfo={apiResult} readingListOrComic="comic" />
           <div className="comic-info">
             <h1>{apiResult.name}</h1>
             <img src={apiResult.coverImg} alt={apiResult.name} />

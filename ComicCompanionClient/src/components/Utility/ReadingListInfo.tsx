@@ -22,7 +22,8 @@ import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-
+import AddIcon from "@mui/icons-material/Add";
+import AddToLibraryModal from "./AddToLibraryModal";
 interface ReadingListInfoProps {
   listId: string;
 }
@@ -38,6 +39,10 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState<boolean>(false);
+  const [libraryModal, setLibraryModal] = useState(false);
+  const openLibraryModal = () => setLibraryModal(true);
+  const closeLibraryModal = () => setLibraryModal(false);
+
   const nav = useNavigate();
   const dispatch = useDispatch();
 
@@ -134,12 +139,16 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
     <>
       {!loading && apiResult ? (
         <>
+          <AddToLibraryModal open={libraryModal} setClose={closeLibraryModal} readingListOrComic="readingList" itemInfo={apiResult} />
           <div className="list-info">
             {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
             <div className="list-info-bottom-section">
               <p id="list-info-header">{apiResult.name}</p>
 
               <div id="rating-buttons">
+                <div className="add-to-library-button" onClick={openLibraryModal}>
+                  <AddIcon />
+                </div>
                 {userInfo?.favorite ? (
                   <StarIcon onClick={handleToggleFavorite} color="primary" />
                 ) : (
