@@ -4,7 +4,7 @@ import { Tabs, Tab } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { librarySelector } from "../redux/store";
-import LibraryGrid from "./Utility/LibraryGrid";
+import ComicsGrid from "./Utility/ComicsGrid";
 export default function LibraryDashboard() {
   const library = useSelector(librarySelector);
   const categoriesArray = Object.values(library.libraryCategories);
@@ -23,7 +23,7 @@ export default function LibraryDashboard() {
       </Tabs>
       <div>
         <div className="dashboard-content">
-          <LibraryGrid comics={currentCategory.comics} />
+          <ComicsGrid comics={currentCategory.comics} />
         </div>
       </div>
     </>

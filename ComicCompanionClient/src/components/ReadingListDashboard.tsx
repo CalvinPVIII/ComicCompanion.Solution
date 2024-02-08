@@ -1,78 +1,71 @@
 import "../styles/ReadingListDashboard.css";
 import { Tabs, Tab } from "@mui/material";
 import { useState, useEffect } from "react";
-import { ReadingListDto } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import { useSelector } from "react-redux";
 import { userSelector } from "../redux/store";
+import { librarySelector } from "../redux/store";
 import ReadingListGrid from "./Utility/ReadingListGrid";
+import Loading from "./Utility/Loading";
 
 export default function ReadingListDashboard() {
-  const [currentTab, setCurrentTab] = useState(1);
-  const [userReadingLists, setUserReadingLists] = useState<ReadingListDto[] | null>(null);
-  const [favoriteReadingLists, setFavoriteReadingLists] = useState<ReadingListDto[] | null>(null);
+  const library = useSelector(librarySelector);
+  console.log(Object.values(library.readingListCategories));
 
-  const handleTabChange = (event: React.SyntheticEvent, value: number) => {
+  const [currentTab, setCurrentTab] = useState(1);
+  const [categories, setCategories] = useState(Object.values(library.readingListCategories));
+  const [fetchFinished, setFetchFinished] = useState(false);
+
+  const handleTabChange = (_: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);
   };
 
   const currentUser = useSelector(userSelector);
 
   useEffect(() => {
-    // will need to account for pagination
-    if (!currentUser) return;
-    const getUserLists = async () => {
-      const response = await ComicCompanionAPIService.getReadingListsFromUser(currentUser.userId, currentUser.token, 1);
-      if (response.status === "success") {
-        setUserReadingLists(response.data);
-      }
-    };
-    getUserLists();
-  }, [currentUser]);
+    if (currentUser) {
+      const fetchUserInfo = async () => {
+        const newCategories = [...categories];
 
-  useEffect(() => {
-    if (!currentUser) return;
-    const getFavoriteLists = async () => {
-      const response = await ComicCompanionAPIService.getFavoriteReadingLists(currentUser.token);
-      console.log(response);
-      if (response.status === "success") {
-        setFavoriteReadingLists(response.data);
-      }
-    };
-    getFavoriteLists();
-  }, [currentUser]);
+        if (!newCategories.find((cat) => cat.tagId === "1")) {
+          // will need to account for pagination
+          const userCreatedResponse = await ComicCompanionAPIService.getReadingListsFromUser(currentUser.userId, currentUser.token, 1);
+          if (userCreatedResponse.status === "success") {
+            newCategories.unshift({ readingLists: userCreatedResponse.data, tagId: "1", tagName: "Created" });
+          }
+        }
+
+        if (!newCategories.find((cat) => cat.tagId === "2")) {
+          const favoritesResponse = await ComicCompanionAPIService.getFavoriteReadingLists(currentUser.token);
+          if (favoritesResponse.status === "success") {
+            newCategories.unshift({ readingLists: favoritesResponse.data, tagId: "2", tagName: "Favorites" });
+          }
+        }
+
+        setCategories(newCategories);
+      };
+
+      fetchUserInfo();
+    }
+    setFetchFinished(true);
+  }, []);
 
   return (
     <>
-      <Tabs onChange={handleTabChange} value={currentTab}>
-        <Tab label="Favorites" value={1} />
-        <Tab label="Created" value={2} />
-      </Tabs>
-      <div className="dashboard-content">
-        {currentTab === 1 ? (
-          <>
-            {favoriteReadingLists ? (
-              <>
-                <ReadingListGrid lists={favoriteReadingLists} />
-              </>
-            ) : (
-              <></>
-            )}
-          </>
-        ) : currentTab === 2 ? (
-          <>
-            {userReadingLists ? (
-              <>
-                <ReadingListGrid lists={userReadingLists} />
-              </>
-            ) : (
-              <></>
-            )}
-          </>
-        ) : (
-          <></>
-        )}
-      </div>
+      {fetchFinished ? (
+        <>
+          <Tabs onChange={handleTabChange} value={currentTab} variant="scrollable" scrollButtons="auto">
+            {categories.map((cat, index) => (
+              <Tab label={cat.tagName} value={index + 1} key={cat.tagId} />
+            ))}
+          </Tabs>
+          <div className="dashboard-content">
+            <ReadingListGrid lists={categories[currentTab - 1].readingLists} />
+          </div>
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }
