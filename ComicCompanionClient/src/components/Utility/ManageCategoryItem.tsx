@@ -2,12 +2,13 @@ import { Button, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
-import { Comic } from "../../types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateTag, removeTag } from "../../redux/librarySlice";
+
 interface ManageCategoryItemProps {
-  info: { tagName: string; tagId: string; comics: Comic[] };
+  info: { tagName: string; tagId: string };
+  readingListOrComic: "readingList" | "comic";
 }
 
 export default function ManageCategoryItem(props: ManageCategoryItemProps) {
@@ -24,7 +25,7 @@ export default function ManageCategoryItem(props: ManageCategoryItemProps) {
 
   const confirmEdit = () => {
     setIsEditing(false);
-    dispatch(updateTag({ tagId: info.tagId, name: inputValue, readingListOrComic: "comic" }));
+    dispatch(updateTag({ tagId: info.tagId, name: inputValue, readingListOrComic: props.readingListOrComic }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +38,7 @@ export default function ManageCategoryItem(props: ManageCategoryItemProps) {
   };
 
   const handleDelete = () => {
-    dispatch(removeTag({ tagId: info.tagId, readingListOrComic: "comic" }));
+    dispatch(removeTag({ tagId: info.tagId, readingListOrComic: props.readingListOrComic }));
     setConfirmDelete(false);
   };
 
