@@ -18,15 +18,12 @@ import React from "react";
 interface IssuesListProps {
   issues: null | Issue[];
   showComicNames: boolean;
-  defaultSorting?: "ascend" | "descend";
 }
 
 export default function IssuesList(props: IssuesListProps) {
-  const [issueList, setIssueList] = useState<Issue[] | null | undefined>(
-    props.defaultSorting === "ascend" && props.issues ? [...props.issues].reverse() : props.issues
-  );
+  const [issueList, setIssueList] = useState<Issue[] | null | undefined>(props.issues);
   const [inputValue, setInputValue] = useState("");
-  const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">(props.defaultSorting || "descend");
+  const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
   const dispatch = useDispatch();
   const location = useLocation();

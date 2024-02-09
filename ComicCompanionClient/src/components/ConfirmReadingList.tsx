@@ -1,7 +1,7 @@
 import "../styles/ConfirmReadingList.css";
 import { useSelector } from "react-redux";
 import { currentListSelector, userSelector } from "../redux/store";
-import { Button, Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { Button, Accordion, AccordionDetails, AccordionSummary, TextField, Switch } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
 
@@ -17,6 +17,9 @@ import { setCurrentList, toggleCreating } from "../redux/listCreationSlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import comicCompanionImages from "../helpers/defaultImageArray";
 
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+
 interface ImageCache {
   [issueId: string]: string[];
 }
@@ -26,8 +29,27 @@ export default function ConfirmReadingList() {
   const nav = useNavigate();
   const [loadedImages, setLoadedImages] = useState<ImageCache>({});
   const [defaultImageIndex, setDefaultImageIndex] = useState<number>(Math.floor(Math.random() * 6) + 1);
+
   const readingList = useSelector(currentListSelector);
   const currentUser = useSelector(userSelector);
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingDesc, setIsEditingDesc] = useState(false);
+
+  const toggleIsEditingName = () => setIsEditingName(!isEditingName);
+  const toggleIsEditingDesc = () => setIsEditingDesc(!isEditingDesc);
+
+  const handleEditListName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateProperty({ propertyName: "name", value: e.target.value }));
+  };
+
+  const handleEditListDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateProperty({ propertyName: "description", value: e.target.value }));
+  };
+
+  const handleTogglePrivate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateProperty({ propertyName: "isPrivate", value: e.target.checked }));
+  };
 
   const handleIssueClick = async (issue: Issue) => {
     const id = issue.comicId + issue.issueId;
@@ -75,8 +97,10 @@ export default function ConfirmReadingList() {
   const toggleDefaultImage = () => {
     if (defaultImageIndex === 6) {
       setDefaultImageIndex(0);
+      dispatch(updateProperty({ propertyName: "coverImg", value: comicCompanionImages[0] }));
     } else {
       setDefaultImageIndex(defaultImageIndex + 1);
+      dispatch(updateProperty({ propertyName: "coverImg", value: comicCompanionImages[defaultImageIndex + 1] }));
     }
   };
 
@@ -87,27 +111,58 @@ export default function ConfirmReadingList() {
   if (readingList) {
     return (
       <div id="confirm-reading-list-modal">
-        <h1>{readingList.name}</h1>
-        <span id="confirm-desc">
-          <p>{readingList.description}</p>
-        </span>
+        {isEditingName ? (
+          <div id="edit-name">
+            <TextField value={readingList.name} onChange={handleEditListName} autoFocus inputProps={{ maxLength: 50 }} />
+
+            <CheckIcon onClick={toggleIsEditingName} color="success" />
+          </div>
+        ) : (
+          <h1 onClick={toggleIsEditingName} style={{ cursor: "pointer" }}>
+            {readingList.name}{" "}
+            <span>
+              <EditIcon />
+            </span>
+          </h1>
+        )}
+
+        <div id="confirm-basic-info">
+          <div id="preview-img">
+            {readingList.coverImg ? (
+              <img src={readingList.coverImg} alt="cover image" id="reading-list-cover-image" onClick={toggleDefaultImage} />
+            ) : (
+              <img src={comicCompanionImages[defaultImageIndex]} alt="cover image" id="reading-list-cover-image" onClick={toggleDefaultImage} />
+            )}
+            <p id="img-helper-text">Tap an issue to change the cover image</p>
+          </div>
+          {isEditingDesc ? (
+            <div id="edit-desc">
+              <TextField value={readingList.description} onChange={handleEditListDesc} autoFocus multiline inputProps={{ maxLength: 250 }} />
+              <Button onClick={toggleIsEditingDesc}>Confirm</Button>
+            </div>
+          ) : (
+            <div id="preview-description" onClick={toggleIsEditingDesc}>
+              <p>{readingList.description}</p>
+              <Button>Edit</Button>
+            </div>
+          )}
+        </div>
+        <div id="private-toggle">
+          <label>
+            <Switch onChange={handleTogglePrivate} checked={readingList.isPrivate} />
+            Private
+          </label>
+        </div>
 
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
-            <span id="accordion-header">Confirm Issues</span>
+            <span id="accordion-header">Issues</span>
           </AccordionSummary>
           <AccordionDetails>
-            <p id="cover-image-info">Tap an issue to set the cover image</p>
             <div id="cover-image-picker">
               <div id="confirm-issues-list">
                 <IssuesInCreatingReadingList onClickCallback={handleIssueClick} />
               </div>
-
-              {readingList.coverImg ? (
-                <img src={readingList.coverImg} alt="cover image" id="reading-list-cover-image" />
-              ) : (
-                <img src={comicCompanionImages[defaultImageIndex]} alt="cover image" id="reading-list-cover-image" onClick={toggleDefaultImage} />
-              )}
             </div>
           </AccordionDetails>
         </Accordion>

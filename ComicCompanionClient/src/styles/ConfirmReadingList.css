@@ -62,3 +62,40 @@
   font-size: smaller;
   opacity: 50%;
 }
+
+#confirm-basic-info {
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+}
+
+#img-helper-text {
+  font-size: small;
+  opacity: 0.6;
+  text-align: center;
+}
+
+#preview-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#preview-description {
+  width: 45%;
+  word-wrap: break-word;
+}
+
+#edit-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+#edit-desc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

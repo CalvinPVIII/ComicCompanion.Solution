@@ -54,8 +54,6 @@ export default function ReadingListForm() {
       setErrorMessage("Please sign in");
       dispatch(setContent({ type: "User Auth" }));
       dispatch(toggleModal(true));
-
-      // logic to open sign in modal
       return;
     }
     dispatch(setContent({ type: "Finalize Reading List" }));
@@ -93,8 +91,10 @@ export default function ReadingListForm() {
               onChange={(e) => handleUpdateProperty("description", e.target.value)}
             />
             <div>
-              <Switch onChange={(e) => handleUpdateProperty("isPrivate", e.target.checked)} checked={list.isPrivate} />
-              <label>Private</label>
+              <label>
+                <Switch onChange={(e) => handleUpdateProperty("isPrivate", e.target.checked)} checked={list.isPrivate} />
+                Private
+              </label>
             </div>
             {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : <></>}
 

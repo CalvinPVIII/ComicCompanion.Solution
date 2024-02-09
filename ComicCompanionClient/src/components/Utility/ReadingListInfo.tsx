@@ -126,6 +126,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           readingList = readingList as ReadingListAPIResponse;
           setApiResult(readingList.data);
         }
+        console.log(apiResult);
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
@@ -210,7 +211,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
             </div>
           </div>
 
-          <IssuesList issues={apiResult.issues} showComicNames={true} defaultSorting="ascend" />
+          <IssuesList issues={apiResult.issues} showComicNames={true} />
         </>
       ) : !loading && error ? (
         <>

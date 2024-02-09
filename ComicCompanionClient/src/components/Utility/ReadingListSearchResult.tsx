@@ -13,7 +13,7 @@ export default function ReadingListSearchResult(props: ReadingListSearchResultPr
   return (
     <>
       {props.searchResult.data.map((readingList, index) => (
-        <Link to={`/lists/${readingList.readingListId}`}>
+        <Link to={`/lists/${readingList.readingListId}`} key={index}>
           <div className="search-results" key={index}>
             <div className="inner-search-results">
               {readingList.coverImg ? (

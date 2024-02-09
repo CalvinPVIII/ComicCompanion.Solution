@@ -1,9 +1,10 @@
-import { Badge, Button, Fab } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Badge, Button, CardActions, CardContent, Fab, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { isCreatingSelector, currentListSelector } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import "../styles/ReadingListFAB.css";
 
@@ -34,14 +35,27 @@ export default function ReadingListFAB() {
         </div>
         {menuVisible ? (
           <div className="reading-list-fab-menu">
-            <p>Reading List:</p>
-            <h1>{currentList.name}</h1>
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Reading List
+              </Typography>
+              <h4>{currentList.name}</h4>
 
-            <Button variant="contained" color="success" onClick={handleFinalize}>
-              Finalize
-            </Button>
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ position: "sticky" }}>
+                  Issues in List
+                </AccordionSummary>
 
-            <IssuesInCreatingReadingList />
+                <AccordionDetails>
+                  <IssuesInCreatingReadingList />
+                </AccordionDetails>
+              </Accordion>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="success" onClick={handleFinalize}>
+                Finalize
+              </Button>
+            </CardActions>
           </div>
         ) : (
           <></>
