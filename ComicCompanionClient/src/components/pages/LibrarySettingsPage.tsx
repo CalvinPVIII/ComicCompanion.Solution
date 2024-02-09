@@ -7,7 +7,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useSelector } from "react-redux";
 import { librarySelector } from "../../redux/store";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import ManageCategoryList from "../Utility/ManagaCategoryList";
+import ManageCategoryList from "../Utility/ManageCategoryList";
 
 export default function LibrarySettingsPage() {
   const [comicCatSettingsOpen, setComicCatSettingsOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function LibrarySettingsPage() {
               <ListItemIcon>
                 <LibraryBooksIcon />
               </ListItemIcon>
-              <ListItemText>Comic Library Categories</ListItemText>
+              <ListItemText>Comic Categories</ListItemText>
               {comicCatSettingsOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
           </ListItemButton>
@@ -49,7 +49,7 @@ export default function LibrarySettingsPage() {
               <ListItemIcon>
                 <LibraryBooksIcon />
               </ListItemIcon>
-              <ListItemText>Reading List Library Categories</ListItemText>
+              <ListItemText>Reading List Categories</ListItemText>
               {readingListCatSettingsOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
           </ListItemButton>
