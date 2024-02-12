@@ -15,3 +15,10 @@ export const successfulUserUpdate = (dispatch: Dispatch) => {
     dispatch(setAlert({ message: "User Info Updated", severity: "success", durationInSeconds: 2, visible: true }));
   }, 70);
 };
+
+export const readingListCreationError = (dispatch: Dispatch, errorMessage: string) => {
+  dispatch(toggleAlert(false));
+  setTimeout(() => {
+    dispatch(setAlert({ message: errorMessage, severity: "error", durationInSeconds: 3, visible: true }));
+  }, 70);
+};

@@ -2,10 +2,11 @@ import { Accordion, AccordionDetails, AccordionSummary, Badge, Button, CardActio
 import { Edit } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { isCreatingSelector, currentListSelector } from "../redux/store";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { toggleModal, setContent } from "../redux/modalSlice";
 
+import { useDispatch } from "react-redux";
 import "../styles/ReadingListFAB.css";
 
 import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
@@ -14,12 +15,14 @@ export default function ReadingListFAB() {
   const isCreating = useSelector(isCreatingSelector);
   const currentList = useSelector(currentListSelector);
 
-  const nav = useNavigate();
+  const dispatch = useDispatch();
 
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const handleFinalize = () => {
-    nav("/lists/new");
+    // nav("/lists/new");
+    dispatch(setContent({ type: "Finalize Reading List" }));
+    dispatch(toggleModal(true));
     setMenuVisible(false);
   };
 
