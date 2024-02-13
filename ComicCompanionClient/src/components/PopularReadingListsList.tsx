@@ -1,39 +1,39 @@
 import { useState, useEffect } from "react";
-import { ReadingListSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfReadingLists from "./Utility/ListOfReadingLists";
 import "../styles/PopularList.css";
 import { Alert } from "@mui/material";
 import { getErrorMessage } from "../helpers/helperFunctions";
 import Loading from "./Utility/Loading";
-import { useDispatch } from "react-redux";
 import { setPopularReadingLists } from "../redux/apiCacheSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { popularReadingListsCacheSelector } from "../redux/store";
 export default function PopularReadingListsList() {
-  const [apiResponse, setApiResponse] = useState<ReadingListSearchResultAPIResponse | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
+  const popularReadingLists = useSelector(popularReadingListsCacheSelector);
 
   useEffect(() => {
     const getData = async () => {
       try {
+        if (popularReadingLists && popularReadingLists.length > 0) return;
         const readingLists = await ComicCompanionAPIService.getPopularReadingLists();
         dispatch(setPopularReadingLists(readingLists.data));
-        setApiResponse(readingLists);
       } catch (error: unknown) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
       }
-      setLoading(false);
     };
     getData();
+    setLoading(false);
   }, []);
 
   return (
     <div className="popular-list">
-      {!loading && apiResponse ? (
+      {!loading && popularReadingLists ? (
         <>
-          <ListOfReadingLists items={apiResponse.data} />
+          <ListOfReadingLists items={popularReadingLists} />
         </>
       ) : !loading && error ? (
         <>

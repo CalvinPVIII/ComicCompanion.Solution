@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import { popularComicsCacheSelector } from "../redux/store";
 
 export default function PopularComicsList() {
-  // const [comicsList, setComicsList] = useState<Comic[] | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -20,26 +19,32 @@ export default function PopularComicsList() {
   useEffect(() => {
     const getData = async () => {
       try {
-        if (popularComicsCache && popularComicsCache.length > 0) return;
+        if (popularComicsCache && popularComicsCache.comics.length > 0) return;
         const response = await ComicCompanionAPIService.getPopularComics();
         if (response.data.comics.length === 0) {
           throw new Error("Unable to get comics");
         }
-        dispatch(setPopularComics(response.data.comics));
+        const newCacheInfo = {
+          comics: response.data.comics,
+          paginationInfo: { maxPage: response.data.maxPage, currentPage: response.data.currentPage },
+        };
+        dispatch(setPopularComics(newCacheInfo));
       } catch (error: unknown) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
       }
     };
-    setLoading(false);
     getData();
+    setLoading(false);
   }, []);
+
+  console.log(popularComicsCache);
 
   return (
     <div className="popular-list">
       {!loading && popularComicsCache ? (
         <>
-          <ListOfComics items={popularComicsCache.slice(0, 10)} />
+          <ListOfComics items={popularComicsCache.comics.slice(0, 10)} />
         </>
       ) : !loading && error ? (
         <>

@@ -10,8 +10,7 @@ import { Comic } from "../../types";
 export default function ComicPage() {
   const dispatch = useDispatch();
   const popularComicsCache = useSelector(popularComicsCacheSelector);
-  const [placeHolderComics, setPlaceHolderComics] = useState(popularComicsCache);
-  const [paginationInfo, setPaginationInfo] = useState({ maxPage: 2, currentPage: 1 });
+  const [placeHolderComics, setPlaceHolderComics] = useState(popularComicsCache?.comics);
 
   const fetchPlaceHolderComics = async (pageNumber: number) => {
     const result = await ComicCompanionAPIService.getPopularComics(pageNumber);
@@ -23,19 +22,21 @@ export default function ComicPage() {
     newPlaceHolderComics = newPlaceHolderComics.concat(result.data.comics);
 
     setPlaceHolderComics(newPlaceHolderComics);
-    dispatch(setPopularComics(newPlaceHolderComics));
-    setPaginationInfo({ maxPage: result.data.maxPage, currentPage: result.data.currentPage });
+    dispatch(
+      setPopularComics({ comics: newPlaceHolderComics, paginationInfo: { maxPage: result.data.maxPage, currentPage: result.data.currentPage } })
+    );
   };
 
   useEffect(() => {
-    if (!popularComicsCache || popularComicsCache.length <= 0) {
+    if (!popularComicsCache || popularComicsCache.comics.length <= 0) {
       fetchPlaceHolderComics(1);
     }
   }, [popularComicsCache]);
 
   const bottomScrollCallback = () => {
-    if (paginationInfo.currentPage < paginationInfo.maxPage) {
-      fetchPlaceHolderComics(paginationInfo.currentPage + 1);
+    if (!popularComicsCache) return;
+    if (popularComicsCache.paginationInfo.currentPage < popularComicsCache.paginationInfo.maxPage) {
+      fetchPlaceHolderComics(popularComicsCache.paginationInfo.currentPage + 1);
     }
   };
 

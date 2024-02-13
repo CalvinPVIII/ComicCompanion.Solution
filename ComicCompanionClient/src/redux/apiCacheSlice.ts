@@ -1,8 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Comic, ReadingListDto } from "../types";
 
+type CachedComicInfo = { comics: Comic[]; paginationInfo: { maxPage: number; currentPage: number } };
+// type CachedReadingListInfo = { lists: ReadingListDto[]; paginationInfo: { maxPage: number; currentPage: number } };
+
 export interface ApiCacheState {
-  popularComics?: Comic[];
+  popularComics?: CachedComicInfo;
   popularReadingLists?: ReadingListDto[];
 }
 
@@ -12,7 +15,7 @@ const apiCacheSlice = createSlice({
   name: "apiCache",
   initialState,
   reducers: {
-    setPopularComics: (state, action: PayloadAction<Comic[]>) => {
+    setPopularComics: (state, action: PayloadAction<CachedComicInfo>) => {
       state.popularComics = action.payload;
     },
     setPopularReadingLists: (state, action: PayloadAction<ReadingListDto[]>) => {
