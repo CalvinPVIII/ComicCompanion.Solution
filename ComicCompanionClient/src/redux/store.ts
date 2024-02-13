@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import sessionStorage from "redux-persist/es/storage/session";
 
 import userReducer, { UserReducerState } from "./userSlice";
 import listCreationReducer, { ListCreationState } from "./listCreationSlice";
@@ -13,6 +14,11 @@ import apiCacheReducer, { ApiCacheState } from "./apiCacheSlice";
 const persistConfig = {
   key: "root",
   storage,
+};
+
+const sessionStorageConfig = {
+  key: "root",
+  storage: sessionStorage,
 };
 
 export interface ApplicationState {
@@ -29,6 +35,7 @@ const persistedUserReducer = persistReducer(persistConfig, userReducer);
 const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer);
 const persistedReadingHistoryReducer = persistReducer(persistConfig, readingHistoryReducer);
 const persistedLibraryReducer = persistReducer(persistConfig, libraryReducer);
+const persistedSessionCacheReducer = persistReducer(sessionStorageConfig, apiCacheReducer);
 
 const store = configureStore({
   reducer: {
@@ -38,7 +45,7 @@ const store = configureStore({
     alert: alertReducer,
     readingHistory: persistedReadingHistoryReducer,
     library: persistedLibraryReducer,
-    apiCache: apiCacheReducer,
+    apiCache: persistedSessionCacheReducer,
   },
   devTools: true,
 });

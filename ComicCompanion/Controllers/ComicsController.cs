@@ -26,7 +26,6 @@ public class ComicsController : Controller
 
     }
 
-    // add pagination
     [HttpGet("popular")]
     public async Task<ActionResult<Comic>> Popular(int? serverNumber, int pageNumber = 1)
     {

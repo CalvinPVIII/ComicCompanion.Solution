@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import ComicSearchResult from "./ComicSearchResult";
 import ReadingListSearchResult from "./ReadingListSearchResult";
-import { ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
+import { Comic, ReadingListDto, ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import Loading from "./Loading";
 
@@ -14,6 +14,9 @@ interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
   openInModal?: boolean;
   onInputCallbackFunction?: () => void;
+  placeholderComicSearch?: Comic[];
+  placeholderReadingListSearch?: ReadingListDto[];
+  bottomScrollCallback?: () => void;
 }
 
 type PaginationInfo = {
@@ -77,6 +80,7 @@ export default function SearchForm(props: SearchFormProps) {
   };
 
   const handleBottomScroll = () => {
+    if (props.bottomScrollCallback) props.bottomScrollCallback();
     if (paginationInfo.currentPage !== paginationInfo.maxPage) {
       if (props.typeOfSearch === "Comics") {
         comicBottomScrollHandler();
@@ -134,7 +138,7 @@ export default function SearchForm(props: SearchFormProps) {
       setError(errorMessage);
     }
   };
-
+  console.log(props);
   return (
     <>
       <div className="search-form-header">
@@ -146,11 +150,11 @@ export default function SearchForm(props: SearchFormProps) {
         <>
           {props.typeOfSearch === "Comics" && comicSearchResult ? (
             <>
-              <ComicSearchResult searchResult={comicSearchResult} openInModal={props.openInModal} />
+              <ComicSearchResult comics={comicSearchResult.comics} openInModal={props.openInModal} />
             </>
           ) : props.typeOfSearch === "Reading Lists" && readingListSearchResult ? (
             <>
-              <ReadingListSearchResult searchResult={readingListSearchResult} openInModal={props.openInModal} />
+              <ReadingListSearchResult readingLists={readingListSearchResult.data} openInModal={props.openInModal} />
             </>
           ) : (
             <></>
@@ -161,7 +165,17 @@ export default function SearchForm(props: SearchFormProps) {
           <Loading />
         </>
       ) : (
-        <></>
+        <>
+          {props.placeholderComicSearch ? (
+            <>
+              <ComicSearchResult comics={props.placeholderComicSearch} openInModal={props.openInModal} />
+            </>
+          ) : props.placeholderReadingListSearch ? (
+            <>
+              <ReadingListSearchResult readingLists={props.placeholderReadingListSearch} openInModal={props.openInModal} />
+            </>
+          ) : null}
+        </>
       )}
     </>
   );

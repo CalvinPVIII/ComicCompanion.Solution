@@ -16,10 +16,13 @@ import {
 } from "../types";
 
 export default class ComicCompanionAPIService {
-  static async getPopularComics(serverNumber?: number): Promise<ComicSearchResultAPIResponse> {
-    const fetchUrl = serverNumber
-      ? `${import.meta.env.VITE_API_URL}/comics/popular?serverNumber=${serverNumber}`
-      : `${import.meta.env.VITE_API_URL}/comics/popular`;
+  static async getPopularComics(pageNumber?: number, serverNumber?: number): Promise<ComicSearchResultAPIResponse> {
+    let fetchUrl = `${import.meta.env.VITE_API_URL}/comics/popular`;
+    pageNumber ? (fetchUrl += `?pageNumber=${pageNumber}`) : (fetchUrl += `?pageNumber=1`);
+    serverNumber ? (fetchUrl += `&serverNumber=${serverNumber}`) : `&serverNumber=1`;
+    // const fetchUrl = serverNumber
+    //   ? `${import.meta.env.VITE_API_URL}/comics/popular?serverNumber=${serverNumber}`
+    //   : `${import.meta.env.VITE_API_URL}/comics/popular`;
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
     return jsonResponse as ComicSearchResultAPIResponse;

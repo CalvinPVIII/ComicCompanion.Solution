@@ -99,17 +99,16 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
             {
                 if (node.FirstElementChild.ClassList.Length != 0)
                 {
-
-                    var name = node.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["title"].Value;
-                    var id = GetIdFromUrl(node.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["href"].Value);
-                    var img = node.FirstElementChild.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["data-original"].Value;
+                    string name = node.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["title"].Value[..^5]; // range operator removes the "Comic" at the end of every result
+                    string id = GetIdFromUrl(node.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["href"].Value);
+                    string img = node.FirstElementChild.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["data-original"].Value;
                     results.Add(new Comic() { Name = name, ComicId = id, CoverImg = img });
                 }
                 else
                 {
-                    var name = node.FirstElementChild.Attributes["title"].Value;
-                    var id = GetIdFromUrl(node.FirstElementChild.Attributes["href"].Value);
-                    var img = node.FirstElementChild.FirstElementChild.Attributes["data-src"].Value;
+                    string name = node.FirstElementChild.Attributes["title"].Value[..^5];
+                    string id = GetIdFromUrl(node.FirstElementChild.Attributes["href"].Value);
+                    string img = node.FirstElementChild.FirstElementChild.Attributes["data-src"].Value;
                     results.Add(new Comic() { Name = name, ComicId = id, CoverImg = img });
                 }
             }

@@ -9,4 +9,9 @@
 
 .reading-list-search-result-info > .reading-list-description {
   font-weight: bold;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+#reading-list-search-results {
+  overflow-y: scroll;
 }

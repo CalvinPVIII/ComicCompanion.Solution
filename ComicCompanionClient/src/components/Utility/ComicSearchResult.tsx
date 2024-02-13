@@ -1,11 +1,12 @@
-import { SearchResultDto } from "../../types";
+import { Comic } from "../../types";
 import "../../styles/SearchResult.css";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleModal, setContent } from "../../redux/modalSlice";
+import React, { useEffect } from "react";
 
 interface ComicSearchResultProps {
-  searchResult: SearchResultDto;
+  comics: Comic[];
   openInModal?: boolean;
 }
 
@@ -15,11 +16,15 @@ export default function ComicSearchResult(props: ComicSearchResultProps) {
     dispatch(setContent({ type: "Comic Info", data: { comicId: comicId } }));
     dispatch(toggleModal(true));
   };
-  console.log(props);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
-      {props.searchResult.comics.map((comic, index) => (
-        <>
+      {props.comics.map((comic, index) => (
+        <React.Fragment key={index}>
           {props.openInModal ? (
             <>
               <div className="search-results" key={index} onClick={() => handleOpenModal(comic.comicId)}>
@@ -39,7 +44,7 @@ export default function ComicSearchResult(props: ComicSearchResultProps) {
               </div>
             </Link>
           )}
-        </>
+        </React.Fragment>
       ))}
     </>
   );

@@ -1,27 +1,20 @@
 import SearchForm from "../Utility/SearchForm";
 import { useSelector } from "react-redux";
 import { popularReadingListsCacheSelector } from "../../redux/store";
-import { useState } from "react";
-import ReadingListGrid from "../Utility/ReadingListGrid";
-export default function ReadingListsPage() {
-  const [showCachedResults, setShowCachedResults] = useState(true);
+import { useEffect } from "react";
 
+export default function ReadingListsPage() {
   const popularReadingListsCache = useSelector(popularReadingListsCacheSelector);
 
-  const onInputCallback = () => {
-    setShowCachedResults(false);
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Reading Lists</h1>
 
-      <SearchForm typeOfSearch="Reading Lists" onInputCallbackFunction={onInputCallback} />
-      {showCachedResults && popularReadingListsCache ? (
-        <>
-          <ReadingListGrid lists={popularReadingListsCache} />
-        </>
-      ) : null}
+      <SearchForm typeOfSearch="Reading Lists" placeholderReadingListSearch={popularReadingListsCache} />
     </>
   );
 }

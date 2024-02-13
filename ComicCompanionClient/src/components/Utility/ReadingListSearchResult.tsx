@@ -1,18 +1,18 @@
-import { ReadingListSearchResultAPIResponse } from "../../types";
+import { ReadingListDto } from "../../types";
 import comicCompanionImages from "../../helpers/defaultImageArray";
 import { Link } from "react-router-dom";
 import "../../styles/ReadingListSearchResult.css";
-import "../../styles/SearchResult.css";
+// import "../../styles/SearchResult.css";
 
 interface ReadingListSearchResultProps {
-  searchResult: ReadingListSearchResultAPIResponse;
+  readingLists: ReadingListDto[];
   openInModal?: boolean;
 }
 
 export default function ReadingListSearchResult(props: ReadingListSearchResultProps) {
   return (
-    <>
-      {props.searchResult.data.map((readingList, index) => (
+    <div id="reading-list-search-results">
+      {props.readingLists.map((readingList, index) => (
         <Link to={`/lists/${readingList.readingListId}`} key={index}>
           <div className="search-results" key={index}>
             <div className="inner-search-results">
@@ -31,6 +31,6 @@ export default function ReadingListSearchResult(props: ReadingListSearchResultPr
           </div>
         </Link>
       ))}
-    </>
+    </div>
   );
 }
