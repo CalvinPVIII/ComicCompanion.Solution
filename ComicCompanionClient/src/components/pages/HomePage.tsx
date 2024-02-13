@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import "../../styles/HomePage.css";
 import PopularComicsList from "../PopularComicsList";
 import PopularReadingListsList from "../PopularReadingListsList";
 import Slider from "react-slick";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 export default function HomePage() {
   const sliderOptions = {
     dots: false,
@@ -32,9 +34,15 @@ export default function HomePage() {
           </Slider>
         </div>
       </div>
-      <h2>POPULAR COMICS</h2>
+      <Link to="/comics" className="header-link">
+        <h2>POPULAR COMICS</h2>
+        <ArrowForwardIcon />
+      </Link>
       <PopularComicsList />
-      <h2>POPULAR READING LISTS</h2>
+      <Link to="/lists" className="header-link">
+        <h2>POPULAR READING LISTS</h2>
+        <ArrowForwardIcon />
+      </Link>
       <PopularReadingListsList />
     </>
   );

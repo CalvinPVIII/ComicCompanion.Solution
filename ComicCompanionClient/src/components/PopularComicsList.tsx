@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ComicSearchResultAPIResponse } from "../types";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import ListOfComics from "./Utility/ListOfComics";
 import "../styles/PopularList.css";
@@ -8,37 +7,39 @@ import { getErrorMessage } from "../helpers/helperFunctions";
 import Loading from "./Utility/Loading";
 import { useDispatch } from "react-redux";
 import { setPopularComics } from "../redux/apiCacheSlice";
+import { useSelector } from "react-redux";
+import { popularComicsCacheSelector } from "../redux/store";
 
 export default function PopularComicsList() {
-  const [apiResponse, setApiResponse] = useState<ComicSearchResultAPIResponse | null>();
+  // const [comicsList, setComicsList] = useState<Comic[] | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
+  const popularComicsCache = useSelector(popularComicsCacheSelector);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const comics = await ComicCompanionAPIService.getPopularComics();
-        console.log(comics);
-        if (comics.data.comics.length === 0) {
+        if (popularComicsCache && popularComicsCache.length > 0) return;
+        const response = await ComicCompanionAPIService.getPopularComics();
+        if (response.data.comics.length === 0) {
           throw new Error("Unable to get comics");
         }
-        dispatch(setPopularComics(comics.data.comics));
-        setApiResponse(comics);
+        dispatch(setPopularComics(response.data.comics));
       } catch (error: unknown) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
       }
-      setLoading(false);
     };
+    setLoading(false);
     getData();
   }, []);
 
   return (
     <div className="popular-list">
-      {!loading && apiResponse ? (
+      {!loading && popularComicsCache ? (
         <>
-          <ListOfComics items={apiResponse.data.comics} />
+          <ListOfComics items={popularComicsCache.slice(0, 10)} />
         </>
       ) : !loading && error ? (
         <>
