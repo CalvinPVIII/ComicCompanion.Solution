@@ -7,10 +7,10 @@ import { userSelector } from "../redux/store";
 import { librarySelector } from "../redux/store";
 import ReadingListGrid from "./Utility/ReadingListGrid";
 import Loading from "./Utility/Loading";
+import { Link } from "react-router-dom";
 
 export default function ReadingListDashboard() {
   const library = useSelector(librarySelector);
-  console.log(Object.values(library.readingListCategories));
 
   const [currentTab, setCurrentTab] = useState(1);
   const [categories, setCategories] = useState(Object.values(library.readingListCategories));
@@ -27,21 +27,10 @@ export default function ReadingListDashboard() {
       const fetchUserInfo = async () => {
         const newCategories = [...categories];
 
-        if (!newCategories.find((cat) => cat.tagId === "1")) {
-          // will need to account for pagination
-          const userCreatedResponse = await ComicCompanionAPIService.getReadingListsFromUser(currentUser.userId, currentUser.token, 1);
-          if (userCreatedResponse.status === "success") {
-            newCategories.unshift({ readingLists: userCreatedResponse.data, tagId: "1", tagName: "Created" });
-          }
+        const userCreatedResponse = await ComicCompanionAPIService.getReadingListsFromUser(currentUser.userId, currentUser.token, 1);
+        if (userCreatedResponse.status === "success") {
+          newCategories.unshift({ readingLists: userCreatedResponse.data, tagId: "1", tagName: "Created" });
         }
-
-        if (!newCategories.find((cat) => cat.tagId === "2")) {
-          const favoritesResponse = await ComicCompanionAPIService.getFavoriteReadingLists(currentUser.token);
-          if (favoritesResponse.status === "success") {
-            newCategories.unshift({ readingLists: favoritesResponse.data, tagId: "2", tagName: "Favorites" });
-          }
-        }
-
         setCategories(newCategories);
       };
 
@@ -54,14 +43,26 @@ export default function ReadingListDashboard() {
     <>
       {fetchFinished ? (
         <>
-          <Tabs onChange={handleTabChange} value={currentTab} variant="scrollable" scrollButtons="auto">
-            {categories.map((cat, index) => (
-              <Tab label={cat.tagName} value={index + 1} key={cat.tagId} />
-            ))}
-          </Tabs>
-          <div className="dashboard-content">
-            <ReadingListGrid lists={categories[currentTab - 1].readingLists} />
-          </div>
+          {categories.length <= 0 ? (
+            <>
+              <div className="library-empty">
+                <h3>Reading List Library Is Empty</h3>
+
+                <Link to="/lists">Browse Reading Lists</Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <Tabs onChange={handleTabChange} value={currentTab} variant="scrollable" scrollButtons="auto">
+                {categories.map((cat, index) => (
+                  <Tab label={cat.tagName} value={index + 1} key={cat.tagId} />
+                ))}
+              </Tabs>
+              <div className="dashboard-content">
+                <ReadingListGrid lists={categories[currentTab - 1].readingLists} />
+              </div>
+            </>
+          )}
         </>
       ) : (
         <Loading />

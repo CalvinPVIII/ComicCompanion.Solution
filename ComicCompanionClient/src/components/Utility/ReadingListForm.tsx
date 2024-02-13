@@ -61,7 +61,7 @@ export default function ReadingListForm() {
   };
 
   const handleCancelCreation = () => {
-    nav("/lists");
+    nav(-1);
     dispatch(setCurrentList(null));
     dispatch(toggleCreating(false));
   };

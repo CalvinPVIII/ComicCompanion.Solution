@@ -1,6 +1,6 @@
 import { Comic } from "../../types";
 import { Link } from "react-router-dom";
-import "../../styles/ReadingListGrid.css";
+import "../../styles/ItemGrid.css";
 import { useDispatch } from "react-redux";
 import { toggleModal, setContent } from "../../redux/modalSlice";
 import React from "react";

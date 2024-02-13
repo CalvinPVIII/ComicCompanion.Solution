@@ -1,6 +1,6 @@
 import { ReadingListDto } from "../../types";
 import { Link } from "react-router-dom";
-import "../../styles/ReadingListGrid.css";
+import "../../styles/ItemGrid.css";
 
 interface ReadingListGridProps {
   lists: ReadingListDto[];

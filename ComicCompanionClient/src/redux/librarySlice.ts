@@ -7,8 +7,8 @@ export interface LibraryState {
 }
 
 const initialState: LibraryState = {
-  libraryCategories: { "1": { tagName: "default", comics: [], tagId: "1" } },
-  readingListCategories: {},
+  libraryCategories: { "1": { tagName: "Favorites", comics: [], tagId: "1" } },
+  readingListCategories: { "1": { tagName: "Favorites", readingLists: [], tagId: "1" } },
 };
 
 type AddComicAction = {

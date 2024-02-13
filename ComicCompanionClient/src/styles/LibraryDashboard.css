@@ -1,0 +1,14 @@
+.library-empty {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  justify-content: center;
+
+  height: 80vh;
+  color: rgba(255, 255, 255, 0.562);
+}
+
+.library-empty > a {
+  color: rgba(255, 255, 255, 0.562);
+  text-decoration: underline;
+}

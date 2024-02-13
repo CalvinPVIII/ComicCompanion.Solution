@@ -2,7 +2,7 @@ import { ReadingListDto } from "../../types";
 import comicCompanionImages from "../../helpers/defaultImageArray";
 import { Link } from "react-router-dom";
 import "../../styles/ReadingListSearchResult.css";
-// import "../../styles/SearchResult.css";
+import "../../styles/SearchResult.css";
 
 interface ReadingListSearchResultProps {
   readingLists: ReadingListDto[];
