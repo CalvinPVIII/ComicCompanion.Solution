@@ -3,7 +3,7 @@ import ReadingListDashboard from "../ReadingListDashboard";
 import LibraryDashboard from "../LibraryDashboard";
 import { useState } from "react";
 
-export default function UserDashboardPage() {
+export default function LibraryPage() {
   const [currentTab, setCurrentTab] = useState<number>(1);
   const handleTabChange = (event: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);

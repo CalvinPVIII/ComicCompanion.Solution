@@ -4,12 +4,15 @@ import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector } from "../../redux/store";
 import { toggleModal, setContent } from "../../redux/modalSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isCreatingSelector } from "../../redux/store";
 
-import "../../styles/SettingsPage.css";
+import "../../styles/DashboardPage.css";
 import SignOutButton from "../Utility/SignOutButton";
-export default function SettingsPage() {
+export default function DashboardPage() {
   const currentUser = useSelector(userSelector);
+  const isCreating = useSelector(isCreatingSelector);
+
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -34,7 +37,7 @@ export default function SettingsPage() {
   return (
     <>
       <div>
-        <h1>Settings</h1>
+        <h1>Dashboard</h1>
       </div>
       {currentUser ? (
         <SignOutButton />
@@ -43,6 +46,13 @@ export default function SettingsPage() {
           Sign In
         </p>
       )}
+      <div>
+        <h3 className="link">
+          <Link to="/lists/new">{isCreating ? "Edit Current Reading List" : "Create New Reading List"}</Link>
+        </h3>
+      </div>
+
+      <h2>Settings</h2>
       <List>
         <ListItemButton onClick={handleLibrarySettingsClick}>
           <ListItem>

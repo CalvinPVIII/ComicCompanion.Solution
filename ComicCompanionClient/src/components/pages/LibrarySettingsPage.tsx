@@ -23,7 +23,7 @@ export default function LibrarySettingsPage() {
   return (
     <>
       <div className="settings-header">
-        <Link to="/settings">
+        <Link to="/dashboard">
           <ArrowBackIcon />
         </Link>
         <h2>Library Settings</h2>

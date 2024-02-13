@@ -10,23 +10,30 @@ import { useDispatch } from "react-redux";
 import "../styles/ReadingListFAB.css";
 
 import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
+import { setCurrentList, toggleCreating } from "../redux/listCreationSlice";
+import { useLocation } from "react-router-dom";
 
 export default function ReadingListFAB() {
   const isCreating = useSelector(isCreatingSelector);
   const currentList = useSelector(currentListSelector);
+  const location = useLocation();
 
   const dispatch = useDispatch();
 
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   const handleFinalize = () => {
-    // nav("/lists/new");
     dispatch(setContent({ type: "Finalize Reading List" }));
     dispatch(toggleModal(true));
     setMenuVisible(false);
   };
 
-  if (isCreating && currentList) {
+  const handleCancel = () => {
+    dispatch(setCurrentList(null));
+    dispatch(toggleCreating(false));
+  };
+
+  if (isCreating && currentList && !location.pathname.includes("/lists/new")) {
     return (
       <>
         <div className="reading-list-fab">
@@ -57,6 +64,9 @@ export default function ReadingListFAB() {
             <CardActions>
               <Button size="small" color="success" onClick={handleFinalize}>
                 Finalize
+              </Button>
+              <Button size="small" color="error" onClick={handleCancel}>
+                Cancel
               </Button>
             </CardActions>
           </div>

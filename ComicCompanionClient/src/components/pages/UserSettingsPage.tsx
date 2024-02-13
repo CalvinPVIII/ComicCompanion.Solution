@@ -134,7 +134,7 @@ export default function UserSettingsPage() {
           </Modal>
 
           <div className="settings-header">
-            <Link to="/settings">
+            <Link to="/dashboard">
               <ArrowBackIcon />
             </Link>
             <h2>User Settings</h2>
