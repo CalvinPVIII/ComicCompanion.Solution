@@ -8,6 +8,7 @@ import readingHistoryReducer, { ReadingHistoryState } from "./readingHistorySlic
 import modalReducer, { ModalState } from "./modalSlice";
 import alertReducer, { AlertState } from "./alertSlice";
 import libraryReducer, { LibraryState } from "./librarySlice";
+import apiCacheReducer, { ApiCacheState } from "./apiCacheSlice";
 
 const persistConfig = {
   key: "root",
@@ -21,6 +22,7 @@ export interface ApplicationState {
   alert: AlertState;
   readingHistory: ReadingHistoryState;
   library: LibraryState;
+  apiCache: ApiCacheState;
 }
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
@@ -36,6 +38,7 @@ const store = configureStore({
     alert: alertReducer,
     readingHistory: persistedReadingHistoryReducer,
     library: persistedLibraryReducer,
+    apiCache: apiCacheReducer,
   },
   devTools: true,
 });
@@ -64,3 +67,6 @@ export const currentPlaylistSelector = (state: ApplicationState) => state.readin
 export const previousPageSelector = (state: ApplicationState) => state.readingHistory.previousPage;
 
 export const librarySelector = (state: ApplicationState) => state.library;
+
+export const popularComicsCacheSelector = (state: ApplicationState) => state.apiCache.popularComics;
+export const popularReadingListsCacheSelector = (state: ApplicationState) => state.apiCache.popularReadingLists;

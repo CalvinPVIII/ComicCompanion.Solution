@@ -13,6 +13,7 @@ import { useBottomScrollListener } from "react-bottom-scroll-listener";
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
   openInModal?: boolean;
+  onInputCallbackFunction?: () => void;
 }
 
 type PaginationInfo = {
@@ -31,6 +32,7 @@ export default function SearchForm(props: SearchFormProps) {
 
   useEffect(() => {
     // when the component is rendered, handleSearch will be called after 1 second
+
     const timer = setTimeout(() => {
       if (props.typeOfSearch === "Comics") {
         handleSearchComics();
@@ -44,6 +46,10 @@ export default function SearchForm(props: SearchFormProps) {
 
   // event handler for the input
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.onInputCallbackFunction) {
+      props.onInputCallbackFunction();
+    }
+    setError(false);
     setSearchingStatus("searching");
     setSearchInput(e.target.value);
   };
@@ -86,6 +92,7 @@ export default function SearchForm(props: SearchFormProps) {
   // this handles searching for comics and structuring them for the SearchResult component
   const handleSearchComics = async () => {
     try {
+      setError(false);
       if (searchInput) {
         const apiResponse = await ComicCompanionAPIService.searchComics(searchInput, undefined);
         console.log(apiResponse);
@@ -108,6 +115,7 @@ export default function SearchForm(props: SearchFormProps) {
   // this handles searching for reading lists and structuring them for the SearchResult component
   const handleSearchReadingLists = async () => {
     try {
+      setError(false);
       if (searchInput) {
         const response = await ComicCompanionAPIService.searchReadingLists(searchInput);
         if (response.data.length === 0) {

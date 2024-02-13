@@ -6,11 +6,14 @@ import "../styles/PopularList.css";
 import { Alert } from "@mui/material";
 import { getErrorMessage } from "../helpers/helperFunctions";
 import Loading from "./Utility/Loading";
+import { useDispatch } from "react-redux";
+import { setPopularComics } from "../redux/apiCacheSlice";
 
 export default function PopularComicsList() {
   const [apiResponse, setApiResponse] = useState<ComicSearchResultAPIResponse | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -20,6 +23,7 @@ export default function PopularComicsList() {
         if (comics.data.comics.length === 0) {
           throw new Error("Unable to get comics");
         }
+        dispatch(setPopularComics(comics.data.comics));
         setApiResponse(comics);
       } catch (error: unknown) {
         const errorMessage = getErrorMessage(error);
