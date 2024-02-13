@@ -2,13 +2,13 @@ import { Alert, TextField } from "@mui/material";
 import "../../styles/SearchForm.css";
 import { useEffect, useState } from "react";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
-import ComicSearchResult from "./ComicSearchResult";
 import ReadingListSearchResult from "./ReadingListSearchResult";
 import { Comic, ReadingListDto, ReadingListSearchResultAPIResponse, SearchResultDto } from "../../types";
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import Loading from "./Loading";
 
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
+import ComicsGrid from "./ComicsGrid";
 
 interface SearchFormProps {
   typeOfSearch: "Comics" | "Reading Lists";
@@ -150,7 +150,7 @@ export default function SearchForm(props: SearchFormProps) {
         <>
           {props.typeOfSearch === "Comics" && comicSearchResult ? (
             <>
-              <ComicSearchResult comics={comicSearchResult.comics} openInModal={props.openInModal} />
+              <ComicsGrid comics={comicSearchResult.comics} openInModal={props.openInModal} />
             </>
           ) : props.typeOfSearch === "Reading Lists" && readingListSearchResult ? (
             <>
@@ -168,7 +168,7 @@ export default function SearchForm(props: SearchFormProps) {
         <>
           {props.placeholderComicSearch ? (
             <>
-              <ComicSearchResult comics={props.placeholderComicSearch} openInModal={props.openInModal} />
+              <ComicsGrid comics={props.placeholderComicSearch} openInModal={props.openInModal} />
             </>
           ) : props.placeholderReadingListSearch ? (
             <>
