@@ -20,9 +20,6 @@ export default class ComicCompanionAPIService {
     let fetchUrl = `${import.meta.env.VITE_API_URL}/comics/popular`;
     pageNumber ? (fetchUrl += `?pageNumber=${pageNumber}`) : (fetchUrl += `?pageNumber=1`);
     serverNumber ? (fetchUrl += `&serverNumber=${serverNumber}`) : `&serverNumber=1`;
-    // const fetchUrl = serverNumber
-    //   ? `${import.meta.env.VITE_API_URL}/comics/popular?serverNumber=${serverNumber}`
-    //   : `${import.meta.env.VITE_API_URL}/comics/popular`;
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
     return jsonResponse as ComicSearchResultAPIResponse;
@@ -153,7 +150,7 @@ export default class ComicCompanionAPIService {
     return jsonResponse as ReadingListPostResponse;
   }
 
-  static async deleteReadingList(readingListId: number, jwt: string): Promise<boolean> {
+  static async deleteReadingList(readingListId: number | string, jwt: string): Promise<boolean> {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/${readingListId}`, {
       method: "DELETE",
       headers: {
@@ -180,7 +177,7 @@ export default class ComicCompanionAPIService {
     return jsonResponse as FavoriteReadingListResponse;
   }
 
-  static async rateReadingList(readingListId: number, rating: boolean, jwt: string): Promise<RateReadingListAPIResponse> {
+  static async rateReadingList(readingListId: number | string, rating: boolean, jwt: string): Promise<RateReadingListAPIResponse> {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/readinglists/${readingListId}/vote`, {
       method: "PUT",
       body: JSON.stringify(rating),

@@ -9,7 +9,7 @@ public class ReadingList
     [ForeignKey("UserId")]
     public virtual ApplicationUser? User { get; set; }
     public string SerializedIssues { get; set; }
-    public bool IsPrivate { get; set; }
+    public bool Shared { get; set; }
     [MaxLength(50)]
     public string Name { get; set; }
     [MaxLength(250)]

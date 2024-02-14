@@ -10,7 +10,7 @@ export default function ReadingListGrid(props: ReadingListGridProps) {
   return (
     <div className="grid-list">
       {props.lists.map((list, index) => (
-        <Link to={`/lists/${list.readingListId}`} key={index} className="item-link">
+        <Link to={list.shared ? `/lists/shared/${list.readingListId}` : `/lists/local/${list.readingListId}`} key={index} className="item-link">
           <img src={list.coverImg} className="grid-list-img" />
           <div className="grid-list-text-wrapper">
             <span className="text-wrapper">

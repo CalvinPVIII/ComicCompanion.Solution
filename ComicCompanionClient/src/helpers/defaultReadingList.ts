@@ -3,7 +3,7 @@ import { CurrentlyCreatedReadingList } from "../types";
 const defaultList: CurrentlyCreatedReadingList = {
   name: "",
   description: "",
-  isPrivate: false,
+  shared: false,
   issues: [],
   userId: "",
   coverImg: undefined,

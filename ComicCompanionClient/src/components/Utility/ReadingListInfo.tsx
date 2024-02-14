@@ -16,8 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleCreating, setCurrentList } from "../../redux/listCreationSlice";
 
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
-import StarIcon from "@mui/icons-material/Star";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
@@ -54,7 +52,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
       description: readingList.description,
       coverImg: readingList.coverImg,
       userId: readingList.userId,
-      isPrivate: readingList.isPrivate,
+      shared: readingList.shared,
       issues: readingList.issues || [],
       readingListId: readingList.readingListId,
     };
@@ -68,7 +66,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
     setConfirmDeleteModalOpen(!confirmDeleteModalOpen);
   };
 
-  const handleDeleteReadingList = async (readingListId: number) => {
+  const handleDeleteReadingList = async (readingListId: number | string) => {
     try {
       if (!currentUser) return;
       const result = await ComicCompanionAPIService.deleteReadingList(readingListId, currentUser.token);
@@ -79,20 +77,6 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
     } catch (e) {
       const error = getErrorMessage(e);
       console.log(error);
-    }
-  };
-
-  const handleToggleFavorite = async () => {
-    if (!currentUser || !userInfo || !apiResult) return;
-    if (currentUser.userId === apiResult.userId) {
-      // alert popup
-      return;
-    }
-    const response = await ComicCompanionAPIService.favoriteReadingList(apiResult.readingListId, currentUser.token);
-    if (response.data === "Favorite Added") {
-      setUserInfo({ ...userInfo, favorite: true });
-    } else if (response.data === "Favorite Removed") {
-      setUserInfo({ ...userInfo, favorite: false });
     }
   };
 
@@ -150,11 +134,6 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
                 <div className="add-to-library-button" onClick={openLibraryModal}>
                   <AddIcon />
                 </div>
-                {userInfo?.favorite ? (
-                  <StarIcon onClick={handleToggleFavorite} color="primary" />
-                ) : (
-                  <StarOutlineIcon onClick={handleToggleFavorite} className="secondary-button" />
-                )}
 
                 <div className="rating-button-content">
                   {userInfo?.rating ? (

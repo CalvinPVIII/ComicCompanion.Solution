@@ -10,7 +10,7 @@ interface ReadingListListCardProps {
 export default function ReadingListListCard(props: ReadingListListCardProps) {
   return (
     <div className="item-card">
-      <Link to={`/lists/${props.readingList.readingListId}`}>
+      <Link to={`/lists/shared/${props.readingList.readingListId}`}>
         {props.readingList.coverImg && props.readingList.coverImg !== "null" ? (
           <img src={props.readingList.coverImg} alt={props.readingList.name} />
         ) : (

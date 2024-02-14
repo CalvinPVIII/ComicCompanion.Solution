@@ -4,7 +4,7 @@ import { currentListSelector, userSelector } from "../redux/store";
 import { Button, Accordion, AccordionDetails, AccordionSummary, TextField, Switch } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
-
+import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
@@ -19,6 +19,8 @@ import comicCompanionImages from "../helpers/defaultImageArray";
 import { readingListCreationError } from "../helpers/alertCreators";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
+import { createLocalReadingList } from "../helpers/helperFunctions";
+import { addReadingList } from "../redux/librarySlice";
 
 interface ImageCache {
   [issueId: string]: string[];
@@ -47,8 +49,8 @@ export default function ConfirmReadingList() {
     dispatch(updateProperty({ propertyName: "description", value: e.target.value }));
   };
 
-  const handleTogglePrivate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateProperty({ propertyName: "isPrivate", value: e.target.checked }));
+  const handleToggleShared = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateProperty({ propertyName: "shared", value: e.target.checked }));
   };
 
   const handleIssueClick = async (issue: Issue) => {
@@ -90,31 +92,49 @@ export default function ConfirmReadingList() {
     console.log(readingList);
     const errors = errorChecker();
     if (errors) return;
-    if (!readingList || !currentUser) return;
+    if (!readingList) return;
 
     const list: UserReadingListPostRequest = {
       readingListId: readingList.readingListId || 0,
       serializedIssues: JSON.stringify(readingList.issues),
-      isPrivate: readingList.isPrivate,
-      userId: currentUser.userId,
+      shared: readingList.shared,
+      userId: "local",
       name: readingList.name,
       description: readingList.description,
       coverImg: readingList.coverImg || comicCompanionImages[defaultImageIndex],
     };
     let response;
-    if (readingList.readingListId !== 0) {
-      response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "PUT");
-    } else {
-      response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "POST");
-    }
+    // if you want to share the reading list
+    if (list.shared && currentUser) {
+      list.userId = currentUser.userId;
+      if (list.readingListId !== 0) {
+        // checks if the reading list was locally stored or not already
+        if (typeof list.readingListId === "string") {
+          list.readingListId = 0;
+          response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "POST");
+        } else {
+          response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "PUT");
+        }
+      } else {
+        response = await ComicCompanionAPIService.postReadingList(list, currentUser.token, "POST");
+      }
 
-    if (response.status === "success") {
-      nav(`/lists/${response.data.readingListId}`);
-      dispatch(setCurrentList(null));
-      dispatch(toggleCreating(false));
-      dispatch(toggleModal(false));
+      if (response.status === "success") {
+        dispatch(addReadingList({ tagId: "created", readingList: response.data }));
+        nav(`/lists/shared/${response.data.readingListId}`);
+      }
+      // if the reading list is local only
+    } else {
+      if (list.readingListId === 0) {
+        list.readingListId = uuidv4();
+        const response = createLocalReadingList(dispatch, list);
+        nav(`/lists/local/${response.readingListId}`);
+      }
     }
-    console.log(readingList);
+    dispatch(setCurrentList(null));
+    dispatch(toggleCreating(false));
+    dispatch(toggleModal(false));
+    console.log(list);
   };
 
   const toggleDefaultImage = () => {
@@ -172,8 +192,8 @@ export default function ConfirmReadingList() {
         </div>
         <div id="private-toggle">
           <label>
-            <Switch onChange={handleTogglePrivate} checked={readingList.isPrivate} />
-            Private
+            <Switch onChange={handleToggleShared} checked={readingList.shared} disabled={currentUser ? false : true} />
+            Share
           </label>
         </div>
 

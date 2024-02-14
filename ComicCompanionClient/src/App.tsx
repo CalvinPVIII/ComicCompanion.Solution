@@ -6,7 +6,6 @@ import ComicPage from "./components/pages/ComicsPage";
 import NavBar from "./components/Navbar";
 import ComicInfoPage from "./components/pages/ComicInfoPage";
 import ReadingListsPage from "./components/pages/ReadingListsPage";
-import ReadingListInfoPage from "./components/pages/ReadingListInfoPage";
 import NewReadingListPage from "./components/pages/NewReadingListPage";
 import IssuePage from "./components/pages/IssuePage";
 
@@ -24,6 +23,8 @@ import LibraryPage from "./components/pages/LibraryPage";
 
 import LibrarySettingsPage from "./components/pages/LibrarySettingsPage";
 import DashboardPage from "./components/pages/DashboardPage";
+import SharedReadingListInfoPage from "./components/pages/SharedReadingListInfoPage";
+import LocalReadingListInfoPage from "./components/pages/LocalReadingListInfoPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -65,7 +66,9 @@ function App() {
             <Route path="/comics/:comicId/issue/:issueId" element={<IssuePage />} />
 
             <Route path="/lists/new" element={<NewReadingListPage />} />
-            <Route path="/lists/:listId" element={<ReadingListInfoPage />} />
+            <Route path="/lists/shared/:listId" element={<SharedReadingListInfoPage />} />
+            <Route path="/lists/local/:listId" element={<LocalReadingListInfoPage />} />
+
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/settings/library" element={<LibrarySettingsPage />} />
           </Routes>

@@ -36,17 +36,10 @@ public class ReadingListController : Controller
 
             // if you are not searching for your own list
 
-            if (requestingUserId != userId)
-            {
-                // return only the public lists
-                readingListQuery = readingListQuery.Where(l => l.IsPrivate == false);
-            }
+
 
         }
-        else
-        {
-            readingListQuery = readingListQuery.Where(l => l.IsPrivate == false);
-        }
+
         if (listName != null)
         {
             readingListQuery = readingListQuery.Where(l => l.Name.Contains(listName));
@@ -87,13 +80,7 @@ public class ReadingListController : Controller
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
         if (readingList != null)
         {
-            if (readingList.IsPrivate)
-            {
-                if (requestingUserId != readingList.UserId)
-                {
-                    return Unauthorized(new APIResponseDto("error", 401, "Insufficient Permissions"));
-                }
-            }
+
             var list = new ReadingListDto(readingList, true);
             if (requestingUserId != null)
             {
@@ -117,7 +104,7 @@ public class ReadingListController : Controller
     public IActionResult Popular()
     {
         var popularLists = _db.ReadingLists.Include(l => l.Ratings).Include(l => l.User
-        ).Where(l => l.IsPrivate == false).OrderByDescending(readingList => readingList.Ratings.Where(rating => rating.Positive == true).Count() - readingList.Ratings.Where(rating => rating.Positive == false).Count()).ToList().Select(list => new ReadingListDto(list, false));
+        ).OrderByDescending(readingList => readingList.Ratings.Where(rating => rating.Positive == true).Count() - readingList.Ratings.Where(rating => rating.Positive == false).Count()).ToList().Select(list => new ReadingListDto(list, false));
 
         return Ok(new APIResponseDto("success", 200, popularLists));
     }

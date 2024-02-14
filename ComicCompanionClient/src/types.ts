@@ -33,9 +33,9 @@ interface APIResponse {
 }
 
 export interface ReadingListDto {
-  readingListId: number;
+  readingListId: number | string;
   issues: Issue[] | null;
-  isPrivate: boolean;
+  shared: boolean;
   userId: string;
   name: string;
   description: string;
@@ -80,18 +80,18 @@ interface ICreatedReadingList {
 
 export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
   issues: Issue[];
-  isPrivate: boolean;
+  shared: boolean;
   userId: string;
   name: string;
   description: string;
   coverImg?: string;
-  readingListId?: number;
+  readingListId?: number | string;
 }
 
 export interface UserReadingListPostRequest {
-  readingListId: number;
+  readingListId: number | string;
   serializedIssues: string;
-  isPrivate: boolean;
+  shared: boolean;
   userId: string;
   name: string;
   description: string;

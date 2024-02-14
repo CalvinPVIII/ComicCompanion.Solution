@@ -8,7 +8,10 @@ export interface LibraryState {
 
 const initialState: LibraryState = {
   libraryCategories: { "1": { tagName: "Favorites", comics: [], tagId: "1" } },
-  readingListCategories: { "1": { tagName: "Favorites", readingLists: [], tagId: "1" } },
+  readingListCategories: {
+    created: { tagName: "Created", readingLists: [], tagId: "created" },
+    "2": { tagName: "Favorites", readingLists: [], tagId: "2" },
+  },
 };
 
 type AddComicAction = {
@@ -73,7 +76,9 @@ const librarySlice = createSlice({
       if (action.payload.readingListOrComic === "comic") {
         delete state.libraryCategories[action.payload.tagId];
       } else {
-        delete state.readingListCategories[action.payload.tagId];
+        if (action.payload.tagId !== "created") {
+          delete state.readingListCategories[action.payload.tagId];
+        }
       }
     },
     updateTag: (state, action: PayloadAction<TagAction>) => {

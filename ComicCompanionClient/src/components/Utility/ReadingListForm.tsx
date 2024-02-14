@@ -50,12 +50,7 @@ export default function ReadingListForm() {
       setErrorMessage("Reading list is empty");
       return;
     }
-    if (!currentUser) {
-      setErrorMessage("Please sign in");
-      dispatch(setContent({ type: "User Auth" }));
-      dispatch(toggleModal(true));
-      return;
-    }
+
     dispatch(setContent({ type: "Finalize Reading List" }));
     dispatch(toggleModal(true));
   };
@@ -92,15 +87,19 @@ export default function ReadingListForm() {
             />
             <div>
               <label>
-                <Switch onChange={(e) => handleUpdateProperty("isPrivate", e.target.checked)} checked={list.isPrivate} />
-                Private
+                <Switch
+                  onChange={(e) => handleUpdateProperty("shared", e.target.checked)}
+                  checked={list.shared}
+                  disabled={currentUser ? false : true}
+                />
+                Share
               </label>
             </div>
             {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : <></>}
 
             <div style={{ display: "flex", justifyContent: "space-around" }}>
               <Button variant="contained" color="success" onClick={handleSubmit}>
-                Create
+                Confirm
               </Button>
               <Button variant="outlined" color="error" onClick={handleCancelCreation}>
                 Cancel
