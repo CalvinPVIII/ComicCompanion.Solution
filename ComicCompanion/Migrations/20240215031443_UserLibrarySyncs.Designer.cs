@@ -3,6 +3,7 @@ using System;
 using ComicCompanion.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ComicCompanion.Migrations
 {
     [DbContext(typeof(ComicCompanionContext))]
-    partial class ComicCompanionContextModelSnapshot : ModelSnapshot
+    [Migration("20240215031443_UserLibrarySyncs")]
+    partial class UserLibrarySyncs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,16 +166,12 @@ namespace ComicCompanion.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastSynced")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("ReadingListLibrary")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserLibrarySyncId");
 

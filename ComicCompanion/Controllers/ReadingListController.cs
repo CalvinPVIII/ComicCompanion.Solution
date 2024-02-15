@@ -9,13 +9,12 @@ namespace ComicCompanion.Models;
 public class ReadingListController : Controller
 {
     private readonly ComicCompanionContext _db;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private object l;
+
 
     public ReadingListController(ComicCompanionContext db, UserManager<ApplicationUser> userManager)
     {
         _db = db;
-        _userManager = userManager;
+
     }
 
     [HttpGet("ReadingLists")]

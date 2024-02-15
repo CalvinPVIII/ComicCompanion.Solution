@@ -121,11 +121,7 @@ namespace ComicCompanion.Controllers
             {
                 return BadRequest(new APIResponseDto("error", 400, string.Join(" ", result.Errors)));
             }
-
-
-
         }
-
 
         private string CreateToken(List<Claim> authClaims)
         {

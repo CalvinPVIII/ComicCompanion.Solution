@@ -8,6 +8,8 @@ namespace ComicCompanion.Models
         public DbSet<ReadingList> ReadingLists { get; set; }
         public DbSet<UserReadingListFavorite> UserReadingListFavorites { get; set; }
         public DbSet<ReadingListRating> ReadingListRatings { get; set; }
+        public DbSet<UserLibrarySync> UserLibrarySyncs { get; set; }
+
         public ComicCompanionContext(DbContextOptions options) : base(options) { }
     }
 }
