@@ -25,6 +25,7 @@ import LibrarySettingsPage from "./components/pages/LibrarySettingsPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import SharedReadingListInfoPage from "./components/pages/SharedReadingListInfoPage";
 import LocalReadingListInfoPage from "./components/pages/LocalReadingListInfoPage";
+import AdvancedSettingsPage from "./components/pages/AdvancedSettingsPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -71,6 +72,7 @@ function App() {
 
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/settings/library" element={<LibrarySettingsPage />} />
+            <Route path="/settings/advanced" element={<AdvancedSettingsPage />} />
           </Routes>
         </div>
         <NavBar />

@@ -128,3 +128,26 @@ export interface UpdateUserResponse {
   statusCode: 401 | 404 | 200;
   data: "Unauthorized" | "No user found" | "User Info Updated";
 }
+
+export interface UserLibrary {
+  userId: string;
+  userLibrarySyncId: number;
+  comicLibrary: string;
+  readingListLibrary: string;
+  lastSynced: string;
+}
+export interface PostUserLibrarySync {
+  userId: string;
+  userLibrarySyncId: number;
+  comicLibrary: string;
+  readingListLibrary: string;
+  lastSynced: string;
+}
+
+export interface RetrieveSyncResponse extends APIResponse {
+  data: PostUserLibrarySync | "Library Not Found";
+}
+
+export interface PostLibrarySyncResponse extends APIResponse {
+  data: PostUserLibrarySync | "User Not Found";
+}

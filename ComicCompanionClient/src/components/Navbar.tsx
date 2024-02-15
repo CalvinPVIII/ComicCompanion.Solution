@@ -27,7 +27,7 @@ export default function NavBar() {
       ? ICON_VALUES.comics
       : location.pathname.includes("/library")
       ? ICON_VALUES.dashboard
-      : location.pathname.includes("/dashboard") || location.pathname.includes("/account")
+      : location.pathname.includes("/dashboard") || location.pathname.includes("/account") || location.pathname.includes("/settings")
       ? ICON_VALUES.settings
       : ICON_VALUES.home;
 

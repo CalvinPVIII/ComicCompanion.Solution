@@ -16,9 +16,16 @@ export const successfulUserUpdate = (dispatch: Dispatch) => {
   }, 70);
 };
 
-export const readingListCreationError = (dispatch: Dispatch, errorMessage: string) => {
+export const errorAlert = (dispatch: Dispatch, errorMessage: string) => {
   dispatch(toggleAlert(false));
   setTimeout(() => {
     dispatch(setAlert({ message: errorMessage, severity: "error", durationInSeconds: 3, visible: true }));
+  }, 70);
+};
+
+export const successAlert = (dispatch: Dispatch, message: string) => {
+  dispatch(toggleAlert(false));
+  setTimeout(() => {
+    dispatch(setAlert({ message: message, severity: "success", durationInSeconds: 2, visible: true }));
   }, 70);
 };

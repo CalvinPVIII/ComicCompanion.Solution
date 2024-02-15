@@ -51,7 +51,7 @@ export default function AddToLibraryModal(props: AddToLibraryModalProps) {
     }
   };
 
-  const categories = props.readingListOrComic === "comic" ? Object.values(library.libraryCategories) : Object.values(library.readingListCategories);
+  const categories = props.readingListOrComic === "comic" ? Object.values(library.comicCategories) : Object.values(library.readingListCategories);
   const itemInfo = props.readingListOrComic === "comic" ? (props.itemInfo as Comic) : (props.itemInfo as ReadingListDto);
   return (
     <Modal open={props.open} onClose={props.setClose}>

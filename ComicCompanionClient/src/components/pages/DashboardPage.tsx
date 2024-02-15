@@ -1,6 +1,7 @@
 import { List, ListItem, ListItemText, ListItemIcon, ListItemButton } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
+import CodeIcon from "@mui/icons-material/Code";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector } from "../../redux/store";
 import { toggleModal, setContent } from "../../redux/modalSlice";
@@ -9,6 +10,7 @@ import { isCreatingSelector } from "../../redux/store";
 
 import "../../styles/DashboardPage.css";
 import SignOutButton from "../Utility/SignOutButton";
+
 export default function DashboardPage() {
   const currentUser = useSelector(userSelector);
   const isCreating = useSelector(isCreatingSelector);
@@ -28,10 +30,6 @@ export default function DashboardPage() {
     } else {
       nav("/account");
     }
-  };
-
-  const handleLibrarySettingsClick = () => {
-    nav("/settings/library");
   };
 
   return (
@@ -54,14 +52,16 @@ export default function DashboardPage() {
 
       <h2>Settings</h2>
       <List>
-        <ListItemButton onClick={handleLibrarySettingsClick}>
-          <ListItem>
-            <ListItemIcon>
-              <CollectionsBookmarkIcon />
-            </ListItemIcon>
-            <ListItemText>Library Settings</ListItemText>
-          </ListItem>
-        </ListItemButton>
+        <Link to="/settings/library">
+          <ListItemButton>
+            <ListItem>
+              <ListItemIcon>
+                <CollectionsBookmarkIcon />
+              </ListItemIcon>
+              <ListItemText>Library Settings</ListItemText>
+            </ListItem>
+          </ListItemButton>
+        </Link>
         <ListItemButton onClick={handleUserSettingsClick}>
           <ListItem>
             <ListItemIcon>
@@ -70,6 +70,16 @@ export default function DashboardPage() {
             <ListItemText>User Settings</ListItemText>
           </ListItem>
         </ListItemButton>
+        <Link to="/settings/advanced">
+          <ListItemButton>
+            <ListItem>
+              <ListItemIcon>
+                <CodeIcon />
+              </ListItemIcon>
+              <ListItemText>Advanced Settings</ListItemText>
+            </ListItem>
+          </ListItemButton>
+        </Link>
       </List>
     </>
   );

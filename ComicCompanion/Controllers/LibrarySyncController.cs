@@ -15,8 +15,8 @@ public class LibrarySyncController : Controller
     }
 
 
-    [HttpPost("/sync")]
-    public IActionResult SyncLibrary(UserLibrarySync library)
+    [HttpPost("sync")]
+    public IActionResult SyncLibrary([FromBody] UserLibrarySync library)
     {
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
         if (requestingUserId == null)
@@ -32,14 +32,17 @@ public class LibrarySyncController : Controller
         }
         else
         {
+
             library.UserLibrarySyncId = prevSync.UserLibrarySyncId;
-            _db.Update(library);
+            _db.UserLibrarySyncs.Remove(prevSync);
+
+            _db.UserLibrarySyncs.Add(library);
         }
         _db.SaveChanges();
         return Ok(new APIResponseDto("success", 200, library));
     }
 
-    [HttpGet("/sync")]
+    [HttpGet("sync")]
     public IActionResult Get()
     {
         string? requestingUserId = AuthHelper.GetUserId(HttpContext.Request.Headers.Authorization);
@@ -60,6 +63,13 @@ public class LibrarySyncController : Controller
 
             }
         }
+    }
+
+
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok(_db.UserLibrarySyncs.ToArray());
     }
 }
 

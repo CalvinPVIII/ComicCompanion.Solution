@@ -1,13 +1,17 @@
+import { ComicCategories, LibraryState, ReadingListCategories } from "../redux/librarySlice";
 import {
   Comic,
   ComicSearchResultAPIResponse,
   FavoriteReadingListResponse,
   Issue,
+  PostLibrarySyncResponse,
+  PostUserLibrarySync,
   RateReadingListAPIResponse,
   ReadingListAPIResponse,
   ReadingListPostResponse,
   ReadingListSearchResultAPIResponse,
   ReadingListWithUserInfoAPIResponse,
+  RetrieveSyncResponse,
   SearchResultDto,
   UpdateUserData,
   UpdateUserResponse,
@@ -229,5 +233,43 @@ export default class ComicCompanionAPIService {
     });
     const jsonResponse = await response.json();
     return jsonResponse as UpdateUserResponse;
+  }
+
+  static async getUserLibrary(jwt: string) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/sync`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse: RetrieveSyncResponse = await response.json();
+
+    if (jsonResponse.data !== "Library Not Found") {
+      const deserializedLibrary: LibraryState = {
+        comicCategories: JSON.parse(jsonResponse.data.comicLibrary) as ComicCategories,
+        readingListCategories: JSON.parse(jsonResponse.data.readingListLibrary) as ReadingListCategories,
+      };
+      return deserializedLibrary;
+    }
+  }
+
+  static async syncUserLibrary(jwt: string, library: PostUserLibrarySync) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/sync`, {
+      method: "POST",
+      body: JSON.stringify(library),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const jsonResponse: PostLibrarySyncResponse = await response.json();
+    if (jsonResponse.data !== "User Not Found") {
+      const newLibrary: LibraryState = {
+        comicCategories: JSON.parse(jsonResponse.data.comicLibrary) as ComicCategories,
+        readingListCategories: JSON.parse(jsonResponse.data.readingListLibrary) as ReadingListCategories,
+      };
+      return newLibrary;
+    }
   }
 }

@@ -7,13 +7,14 @@ import ComicsGrid from "./Utility/ComicsGrid";
 import { Link } from "react-router-dom";
 export default function LibraryDashboard() {
   const library = useSelector(librarySelector);
-  const categoriesArray = Object.values(library.libraryCategories);
+  const categoriesArray = Object.values(library.comicCategories);
   const [currentTab, setCurrentTab] = useState(1);
   const [currentCategory, setCurrentCategory] = useState(categoriesArray[0]);
   const handleTabChange = (_: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);
     setCurrentCategory(categoriesArray[value - 1]);
   };
+  console.log(library);
   return (
     <>
       {categoriesArray.length <= 0 ? (

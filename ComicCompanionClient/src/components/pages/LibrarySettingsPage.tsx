@@ -41,7 +41,7 @@ export default function LibrarySettingsPage() {
             </ListItem>
           </ListItemButton>
           <Collapse in={comicCatSettingsOpen} timeout="auto" unmountOnExit>
-            <ManageCategoryList categories={Object.values(library.libraryCategories)} readingListOrComic="comic" />
+            <ManageCategoryList categories={Object.values(library.comicCategories)} readingListOrComic="comic" />
           </Collapse>
 
           <ListItemButton onClick={handleToggleReadingListCatSettings}>

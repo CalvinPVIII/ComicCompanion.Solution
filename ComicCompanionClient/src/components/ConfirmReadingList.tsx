@@ -16,7 +16,7 @@ import { toggleModal } from "../redux/modalSlice";
 import { setCurrentList, toggleCreating } from "../redux/listCreationSlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import comicCompanionImages from "../helpers/defaultImageArray";
-import { readingListCreationError } from "../helpers/alertCreators";
+import { errorAlert } from "../helpers/alertCreators";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { createLocalReadingList } from "../helpers/helperFunctions";
@@ -71,17 +71,17 @@ export default function ConfirmReadingList() {
   const errorChecker = (): boolean => {
     if (!readingList) return true;
     if (readingList.issues.length <= 0) {
-      readingListCreationError(dispatch, "Reading List Must Have Issues");
-      readingListCreationError(dispatch, "Reading List Must Have Issues");
+      errorAlert(dispatch, "Reading List Must Have Issues");
+      errorAlert(dispatch, "Reading List Must Have Issues");
       return true;
     }
     if (readingList.name.length <= 0) {
-      readingListCreationError(dispatch, "Name Cannot Be Blank");
+      errorAlert(dispatch, "Name Cannot Be Blank");
 
       return true;
     }
     if (readingList.description.length <= 0) {
-      readingListCreationError(dispatch, "Description Cannot Be Blank");
+      errorAlert(dispatch, "Description Cannot Be Blank");
 
       return true;
     }
