@@ -69,7 +69,11 @@ export default function IssuesList(props: IssuesListProps) {
 
   const handleSetPlaylist = () => {
     if (props.issues) {
-      dispatch(setPlaylist(props.issues.reverse()));
+      if (ascendOrDescend === "descend") {
+        dispatch(setPlaylist(props.issues));
+      } else {
+        dispatch(setPlaylist(props.issues.reverse()));
+      }
       dispatch(setPreviousPage(location.pathname));
     }
   };
