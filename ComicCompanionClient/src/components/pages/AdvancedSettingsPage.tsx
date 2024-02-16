@@ -54,10 +54,7 @@ export default function AdvancedSettingsPage() {
             <ListItemIcon>
               <SyncIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Force Local Library Sync"
-              secondary={<p>Force the local library to overwrite the library synced to the server</p>}
-            />
+            <ListItemText primary="Force Local Library Sync" secondary={"Force the local library to overwrite the library synced to the server"} />
           </ListItem>
         </ListItemButton>
 
@@ -66,7 +63,7 @@ export default function AdvancedSettingsPage() {
             <ListItemIcon>
               <SystemUpdateAltIcon />
             </ListItemIcon>
-            <ListItemText primary="Force Server Library Sync" secondary={<p>Force the server library to overwrite the local library</p>} />
+            <ListItemText primary="Force Server Library Sync" secondary={"Force the server library to overwrite the local library"} />
           </ListItem>
         </ListItemButton>
       </List>

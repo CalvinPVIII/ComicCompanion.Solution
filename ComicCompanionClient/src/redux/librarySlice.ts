@@ -59,6 +59,11 @@ const librarySlice = createSlice({
       state.comicCategories[action.payload.tagId].comics = updatedCategoryComics;
     },
     addReadingList: (state, action: PayloadAction<AddReadingListAction>) => {
+      // if "created" was deleted for whatever reason, recreate it
+      if (action.payload.tagId === "created" && !state.readingListCategories["created"]) {
+        state.readingListCategories["created"] = { tagName: "Created", readingLists: [], tagId: "created" };
+      }
+
       if (
         state.readingListCategories[action.payload.tagId].readingLists.findIndex(
           (readingList) => readingList.readingListId === action.payload.readingList.readingListId
@@ -97,8 +102,7 @@ const librarySlice = createSlice({
       }
     },
     setLibrary: (state, action: PayloadAction<LibraryState>) => {
-      state = action.payload;
-      return state;
+      return action.payload;
     },
   },
 });
