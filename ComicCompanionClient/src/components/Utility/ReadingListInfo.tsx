@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import { CurrentlyCreatedReadingList, ReadingListAPIResponse, ReadingListDto, ReadingListWithUserInfoAPIResponse } from "../../types";
+import { useState } from "react";
+import { CurrentlyCreatedReadingList, ReadingListDto } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert, Button, Modal } from "@mui/material";
+import { Button, Modal } from "@mui/material";
 import comicCompanionImages from "../../helpers/defaultImageArray";
-import Loading from "./Loading";
 import IssuesList from "./IssuesList";
 
 import { useSelector } from "react-redux";
@@ -22,8 +21,11 @@ import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
+
 interface ReadingListInfoProps {
-  listId: string;
+  readingList: ReadingListDto;
+  userInfo?: ReadingListUserInfo | null;
+  rateReadingList?: (rating: boolean) => void;
 }
 
 type ReadingListUserInfo = {
@@ -32,10 +34,6 @@ type ReadingListUserInfo = {
 };
 
 export default function ReadingListInfo(props: ReadingListInfoProps) {
-  const [apiResult, setApiResult] = useState<ReadingListDto | null>(null);
-  const [userInfo, setUserInfo] = useState<ReadingListUserInfo | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState<boolean>(false);
   const [libraryModal, setLibraryModal] = useState(false);
   const openLibraryModal = () => setLibraryModal(true);
@@ -80,127 +78,84 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
     }
   };
 
-  const handleRateReadingList = async (rating: boolean) => {
-    if (!currentUser || !apiResult || !userInfo) return;
-    if (currentUser.userId === apiResult.userId) {
-      // alert popup
-      return;
-    }
-    const response = await ComicCompanionAPIService.rateReadingList(apiResult.readingListId, rating, currentUser.token);
-    if (userInfo.rating === rating) {
-      setUserInfo({ ...userInfo, rating: null });
-    } else {
-      setUserInfo({ ...userInfo, rating: rating });
-    }
-    setApiResult(response.data.content);
-  };
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        let readingList = await ComicCompanionAPIService.getReadingList(props.listId, currentUser?.token);
-        if (readingList.status === "error") {
-          throw new Error(readingList.data as unknown as string);
-        }
-        if (currentUser) {
-          readingList = readingList as ReadingListWithUserInfoAPIResponse;
-          setApiResult(readingList.data.list);
-          setUserInfo(readingList.data.userInfo);
-        } else {
-          readingList = readingList as ReadingListAPIResponse;
-          setApiResult(readingList.data);
-        }
-        console.log(apiResult);
-      } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        setError(errorMessage);
-      }
-      setLoading(false);
-    };
-    getData();
-  }, [props.listId]);
-
   return (
     <>
-      {!loading && apiResult ? (
-        <>
-          <AddToLibraryModal open={libraryModal} setClose={closeLibraryModal} readingListOrComic="readingList" itemInfo={apiResult} />
-          <div className="list-info">
-            {apiResult.coverImg ? <img src={apiResult.coverImg} alt={apiResult.name} /> : <img src={comicCompanionImages[0]} alt={apiResult.name} />}
-            <div className="list-info-bottom-section">
-              <p id="list-info-header">{apiResult.name}</p>
+      <>
+        <AddToLibraryModal open={libraryModal} setClose={closeLibraryModal} readingListOrComic="readingList" itemInfo={props.readingList} />
+        <div className="list-info">
+          {props.readingList.coverImg ? (
+            <img src={props.readingList.coverImg} alt={props.readingList.name} />
+          ) : (
+            <img src={comicCompanionImages[0]} alt={props.readingList.name} />
+          )}
+          <div className="list-info-bottom-section">
+            <p id="list-info-header">{props.readingList.name}</p>
 
-              <div id="rating-buttons">
-                <div className="add-to-library-button" onClick={openLibraryModal}>
-                  <AddIcon />
-                </div>
-
-                <div className="rating-button-content">
-                  {userInfo?.rating ? (
-                    <>
-                      <ThumbUpIcon color="success" onClick={() => handleRateReadingList(true)} />
-                      <span className="rating-number active-like">{apiResult?.likes}</span>
-                    </>
-                  ) : (
-                    <>
-                      <ThumbUpOutlinedIcon className="secondary-button" onClick={() => handleRateReadingList(true)} />
-                      <span className="rating-number secondary-button">{apiResult?.likes}</span>
-                    </>
-                  )}
-                </div>
-
-                <div className="rating-button-content">
-                  {userInfo?.rating === false ? (
-                    <>
-                      <ThumbDownIcon color="error" onClick={() => handleRateReadingList(false)} />
-                      <span className="rating-number active-dislike">{apiResult?.dislikes}</span>
-                    </>
-                  ) : (
-                    <>
-                      <ThumbDownOutlinedIcon className="secondary-button" onClick={() => handleRateReadingList(false)} />
-                      <span className="rating-number secondary-button">{apiResult?.dislikes}</span>
-                    </>
-                  )}
-                </div>
+            <div id="rating-buttons">
+              <div className="add-to-library-button" onClick={openLibraryModal}>
+                <AddIcon />
               </div>
-
-              <p id="list-info-author">Created by {apiResult.createdBy}</p>
-              <p id="list-info-description">{apiResult.description}</p>
-              {currentUser?.userId === apiResult.userId ? (
+              {props.rateReadingList ? (
                 <>
-                  <Modal open={confirmDeleteModalOpen} onClose={toggleConfirmDeleteModal}>
-                    <div id="confirm-delete-modal">
-                      <h2>Are you sure you want to delete this reading list?</h2>
-                      <Button variant="contained" color="error" onClick={() => handleDeleteReadingList(apiResult.readingListId)}>
-                        Delete
-                      </Button>
-                      <p onClick={toggleConfirmDeleteModal}>Cancel</p>
-                    </div>
-                  </Modal>
-                  <Button variant="outlined" size="small" color="success" onClick={() => handleEditClick(apiResult)}>
-                    Edit
-                  </Button>
-                  <Button variant="outlined" size="small" color="error" onClick={toggleConfirmDeleteModal}>
-                    Delete
-                  </Button>
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
+                  <div className="rating-button-content">
+                    {props.userInfo?.rating ? (
+                      <>
+                        <ThumbUpIcon color="success" onClick={() => props.rateReadingList?.(true)} />
+                        <span className="rating-number active-like">{props.readingList?.likes}</span>
+                      </>
+                    ) : (
+                      <>
+                        <ThumbUpOutlinedIcon className="secondary-button" onClick={() => props.rateReadingList?.(true)} />
+                        <span className="rating-number secondary-button">{props.readingList?.likes}</span>
+                      </>
+                    )}
+                  </div>
 
-          <IssuesList issues={apiResult.issues} showComicNames={true} />
-        </>
-      ) : !loading && error ? (
-        <>
-          <Alert severity="error">{error} </Alert>
-        </>
-      ) : loading ? (
-        <Loading />
-      ) : (
-        <></>
-      )}
+                  <div className="rating-button-content">
+                    {props.userInfo?.rating === false ? (
+                      <>
+                        <ThumbDownIcon color="error" onClick={() => props.rateReadingList?.(false)} />
+                        <span className="rating-number active-dislike">{props.readingList?.dislikes}</span>
+                      </>
+                    ) : (
+                      <>
+                        <ThumbDownOutlinedIcon className="secondary-button" onClick={() => props.rateReadingList?.(false)} />
+                        <span className="rating-number secondary-button">{props.readingList?.dislikes}</span>
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : null}
+            </div>
+
+            <p id="list-info-author">Created by {props.readingList.createdBy}</p>
+            <p id="list-info-description">{props.readingList.description}</p>
+            {currentUser?.userId === props.readingList.userId ? (
+              <>
+                <Modal open={confirmDeleteModalOpen} onClose={toggleConfirmDeleteModal}>
+                  <div id="confirm-delete-modal">
+                    <h2>Are you sure you want to delete this reading list?</h2>
+                    <Button variant="contained" color="error" onClick={() => handleDeleteReadingList(props.readingList.readingListId)}>
+                      Delete
+                    </Button>
+                    <p onClick={toggleConfirmDeleteModal}>Cancel</p>
+                  </div>
+                </Modal>
+                <Button variant="outlined" size="small" color="success" onClick={() => handleEditClick(props.readingList)}>
+                  Edit
+                </Button>
+                <Button variant="outlined" size="small" color="error" onClick={toggleConfirmDeleteModal}>
+                  Delete
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+
+        <IssuesList issues={props.readingList.issues} showComicNames={true} />
+      </>
     </>
   );
 }
