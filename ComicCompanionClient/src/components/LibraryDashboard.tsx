@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { librarySelector } from "../redux/store";
 import ComicsGrid from "./Utility/ComicsGrid";
-import { Link } from "react-router-dom";
+import EmptyLibraryCat from "./Utility/EmptyLibraryCat";
 export default function LibraryDashboard() {
   const library = useSelector(librarySelector);
   const categoriesArray = Object.values(library.comicCategories);
@@ -19,8 +19,7 @@ export default function LibraryDashboard() {
     <>
       {categoriesArray.length <= 0 ? (
         <div className="library-empty">
-          <h3>Comic Library Is Empty</h3>
-          <Link to="/comics">Browse Comics</Link>
+          <EmptyLibraryCat type="comic" libOrCat="category" />
         </div>
       ) : (
         <>
@@ -31,7 +30,11 @@ export default function LibraryDashboard() {
           </Tabs>
           <div>
             <div className="dashboard-content">
-              <ComicsGrid comics={currentCategory.comics} />
+              {currentCategory.comics.length === 0 ? (
+                <EmptyLibraryCat libOrCat="category" type="comic" />
+              ) : (
+                <ComicsGrid comics={currentCategory.comics} />
+              )}
             </div>
           </div>
         </>

@@ -83,9 +83,7 @@ const librarySlice = createSlice({
       if (action.payload.readingListOrComic === "comic") {
         delete state.comicCategories[action.payload.tagId];
       } else {
-        if (action.payload.tagId !== "created") {
-          delete state.readingListCategories[action.payload.tagId];
-        }
+        delete state.readingListCategories[action.payload.tagId];
       }
     },
     updateTag: (state, action: PayloadAction<TagAction>) => {
