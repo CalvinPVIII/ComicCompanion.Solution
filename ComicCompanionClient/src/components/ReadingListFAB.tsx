@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Badge, Button, CardActions, CardContent, Fab, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import { isCreatingSelector, currentListSelector } from "../redux/store";
+import { isCreatingSelector, currentListSelector, settingsSelector } from "../redux/store";
 import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { toggleModal, setContent } from "../redux/modalSlice";
@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 export default function ReadingListFAB() {
   const isCreating = useSelector(isCreatingSelector);
   const currentList = useSelector(currentListSelector);
+  const settings = useSelector(settingsSelector);
   const location = useLocation();
 
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default function ReadingListFAB() {
     dispatch(toggleCreating(false));
   };
 
-  if (isCreating && currentList && !location.pathname.includes("/lists/new")) {
+  if (isCreating && currentList && !location.pathname.includes("/lists/new") && !settings.hideEditFAB) {
     return (
       <>
         <div className="reading-list-fab">

@@ -11,7 +11,7 @@ import alertReducer, { AlertState } from "./alertSlice";
 import libraryReducer, { LibraryState } from "./librarySlice";
 import apiCacheReducer, { ApiCacheState } from "./apiCacheSlice";
 import createdReadingListsReducer, { CreatedReadingListsState } from "./createdReadingListsSlice";
-
+import settingsReducer, { SettingsState } from "./settingsSlice";
 const persistConfig = {
   key: "root",
   storage: storage("comicCompanion"),
@@ -27,6 +27,7 @@ export interface ApplicationState {
   library: LibraryState;
   apiCache: ApiCacheState;
   createdReadingLists: CreatedReadingListsState;
+  settings: SettingsState;
 }
 
 const rootReducer = combineReducers({
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   library: libraryReducer,
   apiCache: apiCacheReducer,
   createdReadingLists: createdReadingListsReducer,
+  settings: settingsReducer,
 });
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);
@@ -82,3 +84,5 @@ export const popularComicsCacheSelector = (state: ApplicationState) => state.api
 export const popularReadingListsCacheSelector = (state: ApplicationState) => state.apiCache.popularReadingLists;
 
 export const createdReadingListsSelector = (state: ApplicationState) => state.createdReadingLists;
+
+export const settingsSelector = (state: ApplicationState) => state.settings;

@@ -2,6 +2,9 @@ import { List, ListItem, ListItemText, ListItemIcon, ListItemButton } from "@mui
 import PersonIcon from "@mui/icons-material/Person";
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import CodeIcon from "@mui/icons-material/Code";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector } from "../../redux/store";
 import { toggleModal, setContent } from "../../redux/modalSlice";
@@ -37,28 +40,67 @@ export default function DashboardPage() {
       <div>
         <h1>Dashboard</h1>
       </div>
-      {currentUser ? (
-        <SignOutButton />
-      ) : (
-        <p className="settings-link" onClick={toggleSignInModal}>
-          Sign In
-        </p>
-      )}
+
       <div>
-        <h3 className="link">
-          <Link to="/lists/new">{isCreating ? "Edit Current Reading List" : "Create New Reading List"}</Link>
-        </h3>
+        <List>
+          {currentUser ? (
+            <ListItemButton>
+              <ListItem>
+                <SignOutButton />
+              </ListItem>
+            </ListItemButton>
+          ) : (
+            <ListItemButton onClick={toggleSignInModal}>
+              <ListItem>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText>Sign In</ListItemText>
+              </ListItem>
+            </ListItemButton>
+          )}
+          <Link to="/lists/new">
+            <ListItemButton>
+              <ListItem>
+                <ListItemIcon>
+                  <AddCircleRoundedIcon />
+                </ListItemIcon>
+                <ListItemText>{isCreating ? "Edit Reading List" : "Create Reading List"}</ListItemText>
+              </ListItem>
+            </ListItemButton>
+          </Link>
+          <Link to="/lists/created">
+            <ListItemButton>
+              <ListItem>
+                <ListItemIcon>
+                  <LibraryBooksIcon />
+                </ListItemIcon>
+                <ListItemText>Created Reading Lists</ListItemText>
+              </ListItem>
+            </ListItemButton>
+          </Link>
+        </List>
       </div>
 
       <h2>Settings</h2>
       <List>
+        <Link to="/settings/general">
+          <ListItemButton>
+            <ListItem>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="General Settings" secondary={"Hide/Adjust App Features"} />
+            </ListItem>
+          </ListItemButton>
+        </Link>
         <Link to="/settings/library">
           <ListItemButton>
             <ListItem>
               <ListItemIcon>
                 <CollectionsBookmarkIcon />
               </ListItemIcon>
-              <ListItemText>Library Settings</ListItemText>
+              <ListItemText primary="Library Settings" secondary={"Adjust Categories"} />
             </ListItem>
           </ListItemButton>
         </Link>
@@ -67,7 +109,7 @@ export default function DashboardPage() {
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
-            <ListItemText>User Settings</ListItemText>
+            <ListItemText primary="User Settings" secondary={"Change User Name/Email/Password"} />
           </ListItem>
         </ListItemButton>
         <Link to="/settings/advanced">
@@ -76,7 +118,7 @@ export default function DashboardPage() {
               <ListItemIcon>
                 <CodeIcon />
               </ListItemIcon>
-              <ListItemText>Advanced Settings</ListItemText>
+              <ListItemText primary="Advanced Settings" secondary={"Manual Library Sync"} />
             </ListItem>
           </ListItemButton>
         </Link>
