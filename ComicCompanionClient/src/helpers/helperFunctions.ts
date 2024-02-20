@@ -1,8 +1,10 @@
 import { Issue, PostUserLibrarySync, ReadingListDto, UserInfo, UserReadingListPostRequest } from "../types";
 import { Dispatch } from "@reduxjs/toolkit";
-import { LibraryState, addReadingList } from "../redux/librarySlice";
+import { LibraryState } from "../redux/librarySlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import { setLibrary } from "../redux/librarySlice";
+import { v4 as uuidv4 } from "uuid";
+import { createReadingList } from "../redux/createdReadingListsSlice";
 
 export const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message;
@@ -13,7 +15,7 @@ export const createLocalReadingList = (dispatch: Dispatch, readingList: UserRead
   const deserializedIssues: Issue[] = JSON.parse(readingList.serializedIssues);
   const createdList: ReadingListDto = {
     name: readingList.name,
-    readingListId: readingList.readingListId,
+    readingListId: readingList.readingListId || uuidv4(),
     coverImg: readingList.coverImg as string,
     description: readingList.description,
     shared: false,
@@ -24,7 +26,7 @@ export const createLocalReadingList = (dispatch: Dispatch, readingList: UserRead
     createdBy: "local",
     rating: 0,
   };
-  dispatch(addReadingList({ tagId: "created", readingList: createdList }));
+  dispatch(createReadingList(createdList));
   return createdList;
 };
 

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { librarySelector } from "../../redux/store";
+import { createdReadingListsSelector } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ReadingListInfo from "../Utility/ReadingListInfo";
@@ -8,14 +8,13 @@ import Loading from "../Utility/Loading";
 export default function LocalReadingListInfoPage() {
   const [readingList, setReadingList] = useState<ReadingListDto | "loading" | undefined>("loading");
   const { listId } = useParams();
-  const library = useSelector(librarySelector);
-
+  const createdReadingLists = useSelector(createdReadingListsSelector);
+  const allState = useSelector((state) => state);
+  console.log(allState);
   useEffect(() => {
-    try {
-      const foundList = library.readingListCategories["created"].readingLists.find((list) => list.readingListId === listId);
-      setReadingList(foundList);
-    } catch (e) {
-      setReadingList(undefined);
+    if (listId) {
+      const foundReadingList = createdReadingLists[listId];
+      setReadingList(foundReadingList);
     }
   });
 

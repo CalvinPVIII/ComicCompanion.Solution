@@ -17,7 +17,6 @@ export interface LibraryState {
 const initialState: LibraryState = {
   comicCategories: { "1": { tagName: "Favorites", comics: [], tagId: "1" } },
   readingListCategories: {
-    created: { tagName: "Created", readingLists: [], tagId: "created" },
     "2": { tagName: "Favorites", readingLists: [], tagId: "2" },
   },
 };
@@ -59,11 +58,6 @@ const librarySlice = createSlice({
       state.comicCategories[action.payload.tagId].comics = updatedCategoryComics;
     },
     addReadingList: (state, action: PayloadAction<AddReadingListAction>) => {
-      // if "created" was deleted for whatever reason, recreate it
-      if (action.payload.tagId === "created" && !state.readingListCategories["created"]) {
-        state.readingListCategories["created"] = { tagName: "Created", readingLists: [], tagId: "created" };
-      }
-
       if (
         state.readingListCategories[action.payload.tagId].readingLists.findIndex(
           (readingList) => readingList.readingListId === action.payload.readingList.readingListId

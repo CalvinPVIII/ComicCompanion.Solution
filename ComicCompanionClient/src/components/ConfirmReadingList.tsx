@@ -4,7 +4,6 @@ import { currentListSelector, userSelector } from "../redux/store";
 import { Button, Accordion, AccordionDetails, AccordionSummary, TextField, Switch } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
-import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
@@ -125,11 +124,8 @@ export default function ConfirmReadingList() {
       }
       // if the reading list is local only
     } else {
-      if (list.readingListId === 0) {
-        list.readingListId = uuidv4();
-        const response = createLocalReadingList(dispatch, list);
-        nav(`/lists/local/${response.readingListId}`);
-      }
+      const response = createLocalReadingList(dispatch, list);
+      nav(`/lists/local/${response.readingListId}`);
     }
     dispatch(setCurrentList(null));
     dispatch(toggleCreating(false));

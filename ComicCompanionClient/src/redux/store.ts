@@ -10,6 +10,7 @@ import modalReducer, { ModalState } from "./modalSlice";
 import alertReducer, { AlertState } from "./alertSlice";
 import libraryReducer, { LibraryState } from "./librarySlice";
 import apiCacheReducer, { ApiCacheState } from "./apiCacheSlice";
+import createdReadingListsReducer, { CreatedReadingListsState } from "./createdReadingListsSlice";
 
 const persistConfig = {
   key: "root",
@@ -29,12 +30,14 @@ export interface ApplicationState {
   readingHistory: ReadingHistoryState;
   library: LibraryState;
   apiCache: ApiCacheState;
+  createdReadingLists: CreatedReadingListsState;
 }
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer);
 const persistedReadingHistoryReducer = persistReducer(persistConfig, readingHistoryReducer);
 const persistedLibraryReducer = persistReducer(persistConfig, libraryReducer);
+const persistedCreatedReadingListsReducer = persistReducer(persistConfig, createdReadingListsReducer);
 // const persistedSessionCacheReducer = persistReducer(sessionStorageConfig, apiCacheReducer);
 
 const store = configureStore({
@@ -46,6 +49,7 @@ const store = configureStore({
     readingHistory: persistedReadingHistoryReducer,
     library: persistedLibraryReducer,
     apiCache: apiCacheReducer,
+    createdReadingLists: persistedCreatedReadingListsReducer,
   },
   devTools: true,
 });
@@ -77,3 +81,5 @@ export const librarySelector = (state: ApplicationState) => state.library;
 
 export const popularComicsCacheSelector = (state: ApplicationState) => state.apiCache.popularComics;
 export const popularReadingListsCacheSelector = (state: ApplicationState) => state.apiCache.popularReadingLists;
+
+export const createdReadingListsSelector = (state: ApplicationState) => state.createdReadingLists;
