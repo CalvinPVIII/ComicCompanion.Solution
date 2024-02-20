@@ -24,6 +24,7 @@
     "react-slick": "^0.29.0",
     "react-use-draggable-scroll": "^0.4.7",
     "redux-persist": "^6.0.0",
+    "redux-persist-indexeddb-storage": "^1.0.4",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1"
   },

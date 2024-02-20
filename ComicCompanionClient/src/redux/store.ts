@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-// import sessionStorage from "redux-persist/es/storage/session";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+// @ts-expect-error no type declaration
+import storage from "redux-persist-indexeddb-storage";
 
 import userReducer, { UserReducerState } from "./userSlice";
 import listCreationReducer, { ListCreationState } from "./listCreationSlice";
@@ -14,13 +14,9 @@ import createdReadingListsReducer, { CreatedReadingListsState } from "./createdR
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: storage("comicCompanion"),
+  blacklist: ["modal", "alert", "apiCache"],
 };
-
-// const sessionStorageConfig = {
-//   key: "root",
-//   storage: sessionStorage,
-// };
 
 export interface ApplicationState {
   user: UserReducerState;
@@ -33,24 +29,27 @@ export interface ApplicationState {
   createdReadingLists: CreatedReadingListsState;
 }
 
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
-const persistedListCreationReducer = persistReducer(persistConfig, listCreationReducer);
-const persistedReadingHistoryReducer = persistReducer(persistConfig, readingHistoryReducer);
-const persistedLibraryReducer = persistReducer(persistConfig, libraryReducer);
-const persistedCreatedReadingListsReducer = persistReducer(persistConfig, createdReadingListsReducer);
-// const persistedSessionCacheReducer = persistReducer(sessionStorageConfig, apiCacheReducer);
+const rootReducer = combineReducers({
+  user: userReducer,
+  listCreation: listCreationReducer,
+  modal: modalReducer,
+  alert: alertReducer,
+  readingHistory: readingHistoryReducer,
+  library: libraryReducer,
+  apiCache: apiCacheReducer,
+  createdReadingLists: createdReadingListsReducer,
+});
+
+const persistedReducers = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: {
-    user: persistedUserReducer,
-    listCreation: persistedListCreationReducer,
-    modal: modalReducer,
-    alert: alertReducer,
-    readingHistory: persistedReadingHistoryReducer,
-    library: persistedLibraryReducer,
-    apiCache: apiCacheReducer,
-    createdReadingLists: persistedCreatedReadingListsReducer,
-  },
+  reducer: persistedReducers,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
   devTools: true,
 });
 
