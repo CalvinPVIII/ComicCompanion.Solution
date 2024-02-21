@@ -10,7 +10,7 @@ import SelectOptionModal from "../Utility/SelectOptionModal";
 export default function GeneralSettingsPage() {
   const currentSettings = useSelector(settingsSelector);
   const dispatch = useDispatch();
-  const [defaultLibraryOptionsModal, setDefaultLibraryOptionsModal] = useState(true);
+  const [defaultLibraryOptionsModal, setDefaultLibraryOptionsModal] = useState(false);
   const openLibraryOptionsModal = () => setDefaultLibraryOptionsModal(true);
   const handleLibraryOptionsModalClose = (selectedOption: string) => {
     setDefaultLibraryOptionsModal(false);

@@ -2,9 +2,12 @@ import { Tabs, Tab } from "@mui/material";
 import ReadingListDashboard from "../ReadingListDashboard";
 import LibraryDashboard from "../LibraryDashboard";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../redux/store";
 
 export default function LibraryPage() {
-  const [currentTab, setCurrentTab] = useState<number>(1);
+  const settings = useSelector(settingsSelector);
+  const [currentTab, setCurrentTab] = useState<number>(settings.defaultLibraryPage === "comics" ? 1 : 2);
   const handleTabChange = (event: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);
   };

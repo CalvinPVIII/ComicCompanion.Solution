@@ -1,0 +1,18 @@
+#select-options-modal {
+  position: absolute;
+  background-color: #20132e;
+  width: fit-content;
+  padding: 10px 50px 50px 50px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#select-confirm-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
