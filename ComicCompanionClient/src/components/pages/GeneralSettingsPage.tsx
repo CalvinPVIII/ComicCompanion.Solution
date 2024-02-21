@@ -5,9 +5,19 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { settingsSelector } from "../../redux/store";
 import { toggleHideCreatedCategory, toggleHideEditFab, toggleDefaultLibraryPage } from "../../redux/settingsSlice";
+import { useState } from "react";
+import SelectOptionModal from "../Utility/SelectOptionModal";
 export default function GeneralSettingsPage() {
   const currentSettings = useSelector(settingsSelector);
   const dispatch = useDispatch();
+  const [defaultLibraryOptionsModal, setDefaultLibraryOptionsModal] = useState(true);
+  const openLibraryOptionsModal = () => setDefaultLibraryOptionsModal(true);
+  const handleLibraryOptionsModalClose = (selectedOption: string) => {
+    setDefaultLibraryOptionsModal(false);
+    if (selectedOption === "comics" || selectedOption === "reading lists") {
+      dispatch(toggleDefaultLibraryPage(selectedOption));
+    }
+  };
 
   const handleHideCreatedClick = () => {
     dispatch(toggleHideCreatedCategory(!currentSettings.hideCreatedCategory));
@@ -19,6 +29,13 @@ export default function GeneralSettingsPage() {
 
   return (
     <>
+      <SelectOptionModal
+        open={defaultLibraryOptionsModal}
+        closeCallback={handleLibraryOptionsModalClose}
+        options={["comics", "reading lists"]}
+        header="Set Default Library Page"
+        defaultOption={currentSettings.defaultLibraryPage}
+      />
       <div className="settings-header">
         <Link to="/dashboard">
           <ArrowBackIcon />
@@ -41,6 +58,12 @@ export default function GeneralSettingsPage() {
             />
           </ListItem>
           <Switch checked={currentSettings.hideEditFAB} />
+        </ListItemButton>
+        <ListItemButton onClick={openLibraryOptionsModal}>
+          <ListItem>
+            <ListItemText primary="Default Library Page" secondary={`Have the library open to the Comics or Reading Lists page by default`} />
+          </ListItem>
+          <p className="capitalized-text">{currentSettings.defaultLibraryPage}</p>
         </ListItemButton>
       </List>
     </>

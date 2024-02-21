@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface SettingsState {
   hideCreatedCategory: boolean;
   hideEditFAB: boolean;
-  defaultLibraryPage: "readingList" | "comics";
+  defaultLibraryPage: "reading lists" | "comics";
 }
 
 const initialState: SettingsState = {
@@ -22,7 +22,7 @@ const settingsStateSlice = createSlice({
     toggleHideEditFab: (state, action: PayloadAction<boolean>) => {
       state.hideEditFAB = action.payload;
     },
-    toggleDefaultLibraryPage: (state, action: PayloadAction<"readingList" | "comics">) => {
+    toggleDefaultLibraryPage: (state, action: PayloadAction<"reading lists" | "comics">) => {
       state.defaultLibraryPage = action.payload;
     },
   },
