@@ -144,6 +144,10 @@ export default function ConfirmReadingList() {
     dispatch(toggleModal(false));
   };
 
+  const handleSignInAlert = () => {
+    errorAlert(dispatch, "You Must Sign In To Share Reading Lists");
+  };
+
   if (readingList) {
     return (
       <div id="confirm-reading-list-modal">
@@ -184,10 +188,17 @@ export default function ConfirmReadingList() {
           )}
         </div>
         <div id="private-toggle">
-          <label>
-            <Switch onChange={handleToggleShared} checked={readingList.shared} disabled={currentUser ? false : true} />
-            Share
-          </label>
+          {currentUser ? (
+            <label>
+              <Switch onChange={handleToggleShared} checked={readingList.shared} disabled={false} />
+              Share
+            </label>
+          ) : (
+            <label onClick={handleSignInAlert}>
+              <Switch disabled={true} />
+              Share
+            </label>
+          )}
         </div>
 
         <Accordion>

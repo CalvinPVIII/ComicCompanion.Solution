@@ -10,6 +10,7 @@ import defaultList from "../../helpers/defaultReadingList";
 import { userSelector } from "../../redux/store";
 
 import { useNavigate } from "react-router-dom";
+import { errorAlert } from "../../helpers/alertCreators";
 
 export default function ReadingListForm() {
   const dispatch = useDispatch();
@@ -61,6 +62,10 @@ export default function ReadingListForm() {
     dispatch(toggleCreating(false));
   };
 
+  const handleSignInAlert = () => {
+    errorAlert(dispatch, "You Must Sign In To Share Reading Lists");
+  };
+
   if (list) {
     return (
       <>
@@ -86,14 +91,17 @@ export default function ReadingListForm() {
               onChange={(e) => handleUpdateProperty("description", e.target.value)}
             />
             <div>
-              <label>
-                <Switch
-                  onChange={(e) => handleUpdateProperty("shared", e.target.checked)}
-                  checked={list.shared}
-                  disabled={currentUser ? false : true}
-                />
-                Share
-              </label>
+              {currentUser ? (
+                <label>
+                  <Switch onChange={(e) => handleUpdateProperty("shared", e.target.checked)} checked={list.shared} disabled={false} />
+                  Share
+                </label>
+              ) : (
+                <label onClick={handleSignInAlert}>
+                  <Switch disabled={true} />
+                  Share
+                </label>
+              )}
             </div>
             {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : <></>}
 
