@@ -87,7 +87,6 @@ export default function ConfirmReadingList() {
   };
 
   const handleSubmit = async () => {
-    console.log(readingList);
     const errors = errorChecker();
     if (errors) return;
     if (!readingList) return;

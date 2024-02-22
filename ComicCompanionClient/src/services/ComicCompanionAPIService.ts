@@ -30,7 +30,6 @@ export default class ComicCompanionAPIService {
   }
 
   static async searchComics(keyword: string, serverNumber?: number, pageNumber?: number): Promise<SearchResultDto> {
-    console.log(keyword);
     let fetchUrl = `${import.meta.env.VITE_API_URL}/comics/search?keyword=${keyword}`;
     if (serverNumber) {
       fetchUrl += `&serverNumber=${serverNumber}`;
@@ -38,7 +37,6 @@ export default class ComicCompanionAPIService {
     if (pageNumber) {
       fetchUrl += `&pageNumber=${pageNumber}`;
     }
-    console.log(fetchUrl);
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
     return jsonResponse as SearchResultDto;
@@ -51,7 +49,6 @@ export default class ComicCompanionAPIService {
     }
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
-    console.log(jsonResponse);
     return jsonResponse as unknown as Comic;
   }
 
@@ -67,8 +64,6 @@ export default class ComicCompanionAPIService {
     if (listName) fetchUrl += `&listName=${listName}`;
     if (userId) fetchUrl += `&userId=${userId}`;
     if (userName) fetchUrl += `&userName=${userName}`;
-
-    console.log(fetchUrl);
 
     const response = await fetch(fetchUrl);
     const jsonResponse = await response.json();
@@ -89,7 +84,7 @@ export default class ComicCompanionAPIService {
     }
     const apiResponse = await fetch(fetchUrl, options);
     const jsonResponse = await apiResponse.json();
-    console.log(jsonResponse);
+
     if (jwt) {
       return jsonResponse as unknown as ReadingListWithUserInfoAPIResponse;
     }
@@ -150,7 +145,7 @@ export default class ComicCompanionAPIService {
       body: JSON.stringify(readingList),
     });
     const jsonResponse = await apiResponse.json();
-    console.log(jsonResponse);
+
     return jsonResponse as ReadingListPostResponse;
   }
 

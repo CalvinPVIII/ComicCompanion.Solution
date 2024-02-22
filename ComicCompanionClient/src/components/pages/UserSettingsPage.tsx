@@ -73,8 +73,6 @@ export default function UserSettingsPage() {
       setUpdateSuccessText(response.data);
       successfulUserUpdate(dispatch);
       closeModal();
-    } else {
-      console.log(response);
     }
   };
 

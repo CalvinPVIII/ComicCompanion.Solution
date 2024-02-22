@@ -14,7 +14,7 @@ export default function LibraryDashboard() {
     setCurrentTab(value);
     setCurrentCategory(categoriesArray[value - 1]);
   };
-  console.log(library);
+
   return (
     <>
       {categoriesArray.length <= 0 ? (

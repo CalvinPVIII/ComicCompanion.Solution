@@ -99,7 +99,6 @@ export default function SearchForm(props: SearchFormProps) {
       setError(false);
       if (searchInput) {
         const apiResponse = await ComicCompanionAPIService.searchComics(searchInput, undefined);
-        console.log(apiResponse);
         setPaginationInfo({ currentPage: apiResponse.currentPage, maxPage: apiResponse.maxPage });
         if (apiResponse.comics.length === 0) {
           throw new Error("No Comics Match This Query");
@@ -138,7 +137,6 @@ export default function SearchForm(props: SearchFormProps) {
       setError(errorMessage);
     }
   };
-  console.log(props);
   return (
     <>
       <div className="search-form-header">

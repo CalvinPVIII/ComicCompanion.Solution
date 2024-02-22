@@ -38,8 +38,6 @@ export default function PopularComicsList() {
     setLoading(false);
   }, []);
 
-  console.log(popularComicsCache);
-
   return (
     <div className="popular-list">
       {!loading && popularComicsCache ? (

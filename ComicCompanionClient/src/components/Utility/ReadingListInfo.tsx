@@ -21,6 +21,7 @@ import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
+import { errorAlert } from "../../helpers/alertCreators";
 
 interface ReadingListInfoProps {
   readingList: ReadingListDto;
@@ -78,7 +79,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
       }
     } catch (e) {
       const error = getErrorMessage(e);
-      console.log(error);
+      errorAlert(dispatch, error);
     }
   };
 

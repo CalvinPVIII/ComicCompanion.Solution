@@ -9,8 +9,7 @@ export default function LocalReadingListInfoPage() {
   const [readingList, setReadingList] = useState<ReadingListDto | "loading" | undefined>("loading");
   const { listId } = useParams();
   const createdReadingLists = useSelector(createdReadingListsSelector);
-  const allState = useSelector((state) => state);
-  console.log(allState);
+
   useEffect(() => {
     if (listId) {
       const foundReadingList = createdReadingLists[listId];

@@ -19,7 +19,6 @@ export default function LibrarySettingsPage() {
 
   const handleToggleReadingListCatSettings = () => setReadingListCatSettingsOpen(!readingListCatSettingsOpen);
 
-  console.log(library);
   return (
     <>
       <div className="settings-header">

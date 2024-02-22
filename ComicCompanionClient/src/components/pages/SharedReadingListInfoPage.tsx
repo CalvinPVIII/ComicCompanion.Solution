@@ -38,7 +38,6 @@ export default function SharedReadingListInfoPage() {
           readingList = readingList as ReadingListAPIResponse;
           setApiResult(readingList.data);
         }
-        console.log(apiResult);
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);

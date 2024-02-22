@@ -46,7 +46,6 @@ export default function IssuePage() {
         setLoading(true);
         if (comicId && issueId) {
           const issue = await ComicCompanionAPIService.getIssue(comicId, issueId);
-          console.log(issue);
           setApiResponse(issue);
         }
       } catch (error: unknown) {
@@ -61,7 +60,6 @@ export default function IssuePage() {
   useEffect(() => {
     if (apiResponse) {
       const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.comicId + issue.issueId === apiResponse?.comicId + apiResponse?.issueId);
-      console.log(indexOfCurrentIssue);
       const newPlaylistInfo = { next: indexOfCurrentIssue, prev: indexOfCurrentIssue, current: indexOfCurrentIssue };
       if (currentPlaylist[indexOfCurrentIssue + 1]) {
         newPlaylistInfo.next = indexOfCurrentIssue + 1;
@@ -124,7 +122,6 @@ export default function IssuePage() {
   };
 
   const handleMouseEnter = () => {
-    console.log("enter");
     if (overlaySticky !== "sticky") {
       toggleOverlay();
     }

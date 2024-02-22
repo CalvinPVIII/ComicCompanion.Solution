@@ -14,7 +14,6 @@ export default function ComicPage() {
 
   const fetchPlaceHolderComics = async (pageNumber: number) => {
     const result = await ComicCompanionAPIService.getPopularComics(pageNumber);
-    console.log(result);
     let newPlaceHolderComics: Comic[] = [];
     if (placeHolderComics) {
       newPlaceHolderComics = [...placeHolderComics];
