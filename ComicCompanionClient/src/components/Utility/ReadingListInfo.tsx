@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CurrentlyCreatedReadingList, ReadingListDto } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
-import { getErrorMessage } from "../../helpers/helperFunctions";
+import { deleteLocalReadingList, getErrorMessage } from "../../helpers/helperFunctions";
 import { Button, Modal } from "@mui/material";
 import comicCompanionImages from "../../helpers/defaultImageArray";
 import IssuesList from "./IssuesList";
@@ -66,6 +66,10 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
 
   const handleDeleteReadingList = async (readingListId: number | string) => {
     try {
+      if (props.readingList.shared === false) {
+        deleteLocalReadingList(dispatch, readingListId as string);
+        nav("/library");
+      }
       if (!currentUser) return;
       const result = await ComicCompanionAPIService.deleteReadingList(readingListId, currentUser.token);
       if (result) {
@@ -130,7 +134,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
 
             <p id="list-info-author">Created by {props.readingList.createdBy}</p>
             <p id="list-info-description">{props.readingList.description}</p>
-            {currentUser?.userId === props.readingList.userId ? (
+            {currentUser?.userId === props.readingList.userId || props.readingList.shared === false ? (
               <>
                 <Modal open={confirmDeleteModalOpen} onClose={toggleConfirmDeleteModal}>
                   <div id="confirm-delete-modal">

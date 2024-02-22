@@ -72,6 +72,13 @@ const librarySlice = createSlice({
       );
       state.readingListCategories[action.payload.tagId].readingLists = updatedCategoryComics;
     },
+    removeReadingListFromAllCategories: (state, action: PayloadAction<string>) => {
+      for (const category in state.readingListCategories) {
+        state.readingListCategories[category].readingLists = state.readingListCategories[category].readingLists.filter(
+          (list) => list.readingListId !== action.payload
+        );
+      }
+    },
     addTag: (state, action: PayloadAction<TagAction>) => {
       if (action.payload.readingListOrComic === "comic") {
         state.comicCategories[action.payload.tagId] = { tagName: action.payload.name, comics: [], tagId: action.payload.tagId };
@@ -99,6 +106,16 @@ const librarySlice = createSlice({
   },
 });
 
-export const { addComic, removeComic, addTag, removeTag, updateTag, addReadingList, removeReadingList, setLibrary } = librarySlice.actions;
+export const {
+  addComic,
+  removeComic,
+  addTag,
+  removeTag,
+  updateTag,
+  addReadingList,
+  removeReadingList,
+  setLibrary,
+  removeReadingListFromAllCategories,
+} = librarySlice.actions;
 
 export default librarySlice.reducer;

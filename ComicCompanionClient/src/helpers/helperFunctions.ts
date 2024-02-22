@@ -1,10 +1,10 @@
 import { Issue, PostUserLibrarySync, ReadingListDto, UserInfo, UserReadingListPostRequest } from "../types";
 import { Dispatch } from "@reduxjs/toolkit";
-import { LibraryState } from "../redux/librarySlice";
+import { LibraryState, removeReadingListFromAllCategories } from "../redux/librarySlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import { setLibrary } from "../redux/librarySlice";
 import { v4 as uuidv4 } from "uuid";
-import { createReadingList } from "../redux/createdReadingListsSlice";
+import { createReadingList, deleteReadingList } from "../redux/createdReadingListsSlice";
 
 export const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message;
@@ -28,6 +28,12 @@ export const createLocalReadingList = (dispatch: Dispatch, readingList: UserRead
   };
   dispatch(createReadingList(createdList));
   return createdList;
+};
+
+export const deleteLocalReadingList = (dispatch: Dispatch, readingListId: string): boolean => {
+  dispatch(deleteReadingList(readingListId));
+  dispatch(removeReadingListFromAllCategories(readingListId));
+  return true;
 };
 
 export const postLibrary = async (user: UserInfo, library: LibraryState) => {
