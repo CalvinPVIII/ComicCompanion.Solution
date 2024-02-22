@@ -1,0 +1,7 @@
+{
+  "name": "comiccompanion-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

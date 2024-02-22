@@ -5,8 +5,6 @@
 }
 #img-slideshow {
   text-align: center;
-  height: 300px;
-  width: 100vw;
   overflow: hidden;
 }
 #slideshow-wrapper {
@@ -18,4 +16,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+.slide-show-img {
+  max-width: 1077px;
+  max-height: 279px;
 }
