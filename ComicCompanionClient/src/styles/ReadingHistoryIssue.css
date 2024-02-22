@@ -1,0 +1,28 @@
+.history-list-item {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+.reading-history-issue-img {
+  width: 10%;
+  margin: auto;
+}
+
+.history-item-text {
+  margin: auto;
+  padding-left: 10px;
+  flex-grow: 1;
+}
+
+.history-item-delete {
+  margin: auto;
+}
+
+.history-text-primary {
+  font-size: 1.3em;
+}
+
+.history-text-secondary {
+  opacity: 0.5;
+  font-size: small;
+}

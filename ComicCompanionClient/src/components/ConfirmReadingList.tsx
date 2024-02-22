@@ -19,7 +19,6 @@ import { errorAlert } from "../helpers/alertCreators";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { createLocalReadingList } from "../helpers/helperFunctions";
-import { addReadingList } from "../redux/librarySlice";
 
 interface ImageCache {
   [issueId: string]: string[];
@@ -119,7 +118,6 @@ export default function ConfirmReadingList() {
       }
 
       if (response.status === "success") {
-        dispatch(addReadingList({ tagId: "created", readingList: response.data }));
         nav(`/lists/shared/${response.data.readingListId}`);
       }
       // if the reading list is local only
@@ -130,7 +128,6 @@ export default function ConfirmReadingList() {
     dispatch(setCurrentList(null));
     dispatch(toggleCreating(false));
     dispatch(toggleModal(false));
-    console.log(list);
   };
 
   const toggleDefaultImage = () => {

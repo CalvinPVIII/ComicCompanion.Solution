@@ -27,6 +27,8 @@ import SharedReadingListInfoPage from "./components/pages/SharedReadingListInfoP
 import LocalReadingListInfoPage from "./components/pages/LocalReadingListInfoPage";
 import AdvancedSettingsPage from "./components/pages/AdvancedSettingsPage";
 import GeneralSettingsPage from "./components/pages/GeneralSettingsPage";
+import CreatedReadingLists from "./components/pages/CreatedReadingListsPage";
+import ReadingHistoryPage from "./components/pages/ReadingHistoryPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -70,11 +72,13 @@ function App() {
             <Route path="/lists/new" element={<NewReadingListPage />} />
             <Route path="/lists/shared/:listId" element={<SharedReadingListInfoPage />} />
             <Route path="/lists/local/:listId" element={<LocalReadingListInfoPage />} />
+            <Route path="/lists/created" element={<CreatedReadingLists />} />
 
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/settings/library" element={<LibrarySettingsPage />} />
             <Route path="/settings/advanced" element={<AdvancedSettingsPage />} />
             <Route path="/settings/general" element={<GeneralSettingsPage />} />
+            <Route path="/settings/history" element={<ReadingHistoryPage />} />
           </Routes>
         </div>
         <NavBar />

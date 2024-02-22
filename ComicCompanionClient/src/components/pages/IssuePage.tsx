@@ -8,8 +8,9 @@ useParams;
 import "../../styles/IssuePage.css";
 import Loading from "../Utility/Loading";
 
-import { useSelector } from "react-redux";
-import { currentPlaylistSelector, previousPageSelector } from "../../redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { updateHistory } from "../../redux/readingHistorySlice";
+import { currentPlaylistSelector, previousPageSelector, readingHistorySelector } from "../../redux/store";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -20,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 export default function IssuePage() {
   const { comicId, issueId } = useParams();
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const readingHistory = useSelector(readingHistorySelector);
 
   const [apiResponse, setApiResponse] = useState<Issue | null>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -70,11 +73,25 @@ export default function IssuePage() {
     }
   }, [apiResponse]);
 
+  const handleUpdateHistory = () => {
+    if (!readingHistory.paused) {
+      if (apiResponse?.pages && currentPage <= apiResponse.pages.length) {
+        dispatch(
+          updateHistory({
+            issue: { comicId: apiResponse.comicId, issueId: apiResponse.issueId, cover: apiResponse.pages[0] },
+            pagesRead: currentPage,
+          })
+        );
+      }
+    }
+  };
+
   const handleMoveToNextPage = () => {
     const nextPage = currentPage + 1;
+    handleUpdateHistory();
     setCurrentPage(nextPage);
     if (apiResponse && apiResponse.pages) {
-      if (nextPage === apiResponse?.pages?.length + 1) {
+      if (nextPage === apiResponse.pages.length + 1) {
         setCurrentPage(0);
         nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
       }
@@ -103,6 +120,7 @@ export default function IssuePage() {
 
   const handleSlider = (_: Event, newValue: number | number[]) => {
     setCurrentPage((newValue as number) - 1);
+    handleUpdateHistory();
   };
 
   const handleMouseEnter = () => {

@@ -70,9 +70,7 @@ export const modalContentSelector = (state: ApplicationState) => state.modal.con
 
 export const alertSelector = (state: ApplicationState) => state.alert;
 
-export const readingHistorySelector = (state: ApplicationState) => state.readingHistory.history;
-
-export const readingHistoryStatusSelector = (state: ApplicationState) => state.readingHistory.paused;
+export const readingHistorySelector = (state: ApplicationState) => state.readingHistory;
 
 export const currentPlaylistSelector = (state: ApplicationState) => state.readingHistory.currentPlaylist;
 

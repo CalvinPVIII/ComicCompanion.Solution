@@ -4,6 +4,7 @@ import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import CodeIcon from "@mui/icons-material/Code";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import HistoryIcon from "@mui/icons-material/History";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector } from "../../redux/store";
@@ -80,6 +81,16 @@ export default function DashboardPage() {
             </ListItemButton>
           </Link>
         </List>
+        <Link to="/settings/history">
+          <ListItemButton>
+            <ListItem>
+              <ListItemIcon>
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText>History</ListItemText>
+            </ListItem>
+          </ListItemButton>
+        </Link>
       </div>
 
       <h2>Settings</h2>
