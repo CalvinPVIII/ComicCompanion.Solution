@@ -1,6 +1,5 @@
 import "../../styles/ItemListCard.css";
 import { Comic } from "../../types";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 interface ComicListCardProps {

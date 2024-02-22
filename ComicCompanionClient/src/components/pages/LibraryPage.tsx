@@ -8,7 +8,7 @@ import { settingsSelector } from "../../redux/store";
 export default function LibraryPage() {
   const settings = useSelector(settingsSelector);
   const [currentTab, setCurrentTab] = useState<number>(settings.defaultLibraryPage === "comics" ? 1 : 2);
-  const handleTabChange = (event: React.SyntheticEvent, value: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, value: number) => {
     setCurrentTab(value);
   };
   return (

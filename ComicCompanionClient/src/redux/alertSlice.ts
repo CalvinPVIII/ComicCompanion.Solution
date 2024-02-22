@@ -16,7 +16,7 @@ const alertSlice = createSlice({
     toggleAlert: (state, action: PayloadAction<boolean>) => {
       state.visible = action.payload;
     },
-    setAlert: (state, action: PayloadAction<AlertState>) => {
+    setAlert: (_state, action: PayloadAction<AlertState>) => {
       return action.payload;
     },
   },

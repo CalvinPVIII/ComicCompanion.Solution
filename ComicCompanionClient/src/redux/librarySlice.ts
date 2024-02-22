@@ -100,7 +100,7 @@ const librarySlice = createSlice({
         state.readingListCategories[action.payload.tagId].tagName = action.payload.name;
       }
     },
-    setLibrary: (state, action: PayloadAction<LibraryState>) => {
+    setLibrary: (_state, action: PayloadAction<LibraryState>) => {
       return action.payload;
     },
   },
