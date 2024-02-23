@@ -68,7 +68,7 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
         }
         var document = await _context.OpenAsync(url);
 
-        string[] pages = document.QuerySelectorAll("img.lazy").Select(e => e.Attributes["data-original"].Value).ToArray();
+        string[] pages = document.QuerySelectorAll("img.lazy").Select(e => ValidateHTTPSImage(e.Attributes["data-original"].Value)).ToArray();
         return pages;
 
     }
@@ -125,6 +125,18 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
         }
         var searchResults = new SearchResultDto() { Comics = results, CurrentPage = (int)pageNumber, MaxPage = pageNumbers };
         return searchResults;
+    }
+
+    private static string ValidateHTTPSImage(string imgUrl)
+    {
+        if (imgUrl.Contains("https"))
+        {
+            return imgUrl;
+        }
+        else
+        {
+            return imgUrl.Replace("http", "https");
+        }
     }
 
 }
