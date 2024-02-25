@@ -1,0 +1,14 @@
+body {
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+  padding-bottom: 70px;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+#main-content {
+  padding: 30px;
+}

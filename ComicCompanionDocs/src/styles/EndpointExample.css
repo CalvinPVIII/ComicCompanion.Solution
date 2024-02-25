@@ -1,0 +1,20 @@
+.get-text {
+  color: lime;
+  text-transform: uppercase;
+}
+.endpoint-items {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+.endpoint-description {
+  opacity: 0.7;
+  margin-top: -10px;
+}
+
+.endpoint-url {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}

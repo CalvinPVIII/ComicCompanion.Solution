@@ -65,11 +65,5 @@ public class LibrarySyncController : Controller
         }
     }
 
-
-    [HttpGet("test")]
-    public IActionResult Test()
-    {
-        return Ok(_db.UserLibrarySyncs.ToArray());
-    }
 }
 
