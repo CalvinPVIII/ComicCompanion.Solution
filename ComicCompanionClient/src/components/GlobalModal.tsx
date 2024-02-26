@@ -36,9 +36,7 @@ export default function GlobalModal() {
           </div>
         ) : modalContent.type === "User Auth" ? (
           <>
-            <div>
-              <UserAuth onAuthCallback={handleModalClose} />
-            </div>
+            <UserAuth onAuthCallback={handleModalClose} />
           </>
         ) : (
           <></>

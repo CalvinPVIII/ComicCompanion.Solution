@@ -29,6 +29,7 @@ import AdvancedSettingsPage from "./components/pages/AdvancedSettingsPage";
 import GeneralSettingsPage from "./components/pages/GeneralSettingsPage";
 import CreatedReadingLists from "./components/pages/CreatedReadingListsPage";
 import ReadingHistoryPage from "./components/pages/ReadingHistoryPage";
+import AppInfoPage from "./components/pages/AppInfoPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -79,6 +80,7 @@ function App() {
             <Route path="/settings/advanced" element={<AdvancedSettingsPage />} />
             <Route path="/settings/general" element={<GeneralSettingsPage />} />
             <Route path="/settings/history" element={<ReadingHistoryPage />} />
+            <Route path="/settings/appinfo" element={<AppInfoPage />} />
           </Routes>
         </div>
         <NavBar />
