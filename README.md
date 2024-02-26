@@ -10,6 +10,12 @@ Comic Companion is the go-to app for the ultimate comic reading experience. Dive
 - Android Mobile App
 - Web App
 
+### [View API Documentation](https://docs-comicompanion.netlify.app/)
+
+### [Download the Mobile App](https://github.com/CalvinPVIII/ComicCompanion.Solution/releases)
+
+### [Visit the Web App](https://comiccompanion.netlify.app/)
+
 ## Technologies Used:
 
 - C#
