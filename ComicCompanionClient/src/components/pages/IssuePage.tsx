@@ -17,6 +17,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useNavigate } from "react-router-dom";
+import IssueImage from "../Utility/IssueImg";
 
 export default function IssuePage() {
   const { comicId, issueId } = useParams();
@@ -198,11 +199,7 @@ export default function IssuePage() {
                 </h2>
               </div>
             ) : (
-              <img
-                className={`page`}
-                src={apiResponse.pages[currentPage]}
-                alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
-              />
+              <IssueImage alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`} img={apiResponse.pages[currentPage]} />
             )}
           </div>
           <div className={`page-navbar-wrapper ${overlayClass}`} onMouseEnter={handleMouseEnter} onMouseLeave={handelMouseLeave}>

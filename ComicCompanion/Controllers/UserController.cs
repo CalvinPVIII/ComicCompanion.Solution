@@ -4,12 +4,14 @@ namespace ComicCompanion.Controllers
     using System.Security.Claims;
     using System.Text;
     using ComicCompanion.Models;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.IdentityModel.Tokens;
 
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AppCorsPolicy")]
     public class UserController : ControllerBase
     {
 

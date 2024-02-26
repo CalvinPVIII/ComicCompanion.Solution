@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComicCompanion.Models;
 [Route("api/")]
 [ApiController]
+[EnableCors("AppCorsPolicy")]
 public class LibrarySyncController : Controller
 {
     private readonly ComicCompanionContext _db;

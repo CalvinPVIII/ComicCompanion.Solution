@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -123,7 +124,7 @@ public class ReadingListController : Controller
             return Ok(new APIResponseDto("success", 200, favorites));
         }
     }
-
+    [EnableCors("AppCorsPolicy")]
     [HttpPost("ReadingLists")]
     public IActionResult Create(ReadingList list)
     {
@@ -144,7 +145,7 @@ public class ReadingListController : Controller
     }
 
 
-
+    [EnableCors("AppCorsPolicy")]
     [HttpPut("ReadingLists/{id}")]
     public IActionResult Update(ReadingList list)
     {
@@ -161,7 +162,7 @@ public class ReadingListController : Controller
 
         }
     }
-
+    [EnableCors("AppCorsPolicy")]
     [HttpDelete("ReadingLists/{id}")]
     public IActionResult Delete(int id)
     {
@@ -180,7 +181,7 @@ public class ReadingListController : Controller
         }
     }
 
-
+    [EnableCors("AppCorsPolicy")]
     [HttpPut("ReadingLists/{readingListId}/vote")]
     public IActionResult Vote([FromRoute] int readingListId, [FromBody] bool positive)
     {
@@ -225,7 +226,7 @@ public class ReadingListController : Controller
             return BadRequest(new APIResponseDto("error", 400, "Bad Request"));
         }
     }
-
+    [EnableCors("AppCorsPolicy")]
     [HttpPost("ReadingLists/{id}/favorite")]
     public IActionResult Favorite(int id)
     {

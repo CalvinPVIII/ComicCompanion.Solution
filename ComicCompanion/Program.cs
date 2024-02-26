@@ -32,9 +32,6 @@ namespace ToDoList
             });
       });
 
-
-
-
       builder.Services.AddDbContext<ComicCompanionContext>(
                         dbContextOptions => dbContextOptions
                           .UseNpgsql(
@@ -75,6 +72,14 @@ namespace ToDoList
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
   };
 });
+      builder.Services.AddCors(options =>
+      {
+        options.AddPolicy(name: "AppCorsPolicy", policy =>
+        {
+          policy.WithOrigins("http://localhost", "capacitor://localhost", "http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+        });
+
+      });
 
       WebApplication app = builder.Build();
       AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -85,12 +90,13 @@ namespace ToDoList
         app.UseSwagger();
         app.UseSwaggerUI();
       }
-      app.UseCors();
       // app.UseDeveloperExceptionPage();
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 
       app.UseRouting();
+
+      app.UseCors();
 
       app.UseAuthentication();
       app.UseAuthorization();
@@ -99,6 +105,8 @@ namespace ToDoList
           name: "default",
           pattern: "{controller=Home}/{action=Index}/{id?}"
         );
+
+      app.MapFallbackToFile("./dist/index.html");
 
       app.Run();
     }
