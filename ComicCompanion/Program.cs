@@ -76,7 +76,7 @@ namespace ToDoList
       {
         options.AddPolicy(name: "AppCorsPolicy", policy =>
         {
-          policy.WithOrigins("http://localhost", "https://localhost", "capacitor://localhost", "https://comiccompanion.netlify.app/", "http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+          policy.WithOrigins("http://localhost", "https://localhost", "capacitor://localhost", "https://comiccompanion.netlify.app", "http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
         });
 
       });
