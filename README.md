@@ -92,6 +92,8 @@ Instructions:
 - Follow the previous setup instruction for running the web app locally. You do not need to run the dev server
 - Initialize the android project files by running the command `npx cap app android`
 - Set the custom app icon and splash screen by running the command `npx capacitor-assets generate`
+- Build the app by running the command `npm run build`
+- Sync the mobile and previously built web app by running the command `npx cap sync`
 - Open the app in Android Studio using the command `npx cap open android`
 - To run the app directly from the CLI on an emulator or connected device, run the command `npx cap run android`
 

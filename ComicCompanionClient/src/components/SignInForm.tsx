@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UserInfo } from "../types";
 import { AuthProps } from "./Utility/UserAuth";
+import { getErrorMessage } from "../helpers/helperFunctions";
 export default function SignInForm(props: AuthProps) {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
@@ -63,7 +64,8 @@ export default function SignInForm(props: AuthProps) {
       }
     } catch (e) {
       console.error(e);
-      setErrorMessage("There was an error signing in");
+      const errorMessage = getErrorMessage(e);
+      setErrorMessage(errorMessage);
     }
   };
 

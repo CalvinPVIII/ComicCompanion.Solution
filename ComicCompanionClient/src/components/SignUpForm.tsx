@@ -9,6 +9,7 @@ import { setUser } from "../redux/userSlice";
 import { UserInfo } from "../types";
 import { useNavigate } from "react-router-dom";
 import { AuthProps } from "./Utility/UserAuth";
+import { getErrorMessage } from "../helpers/helperFunctions";
 export default function SignUpForm(props: AuthProps) {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [userNameError, setUserNameError] = useState<boolean>(false);
@@ -81,7 +82,8 @@ export default function SignUpForm(props: AuthProps) {
       }
     } catch (e) {
       console.error(e);
-      setErrorMessage("There was an error creating your account");
+      const errorMessage = getErrorMessage(e);
+      setErrorMessage(errorMessage);
     }
   };
 
