@@ -31,26 +31,39 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
 
     public static async Task<Comic> GetComicFromId(string comicId)
     {
-        var doc = await _context.OpenAsync($"https://xoxocomic.com/comic/{comicId}");
+        var doc = await _context.OpenAsync($"https://xoxocomic.com/comic/{comicId}?page=1");
         string name = doc.QuerySelector(".col-xs-4.col-image").FirstElementChild.Attributes["alt"].Value;
         string img = doc.QuerySelector(".col-xs-4.col-image").FirstElementChild.Attributes["src"].Value;
 
-
         List<string> issues = new();
-        var issueNodes = doc.QuerySelectorAll(".col-xs-9.chapter");
 
-        foreach (var node in issueNodes)
+        bool isNextPage = true;
+        while (isNextPage)
         {
-            string issueLink = node.FirstElementChild.Attributes["href"].Value;
 
-            string issue = issueLink.Replace($"https://xoxocomic.com/comic/{comicId}/", "");
-            if (issue.Contains("issue-"))
+            var issueNodes = doc.QuerySelectorAll(".col-xs-9.chapter");
+
+            foreach (var node in issueNodes)
             {
-                issue = issue.Replace("issue-", "");
+                string issueLink = node.FirstElementChild.Attributes["href"].Value;
+
+                string issue = issueLink.Replace($"https://xoxocomic.com/comic/{comicId}/", "");
+                if (issue.Contains("issue-"))
+                {
+                    issue = issue.Replace("issue-", "");
+                }
+                issues.Add(issue);
             }
-
-
-            issues.Add(issue);
+            var paginationElements = doc.QuerySelectorAll("ul.pagination > li");
+            var lastPaginationElement = paginationElements[paginationElements.Length - 1].FirstElementChild.Attributes["href"];
+            if (lastPaginationElement == null)
+            {
+                isNextPage = false;
+            }
+            else
+            {
+                doc = await _context.OpenAsync($"https://xoxocomic.com/comic/{lastPaginationElement.Value}");
+            }
         }
         return new Comic() { CoverImg = img, Name = name, ComicId = comicId, IssueIds = issues };
     }
