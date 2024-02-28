@@ -55,15 +55,23 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
                 issues.Add(issue);
             }
             var paginationElements = doc.QuerySelectorAll("ul.pagination > li");
-            var lastPaginationElement = paginationElements[paginationElements.Length - 1].FirstElementChild.Attributes["href"];
-            if (lastPaginationElement == null)
+            if (paginationElements.Length > 0)
             {
-                isNextPage = false;
+                var lastPaginationElement = paginationElements[paginationElements.Length - 1].FirstElementChild.Attributes["href"];
+                if (lastPaginationElement == null)
+                {
+                    isNextPage = false;
+                }
+                else
+                {
+                    doc = await _context.OpenAsync($"https://xoxocomic.com/comic/{lastPaginationElement.Value}");
+                }
             }
             else
             {
-                doc = await _context.OpenAsync($"https://xoxocomic.com/comic/{lastPaginationElement.Value}");
+                isNextPage = false;
             }
+
         }
         return new Comic() { CoverImg = img, Name = name, ComicId = comicId, IssueIds = issues };
     }
