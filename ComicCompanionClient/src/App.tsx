@@ -30,6 +30,7 @@ import GeneralSettingsPage from "./components/pages/GeneralSettingsPage";
 import CreatedReadingLists from "./components/pages/CreatedReadingListsPage";
 import ReadingHistoryPage from "./components/pages/ReadingHistoryPage";
 import AppInfoPage from "./components/pages/AppInfoPage";
+import { useLocation } from "react-router-dom";
 
 const darkTheme = createTheme({
   palette: {
@@ -53,12 +54,13 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const location = useLocation();
   const alertInfo = useSelector(alertSelector);
   return (
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <div id="main-content">
+        <div id={location.pathname.includes("/issue/") ? "" : "main-content"}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/comics" element={<ComicPage />} />

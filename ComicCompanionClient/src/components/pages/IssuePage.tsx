@@ -181,9 +181,6 @@ export default function IssuePage() {
           </div>
 
           <div className="page-wrapper">
-            <div className="page-left" onClick={handleMoveToPreviousPage}></div>
-            <div className="page-middle" onClick={handleMiddlePageClick}></div>
-            <div className="page-right" onClick={handleMoveToNextPage}></div>
             {currentPage + 1 > apiResponse.pages.length ? (
               <div className="next-issue-info">
                 <h1>Next issue:</h1>
@@ -199,7 +196,13 @@ export default function IssuePage() {
                 </h2>
               </div>
             ) : (
-              <IssueImage alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`} img={apiResponse.pages[currentPage]} />
+              <IssueImage
+                alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
+                img={apiResponse.pages[currentPage]}
+                leftCallback={handleMoveToPreviousPage}
+                middleCallback={handleMiddlePageClick}
+                rightCallback={handleMoveToNextPage}
+              />
             )}
           </div>
           <div className={`page-navbar-wrapper ${overlayClass}`} onMouseEnter={handleMouseEnter} onMouseLeave={handelMouseLeave}>

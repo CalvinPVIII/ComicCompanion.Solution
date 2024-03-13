@@ -15,35 +15,6 @@
   justify-content: center;
 }
 
-.page-left {
-  width: 30vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  opacity: 0.5;
-}
-
-.page-right {
-  width: 30vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  right: 0;
-
-  opacity: 0.5;
-}
-
-.page-middle {
-  width: 40vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 30vw;
-  opacity: 0.5;
-}
-
 .page-navbar-wrapper {
   position: absolute;
   bottom: 0;
