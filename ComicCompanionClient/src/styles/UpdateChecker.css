@@ -1,0 +1,13 @@
+.app-info-modal {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+  max-width: 75%;
+  border-radius: 32px;
+  background-color: rgb(47, 47, 47);
+  padding: 20px;
+}
+
+.patch-notes-header {
+  border-bottom: 1px solid white;
+}

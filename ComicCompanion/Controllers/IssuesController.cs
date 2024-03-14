@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using ComicCompanion.Models;
 
-namespace ComicCompanion.Models;
+
+namespace ComicCompanion.Controllers;
 [Route("api/")]
 [ApiController]
 public class IssuesController : Controller

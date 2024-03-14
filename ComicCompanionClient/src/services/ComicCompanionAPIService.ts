@@ -1,5 +1,6 @@
 import { ComicCategories, LibraryState, ReadingListCategories } from "../redux/librarySlice";
 import {
+  AppInfoResponse,
   Comic,
   ComicSearchResultAPIResponse,
   FavoriteReadingListResponse,
@@ -266,5 +267,12 @@ export default class ComicCompanionAPIService {
       };
       return newLibrary;
     }
+  }
+
+  static async getAppInfo(): Promise<AppInfoResponse> {
+    const fetchUrl = `${import.meta.env.VITE_API_URL}/info`;
+    const apiResponse = await fetch(fetchUrl);
+    const jsonResponse = await apiResponse.json();
+    return jsonResponse as AppInfoResponse;
   }
 }

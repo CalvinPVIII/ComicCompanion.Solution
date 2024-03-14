@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using ComicCompanion.Models;
 
-namespace ComicCompanion.Models;
+
+namespace ComicCompanion.Controllers;
 [Route("api/")]
 [ApiController]
 [EnableCors("AppCorsPolicy")]

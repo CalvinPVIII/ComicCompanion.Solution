@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ComicCompanion.Models;
 
-namespace ComicCompanion.Models;
+namespace ComicCompanion.Controllers;
 
 [Route("api")]
 [ApiController]

@@ -31,6 +31,7 @@ import CreatedReadingLists from "./components/pages/CreatedReadingListsPage";
 import ReadingHistoryPage from "./components/pages/ReadingHistoryPage";
 import AppInfoPage from "./components/pages/AppInfoPage";
 import { useLocation } from "react-router-dom";
+import UpdateChecker from "./components/UpdateChecker";
 
 const darkTheme = createTheme({
   palette: {
@@ -60,6 +61,7 @@ function App() {
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
+        <UpdateChecker />
         <div id={location.pathname.includes("/issue/") ? "" : "main-content"}>
           <Routes>
             <Route path="/" element={<HomePage />} />

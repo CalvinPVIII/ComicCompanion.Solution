@@ -151,3 +151,7 @@ export interface RetrieveSyncResponse extends APIResponse {
 export interface PostLibrarySyncResponse extends APIResponse {
   data: PostUserLibrarySync | "User Not Found";
 }
+
+export interface AppInfoResponse extends APIResponse {
+  data: { version: string; downloadLink: string; patchNotes: string[] };
+}
