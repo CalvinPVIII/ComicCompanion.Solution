@@ -1,44 +1,56 @@
-import { useState } from "react";
 import "../../styles/IssueImg.css";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { useState } from "react";
+import IssueImgPageControls from "./IssueImgPageControls";
+import Loading from "./Loading";
 interface IssueImageProps {
   img: string;
   alt: string;
   leftCallback: () => void;
   middleCallback: () => void;
   rightCallback: () => void;
+  imgLoading: boolean;
+  loadEndCallback: () => void;
 }
 export default function IssueImage(props: IssueImageProps) {
-  const [lastMouseDown, setLastMouseDown] = useState<number>(0);
+  const [panStartX, setPanStartX] = useState(0);
 
-  const handleMouseDown = () => {
-    const mouseDownTime = new Date();
-    setLastMouseDown(mouseDownTime.getTime());
+  const panningStart = (e: ReactZoomPanPinchRef) => {
+    setPanStartX(parseInt(e.state.positionX.toFixed()));
   };
 
-  const handleMouseUp = (pageSection: "left" | "middle" | "right") => {
-    const mouseUpTime = new Date();
-    const mouseClickTime = mouseUpTime.getTime() - lastMouseDown;
-    // if the user clicks and doesn't hold
-    if (mouseClickTime < 165) {
-      pageSection === "left" ? props.leftCallback() : pageSection === "middle" ? props.middleCallback() : props.rightCallback();
+  const panningStop = (e: ReactZoomPanPinchRef) => {
+    const panStopX = parseInt(e.state.positionX.toFixed());
+    if (panStartX - panStopX === 100) {
+      props.rightCallback();
+    } else if (panStartX - panStopX === -100) {
+      props.leftCallback();
     }
   };
 
+  const loadEnd = () => {
+    props.loadEndCallback();
+  };
+
   return (
-    <div>
-      <TransformWrapper>
-        <TransformComponent>
-          <div id="page-controls">
-            <div className="page-left" onMouseDown={handleMouseDown} onMouseUp={() => handleMouseUp("left")}></div>
-            <div className="page-middle" onMouseDown={handleMouseDown} onMouseUp={() => handleMouseUp("middle")}></div>
-            <div className="page-right" onMouseDown={handleMouseDown} onMouseUp={() => handleMouseUp("right")}></div>
-          </div>
-          <div id="issue-wrapper">
-            <img src={props.img} alt={props.alt} id="issue-img" />
-          </div>
-        </TransformComponent>
-      </TransformWrapper>
-    </div>
+    <>
+      {props.imgLoading ? <Loading /> : null}
+      <div className={props.imgLoading ? "issue-loading" : "issue"}>
+        <TransformWrapper
+          doubleClick={{ mode: "reset" }}
+          onPanningStop={panningStop}
+          onPanningStart={panningStart}
+          minPositionX={1000}
+          maxPositionX={1}
+        >
+          <TransformComponent>
+            <IssueImgPageControls leftCallback={props.leftCallback} middleCallback={props.middleCallback} rightCallback={props.rightCallback} />
+            <div id="issue-wrapper">
+              <img src={props.img} alt={props.alt} id="issue-img" onLoad={loadEnd} />
+            </div>
+          </TransformComponent>
+        </TransformWrapper>
+      </div>
+    </>
   );
 }

@@ -1,0 +1,22 @@
+#page-left {
+  height: 100vh;
+  width: 33%;
+}
+
+#page-middle {
+  height: 100vh;
+  width: 33%;
+}
+#page-right {
+  height: 100vh;
+  width: 33%;
+}
+
+#page-controls {
+  position: absolute;
+  width: 100vw;
+  z-index: 2;
+  opacity: 0.5;
+  overflow: hidden;
+  display: flex;
+}

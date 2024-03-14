@@ -2,32 +2,14 @@
   max-width: 100%;
   max-height: 100%;
 }
-.page-left {
-  height: 100vh;
-  width: 33%;
-}
-
-.page-middle {
-  height: 100vh;
-  width: 33%;
-}
-.page-right {
-  height: 100vh;
-  width: 33%;
-}
-
-#page-controls {
-  position: absolute;
-  width: 100vw;
-  z-index: 2;
-  opacity: 0.5;
-  overflow: hidden;
-  display: flex;
-}
 
 #issue-wrapper {
   display: flex;
   justify-content: center;
   width: 100vw;
   height: 100vh;
+}
+
+.issue-loading {
+  display: none;
 }

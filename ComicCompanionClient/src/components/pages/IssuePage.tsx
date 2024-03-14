@@ -18,6 +18,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useNavigate } from "react-router-dom";
 import IssueImage from "../Utility/IssueImg";
+import IssueImgPageControls from "../Utility/IssueImgPageControls";
 
 export default function IssuePage() {
   const { comicId, issueId } = useParams();
@@ -27,6 +28,10 @@ export default function IssuePage() {
 
   const [apiResponse, setApiResponse] = useState<Issue | null>();
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [imgLoading, setImgLoading] = useState<boolean>(true);
+  const stopImgLoading = () => setImgLoading(false);
+
   const [error, setError] = useState("");
 
   const [pageMenuVisible, setPageMenuVisible] = useState<boolean>(false);
@@ -88,6 +93,7 @@ export default function IssuePage() {
   const handleMoveToNextPage = () => {
     const nextPage = currentPage + 1;
     handleUpdateHistory();
+    setImgLoading(true);
     setCurrentPage(nextPage);
     if (apiResponse && apiResponse.pages) {
       if (nextPage === apiResponse.pages.length + 1) {
@@ -100,6 +106,7 @@ export default function IssuePage() {
   const handleMoveToPreviousPage = () => {
     const nextPage = currentPage - 1;
     setCurrentPage(nextPage);
+    setImgLoading(true);
 
     if (nextPage === -2) {
       setCurrentPage(0);
@@ -119,6 +126,7 @@ export default function IssuePage() {
 
   const handleSlider = (_: Event, newValue: number | number[]) => {
     setCurrentPage((newValue as number) - 1);
+    setImgLoading(true);
     handleUpdateHistory();
   };
 
@@ -182,19 +190,33 @@ export default function IssuePage() {
 
           <div className="page-wrapper">
             {currentPage + 1 > apiResponse.pages.length ? (
-              <div className="next-issue-info">
-                <h1>Next issue:</h1>
-                <h2>
-                  {currentPlaylist[playlistIssueInfo.next].comicId}: #{currentPlaylist[playlistIssueInfo.next].issueId}
-                </h2>
-              </div>
+              <>
+                <IssueImgPageControls
+                  leftCallback={handleMoveToPreviousPage}
+                  middleCallback={handleMiddlePageClick}
+                  rightCallback={handleMoveToNextPage}
+                />
+                <div className="next-issue-info">
+                  <h1>Next issue:</h1>
+                  <h2>
+                    {currentPlaylist[playlistIssueInfo.next].comicId}: #{currentPlaylist[playlistIssueInfo.next].issueId}
+                  </h2>
+                </div>
+              </>
             ) : currentPage - 1 === -2 ? (
-              <div className="next-issue-info">
-                <h1>Next issue:</h1>
-                <h2>
-                  {currentPlaylist[playlistIssueInfo.prev].comicId}: #{currentPlaylist[playlistIssueInfo.prev].issueId}
-                </h2>
-              </div>
+              <>
+                <IssueImgPageControls
+                  leftCallback={handleMoveToPreviousPage}
+                  middleCallback={handleMiddlePageClick}
+                  rightCallback={handleMoveToNextPage}
+                />
+                <div className="next-issue-info">
+                  <h1>Next issue:</h1>
+                  <h2>
+                    {currentPlaylist[playlistIssueInfo.prev].comicId}: #{currentPlaylist[playlistIssueInfo.prev].issueId}
+                  </h2>
+                </div>
+              </>
             ) : (
               <IssueImage
                 alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
@@ -202,6 +224,8 @@ export default function IssuePage() {
                 leftCallback={handleMoveToPreviousPage}
                 middleCallback={handleMiddlePageClick}
                 rightCallback={handleMoveToNextPage}
+                imgLoading={imgLoading}
+                loadEndCallback={stopImgLoading}
               />
             )}
           </div>
