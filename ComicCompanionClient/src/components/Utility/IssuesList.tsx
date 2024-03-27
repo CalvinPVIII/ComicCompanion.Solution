@@ -18,6 +18,7 @@ import React from "react";
 interface IssuesListProps {
   issues: null | Issue[];
   showComicNames: boolean;
+  readingListId?: string | number;
 }
 
 export default function IssuesList(props: IssuesListProps) {
@@ -111,7 +112,14 @@ export default function IssuesList(props: IssuesListProps) {
                 <ListItem onClick={handleSetPlaylist}>
                   <div className="issue-list-items">
                     <ListItemButton>
-                      <Link to={`/comics/${issue.comicId}/issue/${issue.issueId}`} className="issue-link">
+                      <Link
+                        to={
+                          props.readingListId
+                            ? `/lists/${props.readingListId}/comics/${issue.comicId}/issue/${issue.issueId}`
+                            : `/comics/${issue.comicId}/issue/${issue.issueId}`
+                        }
+                        className="issue-link"
+                      >
                         {props.showComicNames ? (
                           <>
                             {issue.comicId} Issue - {issue.issueId}

@@ -73,6 +73,7 @@ function App() {
 
             <Route path="/comics/:comicId" element={<ComicInfoPage />} />
             <Route path="/comics/:comicId/issue/:issueId" element={<IssuePage />} />
+            <Route path="/lists/:listId/comics/:comicId/issue/:issueId" element={<IssuePage />} />
 
             <Route path="/lists/new" element={<NewReadingListPage />} />
             <Route path="/lists/shared/:listId" element={<SharedReadingListInfoPage />} />

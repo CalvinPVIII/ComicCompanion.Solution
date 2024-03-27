@@ -9,7 +9,7 @@ import "../../styles/IssuePage.css";
 import Loading from "../Utility/Loading";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateHistory } from "../../redux/readingHistorySlice";
+import { updateHistory, updateReadingListHistory } from "../../redux/readingHistorySlice";
 import { currentPlaylistSelector, previousPageSelector, readingHistorySelector } from "../../redux/store";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -21,7 +21,8 @@ import IssueImage from "../Utility/IssueImg";
 import IssueImgPageControls from "../Utility/IssueImgPageControls";
 
 export default function IssuePage() {
-  const { comicId, issueId } = useParams();
+  const { comicId, issueId, listId } = useParams();
+
   const nav = useNavigate();
   const dispatch = useDispatch();
   const readingHistory = useSelector(readingHistorySelector);
@@ -86,6 +87,12 @@ export default function IssuePage() {
             pagesRead: currentPage,
           })
         );
+        if (listId) {
+          console.log(listId);
+          dispatch(
+            updateReadingListHistory({ readingListId: listId, comicId: apiResponse.comicId, issueId: apiResponse.issueId, pagesRead: currentPage })
+          );
+        }
       }
     }
   };
