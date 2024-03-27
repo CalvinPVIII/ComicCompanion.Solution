@@ -15,6 +15,7 @@ import { Issue, ReadingListDto } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
 import { createReadingListHistoryItem } from "../../redux/readingHistorySlice";
 import React from "react";
+import IssueListText from "./IssueListText";
 
 interface IssuesListProps {
   issues: null | Issue[];
@@ -135,13 +136,7 @@ export default function IssuesList(props: IssuesListProps) {
                         onClick={addReadingListToHistory}
                         className="issue-link"
                       >
-                        {props.showComicNames ? (
-                          <>
-                            {issue.comicId} Issue - {issue.issueId}
-                          </>
-                        ) : (
-                          <>{issue.issueId}</>
-                        )}
+                        <IssueListText issue={issue} showComicNames={props.showComicNames} readingListId={props.readingList?.readingListId} />
                       </Link>
                     </ListItemButton>
                     {isCreating ? (
