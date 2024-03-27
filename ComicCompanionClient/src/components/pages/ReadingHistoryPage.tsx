@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "../../styles/ReadingHistoryPage.css";
 import { useSelector } from "react-redux";
 import { readingHistorySelector } from "../../redux/store";
-import { List, Collapse, ListItem } from "@mui/material";
+import { List, Collapse, ListItem, ListItemText } from "@mui/material";
 import { useState } from "react";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 import ReadingHistoryItemsList from "../Utility/ReadingHistoryItemsList";
 import ReadingListHistoryList from "../Utility/ReadingListHistoryList";
@@ -26,7 +27,10 @@ export default function ReadingHistoryPage() {
       </div>
       <List>
         <ListItem onClick={toggleComicCollapse}>
-          <h3>Comic History</h3>
+          <ListItemText>
+            <h3>Comic History</h3>
+          </ListItemText>
+          {comicHistoryOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={comicHistoryOpen} unmountOnExit timeout="auto">
           {Object.keys(history).map((comic) => (
@@ -34,10 +38,13 @@ export default function ReadingHistoryPage() {
           ))}
         </Collapse>
         <ListItem onClick={toggleReadingListCollapse}>
-          <h3>Reading List History</h3>
+          <ListItemText>
+            <h3>Reading List History</h3>
+          </ListItemText>
+          {listHistoryOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
 
-        <Collapse>
+        <Collapse in={listHistoryOpen} unmountOnExit timeout="auto">
           {Object.values(listHistory).map((readingListItem, index) => (
             <ReadingListHistoryList list={readingListItem} key={index} />
           ))}

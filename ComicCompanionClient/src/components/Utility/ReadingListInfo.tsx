@@ -159,7 +159,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           </div>
         </div>
 
-        <IssuesList issues={props.readingList.issues} showComicNames={true} readingListId={props.readingList.readingListId} />
+        <IssuesList issues={props.readingList.issues} showComicNames={true} readingList={props.readingList} />
       </>
     </>
   );

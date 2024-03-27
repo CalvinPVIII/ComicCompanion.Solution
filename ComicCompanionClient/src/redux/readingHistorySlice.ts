@@ -10,13 +10,31 @@ type HistoryIssue = {
 export type HistoryItem = {
   issue: HistoryIssue;
   pagesRead: number;
+  completed: boolean;
 };
 
-export interface ReadingListHistoryItem {
-  readingListId: string;
+export interface ReadingListHistoryIssue {
   comicId: string;
   issueId: string;
+  coverImg: string;
   pagesRead: number;
+  completed: boolean;
+}
+
+interface ReadingListHistoryIssueAction extends ReadingListHistoryIssue {
+  listId: string;
+}
+
+export interface ReadingListHistoryItem {
+  name: string;
+  listId: string | number;
+  coverImg: string;
+  readIssues: { [comicIdAndIssueId: string]: ReadingListHistoryIssue };
+}
+
+interface DeleteIssueFromReadingListHistoryAction {
+  comicAndIssueId: string;
+  listId: string;
 }
 
 export interface ReadingHistoryState {
@@ -24,7 +42,7 @@ export interface ReadingHistoryState {
   paused: boolean;
   currentPlaylist: Issue[];
   previousPage: string;
-  readingListHistory: { [readingListId: string]: { [issueId: string]: ReadingListHistoryItem } };
+  readingListHistory: { [readingListId: string]: ReadingListHistoryItem };
 }
 
 const initialState: ReadingHistoryState = { history: {}, paused: false, currentPlaylist: [], previousPage: "", readingListHistory: {} };
@@ -67,24 +85,27 @@ const readingHistorySlice = createSlice({
     setPreviousPage: (state, action: PayloadAction<string>) => {
       state.previousPage = action.payload;
     },
-    updateReadingListHistory: (state, action: PayloadAction<ReadingListHistoryItem>) => {
-      const readingListId = action.payload.readingListId;
-      const issueId = action.payload.comicId + action.payload.issueId;
-      const newReadingListHistory = { ...state.readingListHistory };
 
-      if (!newReadingListHistory[readingListId]) {
-        newReadingListHistory[readingListId] = {};
-      }
-      const issueEntry = newReadingListHistory[readingListId][issueId];
-      if (!issueEntry || issueEntry.pagesRead < action.payload.pagesRead) {
-        newReadingListHistory[readingListId][issueId] = action.payload;
-      }
-      state.readingListHistory = newReadingListHistory;
+    createReadingListHistoryItem: (state, action: PayloadAction<ReadingListHistoryItem>) => {
+      state.readingListHistory[action.payload.listId] = action.payload;
     },
-    deleteIssueFromReadingListHistory: (state, action: PayloadAction<ReadingListHistoryItem>) => {
-      if (state.readingListHistory[action.payload.readingListId]) {
-        delete state.readingListHistory[action.payload.readingListId][action.payload.comicId + action.payload.issueId];
+
+    updateReadingListHistory: (state, action: PayloadAction<ReadingListHistoryIssueAction>) => {
+      const { listId, comicId, issueId } = action.payload;
+
+      if (state.readingListHistory[listId]) {
+        // if the issue isnt in the history then created
+        if (!state.readingListHistory[listId].readIssues[comicId + issueId]) {
+          state.readingListHistory[listId].readIssues[comicId + issueId] = action.payload;
+        }
+        // only update if the page read is greater than the page read in history
+        if (state.readingListHistory[listId].readIssues[comicId + issueId].pagesRead < action.payload.pagesRead) {
+          state.readingListHistory[listId].readIssues[comicId + issueId] = action.payload;
+        }
       }
+    },
+    deleteIssueFromReadingListHistory: (state, action: PayloadAction<DeleteIssueFromReadingListHistoryAction>) => {
+      delete state.readingListHistory[action.payload.listId].readIssues[action.payload.comicAndIssueId];
     },
     deleteReadingListFromHistory: (state, action: PayloadAction<string>) => {
       delete state.readingListHistory[action.payload];
@@ -102,6 +123,7 @@ export const {
   updateReadingListHistory,
   deleteIssueFromReadingListHistory,
   deleteReadingListFromHistory,
+  createReadingListHistoryItem,
 } = readingHistorySlice.actions;
 
 export default readingHistorySlice.reducer;

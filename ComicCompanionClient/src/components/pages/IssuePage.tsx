@@ -78,19 +78,26 @@ export default function IssuePage() {
     }
   }, [apiResponse]);
 
-  const handleUpdateHistory = () => {
+  const handleUpdateHistory = (pageNumber: number) => {
     if (!readingHistory.paused) {
-      if (apiResponse?.pages && currentPage <= apiResponse.pages.length) {
+      if (apiResponse?.pages && pageNumber <= apiResponse.pages.length) {
         dispatch(
           updateHistory({
             issue: { comicId: apiResponse.comicId, issueId: apiResponse.issueId, cover: apiResponse.pages[0] },
-            pagesRead: currentPage,
+            completed: pageNumber >= apiResponse.pages.length - 2,
+            pagesRead: pageNumber,
           })
         );
         if (listId) {
-          console.log(listId);
           dispatch(
-            updateReadingListHistory({ readingListId: listId, comicId: apiResponse.comicId, issueId: apiResponse.issueId, pagesRead: currentPage })
+            updateReadingListHistory({
+              listId: listId,
+              comicId: apiResponse.comicId,
+              issueId: apiResponse.issueId,
+              pagesRead: pageNumber,
+              coverImg: apiResponse.pages[0],
+              completed: pageNumber >= apiResponse.pages.length - 2,
+            })
           );
         }
       }
@@ -99,13 +106,17 @@ export default function IssuePage() {
 
   const handleMoveToNextPage = () => {
     const nextPage = currentPage + 1;
-    handleUpdateHistory();
+    handleUpdateHistory(nextPage);
     setImgLoading(true);
     setCurrentPage(nextPage);
     if (apiResponse && apiResponse.pages) {
       if (nextPage === apiResponse.pages.length + 1) {
         setCurrentPage(0);
-        nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
+        if (listId) {
+          nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
+        } else {
+          nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
+        }
       }
     }
   };
@@ -117,7 +128,11 @@ export default function IssuePage() {
 
     if (nextPage === -2) {
       setCurrentPage(0);
-      nav(`/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].issueId}`);
+      if (listId) {
+        nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].issueId}`);
+      } else {
+        nav(`/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].issueId}`);
+      }
     }
   };
 
@@ -134,7 +149,7 @@ export default function IssuePage() {
   const handleSlider = (_: Event, newValue: number | number[]) => {
     setCurrentPage((newValue as number) - 1);
     setImgLoading(true);
-    handleUpdateHistory();
+    handleUpdateHistory((newValue as number) - 1);
   };
 
   const handleMouseEnter = () => {
@@ -166,7 +181,11 @@ export default function IssuePage() {
     if (previousPage !== "") {
       nav(previousPage);
     } else {
-      nav(`/comics/${comicId}`);
+      if (listId) {
+        nav(`/lists/${listId}/comics/${comicId}`);
+      } else {
+        nav(`/comics/${comicId}`);
+      }
     }
   };
 

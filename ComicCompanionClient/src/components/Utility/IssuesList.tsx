@@ -11,14 +11,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
 import { addIssue } from "../../redux/listCreationSlice";
 import { setPlaylist, setPreviousPage } from "../../redux/readingHistorySlice";
-import { Issue } from "../../types";
+import { Issue, ReadingListDto } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
+import { createReadingListHistoryItem } from "../../redux/readingHistorySlice";
 import React from "react";
 
 interface IssuesListProps {
   issues: null | Issue[];
   showComicNames: boolean;
-  readingListId?: string | number;
+  readingList?: ReadingListDto;
 }
 
 export default function IssuesList(props: IssuesListProps) {
@@ -68,6 +69,19 @@ export default function IssuesList(props: IssuesListProps) {
     addComicAlert(dispatch);
   };
 
+  const addReadingListToHistory = () => {
+    if (props.readingList) {
+      dispatch(
+        createReadingListHistoryItem({
+          name: props.readingList.name,
+          listId: props.readingList.readingListId,
+          coverImg: props.readingList.coverImg || "",
+          readIssues: {},
+        })
+      );
+    }
+  };
+
   const handleSetPlaylist = () => {
     if (props.issues) {
       if (ascendOrDescend === "descend") {
@@ -114,10 +128,11 @@ export default function IssuesList(props: IssuesListProps) {
                     <ListItemButton>
                       <Link
                         to={
-                          props.readingListId
-                            ? `/lists/${props.readingListId}/comics/${issue.comicId}/issue/${issue.issueId}`
+                          props.readingList
+                            ? `/lists/${props.readingList.readingListId}/comics/${issue.comicId}/issue/${issue.issueId}`
                             : `/comics/${issue.comicId}/issue/${issue.issueId}`
                         }
+                        onClick={addReadingListToHistory}
                         className="issue-link"
                       >
                         {props.showComicNames ? (
