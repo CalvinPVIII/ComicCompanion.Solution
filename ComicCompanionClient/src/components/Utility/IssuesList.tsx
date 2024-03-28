@@ -1,6 +1,6 @@
 import { Autocomplete, TextField, List, ListItem, ListItemButton, ListSubheader, Button } from "@mui/material";
 import "../../styles/IssuesList.css";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useRef, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Link, useLocation } from "react-router-dom";
@@ -13,9 +13,10 @@ import { addIssue } from "../../redux/listCreationSlice";
 import { setPlaylist, setPreviousPage } from "../../redux/readingHistorySlice";
 import { Issue, ReadingListDto } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
-import { createReadingListHistoryItem } from "../../redux/readingHistorySlice";
+import { createReadingListHistoryItem, bulkAddIssuesToHistory, bulkAddIssuesToReadingListHistory } from "../../redux/readingHistorySlice";
 import React from "react";
 import IssueListText from "./IssueListText";
+import BulkSelectIssuesMenu from "./BulkSelectIssuesMenu";
 
 interface IssuesListProps {
   issues: null | Issue[];
@@ -28,6 +29,9 @@ export default function IssuesList(props: IssuesListProps) {
   const [inputValue, setInputValue] = useState("");
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
+  const [isBulkSelecting, setIsBulkSelecting] = useState(true);
+  const isHoldingClick = useRef(false);
+  const [selectedIssues, setSelectedIssues] = useState<Issue[]>([]);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -94,6 +98,45 @@ export default function IssuesList(props: IssuesListProps) {
     }
   };
 
+  const handleMouseDown = () => {
+    isHoldingClick.current = true;
+    setTimeout(() => {
+      if (isHoldingClick.current) {
+        setIsBulkSelecting(true);
+      }
+    }, 300);
+  };
+
+  const handleMouseUp = () => {
+    isHoldingClick.current = false;
+  };
+
+  const handleIssueSelect = (issue: Issue) => {
+    if (selectedIssues.includes(issue)) {
+      setSelectedIssues(selectedIssues.filter((i) => i !== issue));
+    } else {
+      setSelectedIssues(selectedIssues.concat([issue]));
+    }
+  };
+
+  const closeSelectIssueMenu = () => setIsBulkSelecting(false);
+
+  const handleSelectAllIssuesButton = () => {
+    if (issueList && selectedIssues.length < issueList.length) {
+      setSelectedIssues(issueList);
+    } else {
+      setSelectedIssues([]);
+    }
+  };
+
+  const handleMarkAllAsRead = () => {
+    if (props.readingList) {
+      dispatch(bulkAddIssuesToReadingListHistory({ issues: selectedIssues, readingList: props.readingList }));
+    } else {
+      dispatch(bulkAddIssuesToHistory({ issues: selectedIssues, comicId: selectedIssues[0].comicId, coverImg: "" }));
+    }
+  };
+
   const issueAutoComplete = props.showComicNames
     ? props.issues?.map((issue) => `${issue.comicId} Issue - ${issue.issueId}`)
     : props.issues?.map((issue) => issue.issueId);
@@ -126,19 +169,28 @@ export default function IssuesList(props: IssuesListProps) {
               <React.Fragment key={index}>
                 <ListItem onClick={handleSetPlaylist}>
                   <div className="issue-list-items">
-                    <ListItemButton>
-                      <Link
-                        to={
-                          props.readingList
-                            ? `/lists/${props.readingList.readingListId}/comics/${issue.comicId}/issue/${issue.issueId}`
-                            : `/comics/${issue.comicId}/issue/${issue.issueId}`
-                        }
-                        onClick={addReadingListToHistory}
-                        className="issue-link"
-                      >
+                    {isBulkSelecting ? (
+                      <ListItemButton selected={selectedIssues.includes(issue)} onClick={() => handleIssueSelect(issue)}>
                         <IssueListText issue={issue} showComicNames={props.showComicNames} readingListId={props.readingList?.readingListId} />
-                      </Link>
-                    </ListItemButton>
+                      </ListItemButton>
+                    ) : (
+                      <ListItemButton>
+                        <Link
+                          onPointerDown={handleMouseDown}
+                          onPointerUp={handleMouseUp}
+                          to={
+                            props.readingList
+                              ? `/lists/${props.readingList.readingListId}/comics/${issue.comicId}/issue/${issue.issueId}`
+                              : `/comics/${issue.comicId}/issue/${issue.issueId}`
+                          }
+                          onClick={addReadingListToHistory}
+                          className="issue-link"
+                        >
+                          <IssueListText issue={issue} showComicNames={props.showComicNames} readingListId={props.readingList?.readingListId} />
+                        </Link>
+                      </ListItemButton>
+                    )}
+
                     {isCreating ? (
                       <>
                         <Button variant="outlined" color="success" onClick={() => handleAddToReadingListClick(issue)}>
@@ -154,6 +206,13 @@ export default function IssuesList(props: IssuesListProps) {
             ))}
           </List>
         </div>
+        {isBulkSelecting ? (
+          <BulkSelectIssuesMenu
+            handleStopSelecting={closeSelectIssueMenu}
+            handleSelectAllIssues={handleSelectAllIssuesButton}
+            handleMarkAllAsRead={handleMarkAllAsRead}
+          />
+        ) : null}
       </div>
     );
   } else {

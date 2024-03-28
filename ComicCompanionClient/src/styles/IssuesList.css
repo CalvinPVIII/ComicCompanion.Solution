@@ -32,3 +32,7 @@
   width: 100%;
   height: auto;
 }
+
+.selected-issue {
+  background-color: purple;
+}

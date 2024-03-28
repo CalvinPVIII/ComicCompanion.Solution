@@ -1,0 +1,30 @@
+#select-issue-menu-top-bar {
+  position: fixed;
+  width: 100%;
+  background-color: rgb(18, 14, 27);
+  top: 0;
+  overflow-x: hidden;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+#select-issue-menu-bottom-bar {
+  position: fixed;
+  width: 100%;
+  background-color: rgb(18, 14, 27);
+  bottom: 0;
+  overflow-x: hidden;
+  z-index: 999;
+  height: 60px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+}
+
+.bulk-select-issue-button {
+  display: flex;
+  align-items: center;
+}

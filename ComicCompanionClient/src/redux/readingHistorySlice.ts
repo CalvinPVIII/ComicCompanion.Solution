@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Issue } from "../types";
+import { Issue, ReadingListDto } from "../types";
 
 type HistoryIssue = {
   comicId: string;
@@ -43,6 +43,17 @@ export interface ReadingHistoryState {
   currentPlaylist: Issue[];
   previousPage: string;
   readingListHistory: { [readingListId: string]: ReadingListHistoryItem };
+}
+
+interface BulkAddIssueToReadingListAction {
+  issues: Issue[];
+  readingList: ReadingListDto;
+}
+
+interface BulkAddIssuesToHistoryAction {
+  comicId: string;
+  coverImg: string;
+  issues: Issue[];
 }
 
 const initialState: ReadingHistoryState = { history: {}, paused: false, currentPlaylist: [], previousPage: "", readingListHistory: {} };
@@ -110,6 +121,49 @@ const readingHistorySlice = createSlice({
     deleteReadingListFromHistory: (state, action: PayloadAction<string>) => {
       delete state.readingListHistory[action.payload];
     },
+    bulkAddIssuesToReadingListHistory: (state, action: PayloadAction<BulkAddIssueToReadingListAction>) => {
+      const { issues, readingList } = action.payload;
+      const newReadIssues: { [id: string]: ReadingListHistoryIssue } = {};
+
+      issues.forEach(
+        (issue) =>
+          (newReadIssues[issue.comicId + issue.issueId] = {
+            issueId: issue.issueId,
+            comicId: issue.comicId,
+            pagesRead: 0,
+            completed: true,
+            coverImg: "",
+          })
+      );
+
+      // if there is no reading list already in the history, create it and add the selected issues to the history
+      if (!state.readingListHistory[readingList.readingListId]) {
+        state.readingListHistory[readingList.readingListId] = {
+          name: readingList.name,
+          coverImg: readingList.coverImg || "",
+          readIssues: newReadIssues,
+          listId: readingList.readingListId,
+        };
+      } else {
+        state.readingListHistory[readingList.readingListId].readIssues = {
+          ...state.readingListHistory[readingList.readingListId].readIssues,
+          ...newReadIssues,
+        };
+      }
+    },
+    bulkAddIssuesToHistory: (state, action: PayloadAction<BulkAddIssuesToHistoryAction>) => {
+      const bulkIssues: { [issueId: string]: HistoryItem } = {};
+      action.payload.issues.forEach(
+        (issue) =>
+          (bulkIssues[issue.issueId] = { issue: { comicId: issue.comicId, cover: "", issueId: issue.issueId }, pagesRead: 0, completed: true })
+      );
+
+      if (!state.history[action.payload.comicId]) {
+        state.history[action.payload.comicId] = bulkIssues;
+      } else {
+        state.history[action.payload.comicId] = { ...state.history[action.payload.comicId], ...bulkIssues };
+      }
+    },
   },
 });
 
@@ -124,6 +178,8 @@ export const {
   deleteIssueFromReadingListHistory,
   deleteReadingListFromHistory,
   createReadingListHistoryItem,
+  bulkAddIssuesToHistory,
+  bulkAddIssuesToReadingListHistory,
 } = readingHistorySlice.actions;
 
 export default readingHistorySlice.reducer;
