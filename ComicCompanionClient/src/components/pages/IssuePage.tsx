@@ -67,6 +67,7 @@ export default function IssuePage() {
   useEffect(() => {
     if (apiResponse) {
       const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.comicId + issue.issueId === apiResponse?.comicId + apiResponse?.issueId);
+      console.log(currentPlaylist);
       const newPlaylistInfo = { next: indexOfCurrentIssue, prev: indexOfCurrentIssue, current: indexOfCurrentIssue };
       if (currentPlaylist[indexOfCurrentIssue + 1]) {
         newPlaylistInfo.next = indexOfCurrentIssue + 1;
@@ -223,10 +224,16 @@ export default function IssuePage() {
                   rightCallback={handleMoveToNextPage}
                 />
                 <div className="next-issue-info">
-                  <h1>Next issue:</h1>
-                  <h2>
-                    {currentPlaylist[playlistIssueInfo.next].comicId}: #{currentPlaylist[playlistIssueInfo.next].issueId}
-                  </h2>
+                  {currentPlaylist[playlistIssueInfo.next] === currentPlaylist[playlistIssueInfo.current] ? (
+                    <h1>No Next Issue</h1>
+                  ) : (
+                    <>
+                      <h1>Next issue:</h1>
+                      <h2>
+                        {currentPlaylist[playlistIssueInfo.next].comicId}: #{currentPlaylist[playlistIssueInfo.next].issueId}
+                      </h2>
+                    </>
+                  )}
                 </div>
               </>
             ) : currentPage - 1 === -2 ? (
@@ -237,10 +244,16 @@ export default function IssuePage() {
                   rightCallback={handleMoveToNextPage}
                 />
                 <div className="next-issue-info">
-                  <h1>Next issue:</h1>
-                  <h2>
-                    {currentPlaylist[playlistIssueInfo.prev].comicId}: #{currentPlaylist[playlistIssueInfo.prev].issueId}
-                  </h2>
+                  {currentPlaylist[playlistIssueInfo.prev] === currentPlaylist[playlistIssueInfo.current] ? (
+                    <h1>No Prev Issue</h1>
+                  ) : (
+                    <>
+                      <h1>Next issue:</h1>
+                      <h2>
+                        {currentPlaylist[playlistIssueInfo.prev].comicId}: #{currentPlaylist[playlistIssueInfo.prev].issueId}
+                      </h2>
+                    </>
+                  )}
                 </div>
               </>
             ) : (

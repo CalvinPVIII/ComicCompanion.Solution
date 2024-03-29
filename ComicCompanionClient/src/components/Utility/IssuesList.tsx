@@ -29,7 +29,7 @@ export default function IssuesList(props: IssuesListProps) {
   const [inputValue, setInputValue] = useState("");
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
-  const [isBulkSelecting, setIsBulkSelecting] = useState(true);
+  const [isBulkSelecting, setIsBulkSelecting] = useState(false);
   const isHoldingClick = useRef(false);
   const [selectedIssues, setSelectedIssues] = useState<Issue[]>([]);
   const dispatch = useDispatch();
@@ -89,7 +89,7 @@ export default function IssuesList(props: IssuesListProps) {
 
   const handleSetPlaylist = () => {
     if (props.issues) {
-      if (ascendOrDescend === "descend") {
+      if (ascendOrDescend === "ascend" || props.readingList) {
         dispatch(setPlaylist(props.issues));
       } else {
         dispatch(setPlaylist(props.issues.reverse()));

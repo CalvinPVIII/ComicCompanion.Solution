@@ -16,9 +16,10 @@ export default function IssueListText(props: IssueListTextProps) {
     ? readingHistory.history[props.issue.comicId][props.issue.issueId]
     : false;
 
-  const isIssueInReadingListHistory = props.readingListId
-    ? readingHistory.readingListHistory[props.readingListId].readIssues[props.issue.comicId + props.issue.issueId]
-    : false;
+  const isIssueInReadingListHistory =
+    props.readingListId && readingHistory.readingListHistory[props.readingListId]
+      ? readingHistory.readingListHistory[props.readingListId].readIssues[props.issue.comicId + props.issue.issueId]
+      : false;
 
   if (isIssueInReadingListHistory) {
     return (
