@@ -646,3 +646,9 @@ export const issueResponse = {
     "https://2.bp.blogspot.com/R7dqK3X_BhlZR6nZpZGnYZKB9rdviKpcIFd9IZ9QyBkmDdwwMadQXyVr7ymWszAbRNTd4Ua6PRcSFIxWByCuWGj4p3dBPLNn8h4_aGnaCIxZyC4ALP8Adj_92TIjjMCu0oaMVkE0Yw=s1600",
   ],
 };
+
+export const infoResponse = {
+  patchNotes: ["Adjust UI to better display which issues have been read", "Improve overall performance", "Change UI of creating a reading list"],
+  version: "Beta 1.1",
+  downloadLink: "https://github.com/CalvinPVIII/ComicCompanion.Solution/releases/download/1.0-beta/comiccompanionv1.1-beta.apk",
+};

@@ -7,6 +7,7 @@ import {
   popularReadingListResponse,
   readingListIdResponse,
   searchComicsResponse,
+  infoResponse,
 } from "./exampleData";
 
 export const readingListGetEndpoint: EndpointInfo = {
@@ -73,4 +74,12 @@ export const getIssueEndpoint: EndpointInfo = {
   pagination: true,
   queryParams: [{ displayName: "Page Number", urlParam: "page", queryType: "number" }],
   responseExample: JSON.stringify(issueResponse, null, 2),
+};
+
+export const getInfoEndpoint: EndpointInfo = {
+  urlEndpoint: "/api/Info",
+  description: "Returns information about the current version and latest updated of the app",
+  requestType: "get",
+  pagination: false,
+  responseExample: JSON.stringify(infoResponse, null, 2),
 };

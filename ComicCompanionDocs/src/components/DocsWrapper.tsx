@@ -1,6 +1,7 @@
 import "../styles/DocsWrapper.css";
 import {
   comicIdEndpoint,
+  getInfoEndpoint,
   getIssueEndpoint,
   popularComicsEndpoint,
   popularReadingListEndpoint,
@@ -24,6 +25,7 @@ export default function DocsWrapper() {
       <Endpoint name="Reading Lists" endpoints={readingListEndpoints} />
       <Endpoint name="Comics" endpoints={comicEndpoints} />
       <Endpoint name="Issues" endpoints={issueEndpoints} />
+      <Endpoint name="Info" endpoints={[getInfoEndpoint]} />
     </>
   );
 }
