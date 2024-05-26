@@ -30,7 +30,7 @@ export default function IssuesList(props: IssuesListProps) {
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
   const [isBulkSelecting, setIsBulkSelecting] = useState(false);
-  const isHoldingClick = useRef(false);
+  const mouseDownTimeStamp = useRef(0);
   const [selectedIssues, setSelectedIssues] = useState<Issue[]>([]);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -99,16 +99,13 @@ export default function IssuesList(props: IssuesListProps) {
   };
 
   const handleMouseDown = () => {
-    isHoldingClick.current = true;
-    setTimeout(() => {
-      if (isHoldingClick.current) {
-        setIsBulkSelecting(true);
-      }
-    }, 300);
+    const mouseDown = Date.now();
+    mouseDownTimeStamp.current = mouseDown;
   };
 
   const handleMouseUp = () => {
-    isHoldingClick.current = false;
+    const mouseUpTime = Date.now();
+    mouseUpTime - mouseDownTimeStamp.current > 1000 ? setIsBulkSelecting(true) : null;
   };
 
   const handleIssueSelect = (issue: Issue) => {
