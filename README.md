@@ -107,7 +107,7 @@ Instructions:
 
 ### For bug reports and feature requests, please [submit an issue on Github](https://github.com/CalvinPVIII/ComicCompanion.Solution/issues)
 
-### _Version: Beta 1.0_
+### _Version: Beta 1.3_
 
 _Licensed under GPLv3_
 
