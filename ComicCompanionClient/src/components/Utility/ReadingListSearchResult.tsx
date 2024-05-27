@@ -10,7 +10,6 @@ interface ReadingListSearchResultProps {
 }
 
 export default function ReadingListSearchResult(props: ReadingListSearchResultProps) {
-  console.log(props);
   return (
     <div id="reading-list-search-results">
       {props.readingLists.map((readingList, index) => (

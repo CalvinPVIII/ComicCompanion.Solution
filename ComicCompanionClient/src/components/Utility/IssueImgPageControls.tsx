@@ -16,7 +16,6 @@ export default function IssueImgPageControls(props: IssueImgPageControlsProps) {
   };
 
   const handleMouseUp = (pageSection: "left" | "middle" | "right") => {
-    console.log(pageSection);
     const mouseUpTime = new Date();
     const mouseClickTime = mouseUpTime.getTime() - lastMouseDown;
     // if the user clicks and doesn't hold

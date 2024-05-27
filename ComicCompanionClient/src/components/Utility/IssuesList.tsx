@@ -105,7 +105,7 @@ export default function IssuesList(props: IssuesListProps) {
 
   const handleMouseUp = () => {
     const mouseUpTime = Date.now();
-    mouseUpTime - mouseDownTimeStamp.current > 1000 ? setIsBulkSelecting(true) : null;
+    mouseUpTime - mouseDownTimeStamp.current > 500 ? setIsBulkSelecting(true) : null;
   };
 
   const handleIssueSelect = (issue: Issue) => {
