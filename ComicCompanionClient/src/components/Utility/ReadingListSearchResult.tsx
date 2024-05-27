@@ -10,6 +10,7 @@ interface ReadingListSearchResultProps {
 }
 
 export default function ReadingListSearchResult(props: ReadingListSearchResultProps) {
+  console.log(props);
   return (
     <div id="reading-list-search-results">
       {props.readingLists.map((readingList, index) => (
@@ -25,7 +26,7 @@ export default function ReadingListSearchResult(props: ReadingListSearchResultPr
                 <p className="reading-list-name">{readingList.name}</p>
                 <p className="reading-list-author">created by {readingList.createdBy}</p>
                 <p className="reading-list-description">{readingList.description}</p>
-                <p className="reading-list-issues">{readingList.issues?.length} issues</p>
+                <p className="reading-list-issues">{readingList.issues?.length ? `${readingList.issues.length} issues` : null}</p>
               </div>
             </div>
           </div>

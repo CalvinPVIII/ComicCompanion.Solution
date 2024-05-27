@@ -11,7 +11,7 @@ public class InfoController : Controller
     [HttpGet()]
     public ActionResult Get()
     {
-        string[] patchNotes = { "Add update checking and patch notes", "Add panning, zoom, and pinch to issue images", "Adjust UI to show which issues have been read" };
+        string[] patchNotes = { "Adjust displaying widescreen images on vertical viewports", "Fix issue with bulk issue select always triggering when scrolling issues" };
         return Ok(new APIResponseDto("success", 200, new { version = "Beta 1.2", downloadLink = "https://github.com/CalvinPVIII/ComicCompanion.Solution/releases/download/1.2-beta/comiccompanionv1.2-beta.apk", patchNotes }));
     }
 

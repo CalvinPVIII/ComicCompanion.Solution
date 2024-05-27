@@ -30,8 +30,8 @@ export default function IssuesList(props: IssuesListProps) {
   const [ascendOrDescend, setAscendOrDescend] = useState<"ascend" | "descend">("descend");
 
   const [isBulkSelecting, setIsBulkSelecting] = useState(false);
-  const mouseDownTimeStamp = useRef(0);
   const [selectedIssues, setSelectedIssues] = useState<Issue[]>([]);
+  const mouseDownTimeStamp = useRef(0);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -114,6 +114,7 @@ export default function IssuesList(props: IssuesListProps) {
     } else {
       setSelectedIssues(selectedIssues.concat([issue]));
     }
+    console.log(ascendOrDescend);
   };
 
   const closeSelectIssueMenu = () => setIsBulkSelecting(false);

@@ -43,7 +43,7 @@ public class ReadingListController : Controller
 
         if (listName != null)
         {
-            readingListQuery = readingListQuery.Where(l => l.Name.Contains(listName));
+            readingListQuery = readingListQuery.Where(l => l.Name.ToLower().Contains(listName.ToLower()));
         }
 
 
