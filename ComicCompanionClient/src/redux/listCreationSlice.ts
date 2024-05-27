@@ -26,6 +26,11 @@ const listCreationSlice = createSlice({
     addIssue: (state, action: PayloadAction<Issue>) => {
       state.currentList?.issues.push(action.payload);
     },
+    bulkAddIssue: (state, action: PayloadAction<Issue[]>) => {
+      if (state.currentList) {
+        state.currentList.issues = state.currentList.issues.concat(action.payload);
+      }
+    },
     removeIssue: (state, action: PayloadAction<Issue>) => {
       if (state.currentList) {
         state.currentList.issues = state.currentList?.issues.filter((issue) => issue.readingListIssueId !== action.payload.readingListIssueId);
@@ -39,6 +44,6 @@ const listCreationSlice = createSlice({
   },
 });
 
-export const { toggleCreating, setCurrentList, addIssue, removeIssue, updateProperty } = listCreationSlice.actions;
+export const { toggleCreating, setCurrentList, addIssue, removeIssue, updateProperty, bulkAddIssue } = listCreationSlice.actions;
 
 export default listCreationSlice.reducer;

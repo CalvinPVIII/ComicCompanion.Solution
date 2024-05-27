@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
-import { addIssue } from "../../redux/listCreationSlice";
+import { addIssue, bulkAddIssue } from "../../redux/listCreationSlice";
 import { setPlaylist, setPreviousPage } from "../../redux/readingHistorySlice";
 import { Issue, ReadingListDto } from "../../types";
 import { addComicAlert } from "../../helpers/alertCreators";
@@ -114,7 +114,17 @@ export default function IssuesList(props: IssuesListProps) {
     } else {
       setSelectedIssues(selectedIssues.concat([issue]));
     }
-    console.log(ascendOrDescend);
+  };
+
+  const handleAddSelectedToReadingList = () => {
+    if (isCreating) {
+      const issuesToAdd = selectedIssues.map((issue) => ({
+        ...issue,
+        readingListIssueId: uuidv4(),
+      }));
+      dispatch(bulkAddIssue(issuesToAdd));
+      addComicAlert(dispatch);
+    }
   };
 
   const closeSelectIssueMenu = () => setIsBulkSelecting(false);
@@ -209,6 +219,7 @@ export default function IssuesList(props: IssuesListProps) {
             handleStopSelecting={closeSelectIssueMenu}
             handleSelectAllIssues={handleSelectAllIssuesButton}
             handleMarkAllAsRead={handleMarkAllAsRead}
+            handleBulkAddToReadingList={isCreating ? handleAddSelectedToReadingList : undefined}
           />
         ) : null}
       </div>

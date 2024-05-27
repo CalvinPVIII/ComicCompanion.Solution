@@ -1,11 +1,12 @@
 import { Button } from "@mui/material";
-import { BookmarkAddOutlined, Clear, BookmarkRemoveOutlined } from "@mui/icons-material";
+import { BookmarkAddOutlined, Clear, BookmarkRemoveOutlined, AddOutlined } from "@mui/icons-material";
 import "../../styles/BulkSelectIssuesMenu.css";
 
 interface BulkSelectIssuesMenuProps {
   handleStopSelecting: () => void;
   handleSelectAllIssues: () => void;
   handleMarkAllAsRead: () => void;
+  handleBulkAddToReadingList?: () => void;
 }
 
 export default function BulkSelectIssuesMenu(props: BulkSelectIssuesMenuProps) {
@@ -27,6 +28,14 @@ export default function BulkSelectIssuesMenu(props: BulkSelectIssuesMenuProps) {
           <BookmarkRemoveOutlined />
           <Button color="secondary">Mark as Unread</Button>
         </div>
+        {props.handleBulkAddToReadingList ? (
+          <div className="bulk-select-issue-button">
+            <AddOutlined />
+            <Button color="secondary" onClick={props.handleBulkAddToReadingList}>
+              Add to Reading List
+            </Button>
+          </div>
+        ) : null}
       </div>
     </>
   );

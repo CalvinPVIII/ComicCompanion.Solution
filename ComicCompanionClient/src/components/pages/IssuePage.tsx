@@ -67,7 +67,6 @@ export default function IssuePage() {
   useEffect(() => {
     if (apiResponse) {
       const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.comicId + issue.issueId === apiResponse?.comicId + apiResponse?.issueId);
-      console.log(currentPlaylist);
       const newPlaylistInfo = { next: indexOfCurrentIssue, prev: indexOfCurrentIssue, current: indexOfCurrentIssue };
       if (currentPlaylist[indexOfCurrentIssue + 1]) {
         newPlaylistInfo.next = indexOfCurrentIssue + 1;
