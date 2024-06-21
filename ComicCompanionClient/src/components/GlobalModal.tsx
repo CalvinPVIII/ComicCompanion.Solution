@@ -5,7 +5,6 @@ import { modalOpenSelector, modalContentSelector } from "../redux/store";
 import { toggleModal } from "../redux/modalSlice";
 import ComicsPage from "./pages/ComicsPage";
 import ComicInfo from "./Utility/ComicInfo";
-
 import "../styles/GlobalModal.css";
 import ConfirmReadingList from "./ConfirmReadingList";
 import UserAuth from "./Utility/UserAuth";

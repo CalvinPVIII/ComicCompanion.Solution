@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomePage from "./components/pages/HomePage";
@@ -17,8 +17,8 @@ import ReadingListFAB from "./components/ReadingListFAB";
 import UserSettingsPage from "./components/pages/UserSettingsPage";
 import AppAlert from "./components/AppAlert";
 
-import { useSelector } from "react-redux";
-import { alertSelector } from "./redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { alertSelector, modalOpenSelector } from "./redux/store";
 import LibraryPage from "./components/pages/LibraryPage";
 
 import LibrarySettingsPage from "./components/pages/LibrarySettingsPage";
@@ -32,6 +32,10 @@ import ReadingHistoryPage from "./components/pages/ReadingHistoryPage";
 import AppInfoPage from "./components/pages/AppInfoPage";
 import { useLocation } from "react-router-dom";
 import UpdateChecker from "./components/UpdateChecker";
+
+import { App as CapApp } from "@capacitor/app";
+import { useEffect } from "react";
+import { toggleModal } from "./redux/modalSlice";
 
 const darkTheme = createTheme({
   palette: {
@@ -57,6 +61,31 @@ const darkTheme = createTheme({
 function App() {
   const location = useLocation();
   const alertInfo = useSelector(alertSelector);
+  const dispatch = useDispatch();
+  const modalOpen = useSelector(modalOpenSelector);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    const handleBack = () => {
+      if (modalOpen) {
+        dispatch(toggleModal(false));
+      } else if (
+        location.pathname === "/comics" ||
+        location.pathname === "/lists" ||
+        location.pathname === "/library" ||
+        location.pathname === "/dashboard"
+      ) {
+        nav("/");
+      } else if (location.pathname !== "/") {
+        history.back();
+      }
+    };
+    CapApp.addListener("backButton", handleBack);
+    return () => {
+      CapApp.removeAllListeners();
+    };
+  }, [modalOpen, location.pathname]);
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>

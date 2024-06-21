@@ -16,8 +16,6 @@ import { setCurrentList, toggleCreating } from "../redux/listCreationSlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import comicCompanionImages from "../helpers/defaultImageArray";
 import { errorAlert } from "../helpers/alertCreators";
-import EditIcon from "@mui/icons-material/Edit";
-import CheckIcon from "@mui/icons-material/Check";
 import { createLocalReadingList } from "../helpers/helperFunctions";
 
 interface ImageCache {
@@ -33,11 +31,9 @@ export default function ConfirmReadingList() {
   const readingList = useSelector(currentListSelector);
   const currentUser = useSelector(userSelector);
 
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingDesc, setIsEditingDesc] = useState(false);
-
-  const toggleIsEditingName = () => setIsEditingName(!isEditingName);
-  const toggleIsEditingDesc = () => setIsEditingDesc(!isEditingDesc);
+  const [nameError, setNameError] = useState(false);
+  const [descError, setDescError] = useState(false);
+  const [issuesError, setIssuesError] = useState(false);
 
   const handleEditListName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateProperty({ propertyName: "name", value: e.target.value }));
@@ -68,25 +64,29 @@ export default function ConfirmReadingList() {
 
   const errorChecker = (): boolean => {
     if (!readingList) return true;
-    if (readingList.issues.length <= 0) {
-      errorAlert(dispatch, "Reading List Must Have Issues");
-      errorAlert(dispatch, "Reading List Must Have Issues");
-      return true;
-    }
     if (readingList.name.length <= 0) {
       errorAlert(dispatch, "Name Cannot Be Blank");
-
+      setNameError(true);
       return true;
     }
     if (readingList.description.length <= 0) {
       errorAlert(dispatch, "Description Cannot Be Blank");
-
+      setDescError(true);
+      return true;
+    }
+    if (readingList.issues.length <= 0) {
+      errorAlert(dispatch, "Reading List Must Have Issues");
+      errorAlert(dispatch, "Reading List Must Have Issues");
+      setIssuesError(true);
       return true;
     }
     return false;
   };
 
   const handleSubmit = async () => {
+    setNameError(false);
+    setDescError(false);
+    setIssuesError(false);
     const errors = errorChecker();
     if (errors) return;
     if (!readingList) return;
@@ -150,20 +150,7 @@ export default function ConfirmReadingList() {
   if (readingList) {
     return (
       <div id="confirm-reading-list-modal">
-        {isEditingName ? (
-          <div id="edit-name">
-            <TextField value={readingList.name} onChange={handleEditListName} autoFocus inputProps={{ maxLength: 50 }} />
-
-            <CheckIcon onClick={toggleIsEditingName} color="success" />
-          </div>
-        ) : (
-          <h1 onClick={toggleIsEditingName} style={{ cursor: "pointer" }}>
-            {readingList.name}{" "}
-            <span>
-              <EditIcon />
-            </span>
-          </h1>
-        )}
+        <h1>Confirm List</h1>
 
         <div id="confirm-basic-info">
           <div id="preview-img">
@@ -174,17 +161,20 @@ export default function ConfirmReadingList() {
             )}
             <p id="img-helper-text">Tap an issue to change the cover image</p>
           </div>
-          {isEditingDesc ? (
-            <div id="edit-desc">
-              <TextField value={readingList.description} onChange={handleEditListDesc} autoFocus multiline inputProps={{ maxLength: 250 }} />
-              <Button onClick={toggleIsEditingDesc}>Confirm</Button>
-            </div>
-          ) : (
-            <div id="preview-description" onClick={toggleIsEditingDesc}>
-              <p>{readingList.description}</p>
-              <Button>Edit</Button>
-            </div>
-          )}
+          <div id="edit-desc">
+            <p style={nameError ? { color: "red" } : {}}>Name:</p>
+            <TextField value={readingList.name} onChange={handleEditListName} autoFocus inputProps={{ maxLength: 50 }} error={nameError} />
+            <p style={descError ? { color: "red" } : {}}>Description:</p>
+            <TextField
+              value={readingList.description}
+              onChange={handleEditListDesc}
+              autoFocus
+              multiline
+              inputProps={{ maxLength: 250 }}
+              rows={4}
+              error={descError}
+            />
+          </div>
         </div>
         <div id="private-toggle">
           {currentUser ? (
@@ -202,7 +192,9 @@ export default function ConfirmReadingList() {
 
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
-            <span id="accordion-header">Issues</span>
+            <span id="accordion-header" style={issuesError ? { color: "red" } : {}}>
+              Issues
+            </span>
           </AccordionSummary>
           <AccordionDetails>
             <div id="cover-image-picker">
