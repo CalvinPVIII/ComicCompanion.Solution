@@ -1,3 +1,5 @@
+![Comic Companion](./ReadmeAssets/readme-header.png)
+
 # Comic Companion
 
 Comic Companion is the go-to app for the ultimate comic reading experience. Dive into the latest weeklies or explore timeless classics spanning decades. But we're more than just comics – create and share personalized reading lists, connecting with fellow enthusiasts. Whether you're a seasoned fan or a newcomer, Comic Companion is your portal to a world of superheroes and villains.
@@ -6,15 +8,15 @@ Comic Companion is the go-to app for the ultimate comic reading experience. Dive
 
 ## Comic Companion is available in these formats:
 
-- REST API
 - Android Mobile App
 - Web App
-
-### [View API Documentation](https://docs-comicompanion.netlify.app/)
+- REST API
 
 ### [Download the Mobile App](https://github.com/CalvinPVIII/ComicCompanion.Solution/releases)
 
 ### [Visit the Web App](https://comiccompanion.netlify.app/)
+
+### [View API Documentation](https://docs-comicompanion.netlify.app/)
 
 ## Technologies Used:
 
@@ -107,7 +109,7 @@ Instructions:
 
 ### For bug reports and feature requests, please [submit an issue on Github](https://github.com/CalvinPVIII/ComicCompanion.Solution/issues)
 
-### _Version: Beta 1.3_
+### _Version: Beta 1.4_
 
 _Licensed under GPLv3_
 
