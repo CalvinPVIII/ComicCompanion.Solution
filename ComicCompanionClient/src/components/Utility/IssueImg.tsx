@@ -1,6 +1,6 @@
 import "../../styles/IssueImg.css";
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IssueImgPageControls from "./IssueImgPageControls";
 import Loading from "./Loading";
 interface IssueImageProps {
@@ -11,9 +11,11 @@ interface IssueImageProps {
   rightCallback: () => void;
   imgLoading: boolean;
   loadEndCallback: () => void;
+  loadStartCallback: () => void;
 }
 export default function IssueImage(props: IssueImageProps) {
   const [panStartX, setPanStartX] = useState(0);
+  const [imgUrl, setImgUrl] = useState<string>(props.img);
 
   const panningStart = (e: ReactZoomPanPinchRef) => {
     setPanStartX(parseInt(e.state.positionX.toFixed()));
@@ -32,6 +34,32 @@ export default function IssueImage(props: IssueImageProps) {
     props.loadEndCallback();
   };
 
+  const loadStart = () => {
+    props.loadStartCallback();
+  };
+
+  const handleError = () => {
+    console.log("error");
+    const backupUrl = props.img + "?backup";
+    setImgUrl(backupUrl);
+    // checkImage(backupUrl);
+  };
+
+  const checkImage = async (url: string) => {
+    if (props.imgLoading) {
+      await fetch(url)
+        .then((r) => console.log(r))
+        .catch((e) => {
+          console.log(e);
+          handleError();
+        });
+    }
+  };
+
+  useEffect(() => {
+    checkImage(props.img);
+  }, [props.img]);
+
   return (
     <>
       {props.imgLoading ? <Loading /> : null}
@@ -46,7 +74,7 @@ export default function IssueImage(props: IssueImageProps) {
           <TransformComponent>
             <IssueImgPageControls leftCallback={props.leftCallback} middleCallback={props.middleCallback} rightCallback={props.rightCallback} />
             <div id="issue-wrapper">
-              <img src={props.img} alt={props.alt} id="issue-img" onLoad={loadEnd} />
+              <img src={imgUrl} alt={props.alt} id="issue-img" onLoad={loadEnd} onLoadStart={loadStart} onError={handleError} />
             </div>
           </TransformComponent>
         </TransformWrapper>

@@ -32,6 +32,7 @@ export default function IssuePage() {
 
   const [imgLoading, setImgLoading] = useState<boolean>(true);
   const stopImgLoading = () => setImgLoading(false);
+  const startImgLoading = () => setImgLoading(true);
 
   const [error, setError] = useState("");
 
@@ -264,6 +265,7 @@ export default function IssuePage() {
                 rightCallback={handleMoveToNextPage}
                 imgLoading={imgLoading}
                 loadEndCallback={stopImgLoading}
+                loadStartCallback={startImgLoading}
               />
             )}
           </div>
