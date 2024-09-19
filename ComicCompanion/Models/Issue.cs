@@ -23,6 +23,8 @@ public class Issue
         // else
         // {
         Pages = await XoxoComicHelper.GetPagesFromIssue(this);
+        // Pages = await ComicExtraHelper.GetPagesFromIssue(this);
+
         // if (Pages.Length == 0)
         // {
         //     Pages = await ReadComicOnlineHelper.GetPagesFromIssue(this);
