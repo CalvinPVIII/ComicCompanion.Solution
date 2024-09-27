@@ -25,8 +25,24 @@ public class ComicExtraHelper : ComicHelper, IComicHelper
 
     public static async Task<SearchResultDto> Popular(int pageNumber)
     {
-        SearchResultDto results = await GetListOfComics("https://xoxocomic.com/hot-comic?", pageNumber, null);
-        return results;
+
+        var doc = await _context.OpenAsync("https://comixextra.com/");
+        var nodes = doc.QuerySelectorAll("ul#movie-carousel-top li");
+
+
+        List<Comic> Comics = new List<Comic> { };
+        foreach (var node in nodes)
+        {
+            string comicId = GetIdFromUrl(node.FirstElementChild.Attributes["href"].Value);
+            string name = node.FirstElementChild.Attributes["title"].Value;
+            string img = node.FirstElementChild.FirstElementChild.FirstElementChild.Attributes["src"].Value;
+            Comic comic = new Comic() { ComicId = comicId, Name = name, CoverImg = img };
+            Comics.Add(comic);
+        }
+
+        SearchResultDto result = new SearchResultDto() { Comics = Comics, CurrentPage = 0, MaxPage = 0 };
+
+        return result;
     }
 
     public static async Task<Comic> GetComicFromId(string comicId)

@@ -72,6 +72,10 @@ namespace ToDoList
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
   };
 });
+
+      builder.Services.AddHttpClient();
+
+
       builder.Services.AddCors(options =>
       {
         options.AddPolicy(name: "AppCorsPolicy", policy =>

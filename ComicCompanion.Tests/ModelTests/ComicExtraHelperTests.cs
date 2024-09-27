@@ -47,6 +47,17 @@ namespace ComicCompanion.Tests
         }
 
 
+        [TestMethod]
+        public async Task Popular_GetAllPopularComics_SearchResultDto()
+        {
+            var searchResult = await ComicExtraHelper.Popular(1);
+
+            Assert.IsNotNull(searchResult);
+            Assert.AreEqual(searchResult.Comics.Count, 24);
+            Assert.AreEqual(searchResult.MaxPage, 0);
+        }
+
+
 
 
 
