@@ -38,6 +38,7 @@ export default function ComicInfo(props: ComicInfoProps) {
     };
     getData();
   }, [props.comicId]);
+
   return (
     <>
       {!loading && apiResult ? (
