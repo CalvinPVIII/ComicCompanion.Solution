@@ -15,6 +15,10 @@ export interface Comic {
   comicId: string;
   name: string;
   coverImg: string;
+  author: string | null;
+  description: string | null;
+  year: string | null;
+  status: string | null;
   issueIds: string[] | null;
 }
 

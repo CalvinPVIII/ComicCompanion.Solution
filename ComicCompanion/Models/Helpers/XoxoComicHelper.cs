@@ -34,6 +34,11 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
         var doc = await _context.OpenAsync($"https://xoxocomic.com/comic/{comicId}?page=1");
         string name = doc.QuerySelector(".col-xs-4.col-image").FirstElementChild.Attributes["alt"].Value;
         string img = doc.QuerySelector(".col-xs-4.col-image").FirstElementChild.Attributes["src"].Value;
+        string author = doc.QuerySelector(".author .col-xs-8").TextContent.Trim();
+        string year = doc.QuerySelector(".list-info > li:nth-child(3) > p:nth-child(2)").TextContent.Trim();
+        string status = doc.QuerySelector(".status .col-xs-8").TextContent.Trim();
+        string description = doc.QuerySelector(".detail-content p").TextContent.Trim();
+
 
         List<string> issues = new();
 
@@ -73,7 +78,7 @@ public class XoxoComicHelper : ComicHelper, IComicHelper
             }
 
         }
-        return new Comic() { CoverImg = img, Name = name, ComicId = comicId, IssueIds = issues };
+        return new Comic() { CoverImg = img, Name = name, ComicId = comicId, IssueIds = issues, Author = author, Year = year, Status = status, Description = description };
     }
 
     public static async Task<string[]> GetPagesFromIssue(Issue issue)

@@ -17,11 +17,13 @@ import { createReadingListHistoryItem, bulkAddIssuesToHistory, bulkAddIssuesToRe
 import React from "react";
 import IssueListText from "./IssueListText";
 import BulkSelectIssuesMenu from "./BulkSelectIssuesMenu";
+import { Refresh } from "@mui/icons-material";
 
 interface IssuesListProps {
   issues: null | Issue[];
   showComicNames: boolean;
   readingList?: ReadingListDto;
+  refreshList?: () => void;
 }
 
 export default function IssuesList(props: IssuesListProps) {
@@ -169,10 +171,17 @@ export default function IssuesList(props: IssuesListProps) {
           <List className="issues-list">
             <ListSubheader>
               {props.issues.length} issues
-              <span id="ascend-descend-button">
+              {/* <span id="ascend-descend-button">
                 {ascendOrDescend === "ascend" ? <ArrowUpwardIcon onClick={toggleListSorting} /> : <ArrowDownwardIcon onClick={toggleListSorting} />}
-              </span>
+              </span> */}
+              {props.refreshList && (
+                <span id="ascend-descend-button">
+                  {" "}
+                  <Refresh onClick={props.refreshList} />
+                </span>
+              )}
             </ListSubheader>
+
             {issueList.map((issue, index) => (
               <React.Fragment key={index}>
                 <ListItem onClick={handleSetPlaylist}>

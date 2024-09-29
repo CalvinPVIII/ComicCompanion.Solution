@@ -8,6 +8,10 @@ import IssuesList from "./IssuesList";
 import Loading from "./Loading";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
+import { useSelector, useDispatch } from "react-redux";
+import { comicInfoCacheSelector } from "../../redux/store";
+import { setComicInCache } from "../../redux/comicInfoCacheSlice";
+import { areSameDay } from "../../helpers/helperFunctions";
 interface ComicInfoProps {
   comicId: string;
 }
@@ -21,15 +25,49 @@ export default function ComicInfo(props: ComicInfoProps) {
   const openLibraryModel = () => setLibraryModalOpen(true);
   const closeLibraryModel = () => setLibraryModalOpen(false);
 
+  const comicInfoCache = useSelector(comicInfoCacheSelector);
+  const dispatch = useDispatch();
+
+  const refreshComic = async () => {
+    setLoading(true);
+    try {
+      const comic = await ComicCompanionAPIService.getComic(props.comicId);
+      setComicInfo(comic);
+      dispatch(setComicInCache(comic));
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+      setError(errorMessage);
+    }
+    setLoading(false);
+  };
+
+  const setComicInfo = (comic: Comic) => {
+    setApiResult(comic);
+    const issuesArray: Issue[] = comic.issueIds?.map((issueId) => {
+      return { comicId: comic.comicId, issueId: issueId };
+    }) as Issue[];
+    setIssuesArray(issuesArray);
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
-        const comic = await ComicCompanionAPIService.getComic(props.comicId);
-        setApiResult(comic);
-        const issuesArray: Issue[] = comic.issueIds?.map((issueId) => {
-          return { comicId: comic.comicId, issueId: issueId };
-        }) as Issue[];
-        setIssuesArray(issuesArray);
+        let comic;
+        const comicInCache = comicInfoCache[props.comicId];
+        if (comicInCache) {
+          if (comicInCache.data.status === "Completed") {
+            comic = comicInCache.data;
+          }
+          if (areSameDay(comicInCache.lastFetched, new Date().toISOString())) {
+            comic = comicInCache.data;
+          }
+        }
+
+        if (!comic) {
+          comic = await ComicCompanionAPIService.getComic(props.comicId);
+        }
+        dispatch(setComicInCache(comic));
+        setComicInfo(comic);
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         setError(errorMessage);
@@ -51,7 +89,7 @@ export default function ComicInfo(props: ComicInfoProps) {
               <AddIcon />
               <p>Add to library</p>
             </div>
-            <IssuesList showComicNames={false} issues={issuesArray} />
+            <IssuesList showComicNames={false} issues={issuesArray} refreshList={refreshComic} />
           </div>
         </>
       ) : !loading && error ? (

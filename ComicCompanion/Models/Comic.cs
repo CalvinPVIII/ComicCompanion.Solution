@@ -6,6 +6,10 @@ public class Comic
     public string ComicId { get; set; }
     public string Name { get; set; }
     public string CoverImg { get; set; }
+    public string? Author { get; set; }
+    public string? Description { get; set; }
+    public string? Year { get; set; }
+    public string? Status { get; set; }
     public List<string>? IssueIds { get; set; }
 
 

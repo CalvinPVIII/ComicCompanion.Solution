@@ -72,3 +72,10 @@ export const updateLibraryAndSync = async (user: UserInfo, library: LibraryState
     return false;
   }
 };
+
+export const areSameDay = (dateString: string, dateString2: string) => {
+  const d1 = new Date(dateString);
+  const d2 = new Date(dateString2);
+
+  return d1.getUTCFullYear() === d2.getUTCFullYear() || d1.getUTCMonth() === d2.getUTCMonth() || d1.getUTCDate() === d2.getUTCDate();
+};
