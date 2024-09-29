@@ -170,16 +170,11 @@ export default function IssuesList(props: IssuesListProps) {
         <div className="issues-container-body">
           <List className="issues-list">
             <ListSubheader>
-              {props.issues.length} issues
-              {/* <span id="ascend-descend-button">
+              <span id="issues-list-header">
+                {props.refreshList && <Refresh onClick={props.refreshList} />}
+                {props.issues.length} issues
                 {ascendOrDescend === "ascend" ? <ArrowUpwardIcon onClick={toggleListSorting} /> : <ArrowDownwardIcon onClick={toggleListSorting} />}
-              </span> */}
-              {props.refreshList && (
-                <span id="ascend-descend-button">
-                  {" "}
-                  <Refresh onClick={props.refreshList} />
-                </span>
-              )}
+              </span>
             </ListSubheader>
 
             {issueList.map((issue, index) => (

@@ -9,10 +9,10 @@
   flex-flow: row;
 }
 
-#ascend-descend-button {
-  position: absolute;
-  top: 10%;
-  margin-left: 10px;
+#issues-list-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .issues-container {
