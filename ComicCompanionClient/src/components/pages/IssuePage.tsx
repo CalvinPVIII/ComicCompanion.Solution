@@ -257,16 +257,19 @@ export default function IssuePage() {
                 </div>
               </>
             ) : (
-              <IssueImage
-                alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
-                img={apiResponse.pages[currentPage]}
-                leftCallback={handleMoveToPreviousPage}
-                middleCallback={handleMiddlePageClick}
-                rightCallback={handleMoveToNextPage}
-                imgLoading={imgLoading}
-                loadEndCallback={stopImgLoading}
-                loadStartCallback={startImgLoading}
-              />
+              <>
+                <img className="hidden-issue-img" src={import.meta.env.VITE_IMG_PROXY + apiResponse.pages[currentPage + 1]} />
+                <IssueImage
+                  alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
+                  img={apiResponse.pages[currentPage]}
+                  leftCallback={handleMoveToPreviousPage}
+                  middleCallback={handleMiddlePageClick}
+                  rightCallback={handleMoveToNextPage}
+                  imgLoading={imgLoading}
+                  loadEndCallback={stopImgLoading}
+                  loadStartCallback={startImgLoading}
+                />
+              </>
             )}
           </div>
           <div className={`page-navbar-wrapper ${overlayClass}`} onMouseEnter={handleMouseEnter} onMouseLeave={handelMouseLeave}>

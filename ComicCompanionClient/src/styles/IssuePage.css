@@ -135,3 +135,7 @@
     opacity: 0;
   }
 }
+
+.hidden-issue-img {
+  display: none;
+}
