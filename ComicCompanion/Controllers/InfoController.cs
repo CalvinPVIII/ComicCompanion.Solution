@@ -11,8 +11,8 @@ public class InfoController : Controller
     [HttpGet()]
     public ActionResult Get()
     {
-        string[] patchNotes = { "Add behavior to handle when back button is pressed on mobile devices", "Adjust look of confirm reading list modal" };
-        return Ok(new APIResponseDto("success", 200, new { version = "Beta 1.4", downloadLink = "https://github.com/CalvinPVIII/ComicCompanion.Solution/releases/download/1.4-beta/comiccompanionv1.4-beta.apk", patchNotes }));
+        string[] patchNotes = { "Implemented caching to reduce overall loading times", "Fix issue with images not loading on mobile app" };
+        return Ok(new APIResponseDto("success", 200, new { version = "Beta 1.5", downloadLink = "https://github.com/CalvinPVIII/ComicCompanion.Solution/releases/download/1.5-beta/comiccompanionv1.5-beta.apk", patchNotes }));
     }
 
 
