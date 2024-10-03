@@ -40,9 +40,12 @@ export default function IssueImage(props: IssueImageProps) {
     props.loadStartCallback();
   };
 
-  const handleError = () => {
+  const handleError = async () => {
     errorAlert(dispatch, "Error Loading Image");
     console.log("error loading image");
+    const res = await fetch(import.meta.env.VITE_IMG_PROXY + props.img);
+    const r = await res.json();
+    console.log(r);
   };
 
   return (
