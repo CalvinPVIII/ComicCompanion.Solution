@@ -17,6 +17,7 @@ export default function SignUpForm(props: AuthProps) {
   const [passwordConfirmError, setPasswordConfirmError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [responseErrors, setResponseErrors] = useState<Array<string>>([]);
 
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -34,6 +35,7 @@ export default function SignUpForm(props: AuthProps) {
     setUserNameError(false);
     setErrorMessage("");
     setSuccessMessage("");
+    setResponseErrors([]);
   };
 
   const handleForm = async () => {
@@ -67,7 +69,9 @@ export default function SignUpForm(props: AuthProps) {
 
       const result = await ComicCompanionAPIService.signUp(email, userName, password);
       if (result.status === "error") {
-        setErrorMessage("there was an error creating your account");
+        const errors = result.data as Array<{ code: string; description: string }>;
+        setResponseErrors(errors.map((err) => err.description));
+        setErrorMessage("There was an error creating your account");
       } else if (result.status === "success") {
         const userInfo = result.data as UserInfo;
         dispatch(setUser(userInfo));
@@ -110,6 +114,15 @@ export default function SignUpForm(props: AuthProps) {
           onChange={(e) => setPasswordConfirm(e.target.value)}
         />
         {errorMessage ? <p className="auth-error">{errorMessage}</p> : <></>}
+        {responseErrors && (
+          <>
+            {responseErrors.map((er, index) => (
+              <p className="auth-error" key={"auth-error" + index}>
+                {er}
+              </p>
+            ))}
+          </>
+        )}
         {successMessage ? <p className="auth-success">{successMessage}</p> : <></>}
         <br />
         <Button variant="contained" color="success" className="auth-form-button" onClick={handleForm}>

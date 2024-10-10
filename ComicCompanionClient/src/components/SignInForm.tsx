@@ -15,6 +15,7 @@ export default function SignInForm(props: AuthProps) {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
+
   const [successMessage, setSuccessMessage] = useState("");
 
   const [email, setEmail] = useState("");
@@ -25,9 +26,7 @@ export default function SignInForm(props: AuthProps) {
 
   const resetError = () => {
     setEmailError(false);
-
     setPasswordError(false);
-
     setErrorMessage("");
     setSuccessMessage("");
   };
@@ -49,7 +48,7 @@ export default function SignInForm(props: AuthProps) {
 
       const result = await ComicCompanionAPIService.signIn(email, password);
       if (result.status === "error") {
-        setErrorMessage("there was an error signing in");
+        setErrorMessage(result.data as string);
       } else if (result.status === "success") {
         const userInfo = result.data as UserInfo;
         dispatch(setUser(userInfo));
