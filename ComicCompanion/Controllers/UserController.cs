@@ -69,8 +69,12 @@ namespace ComicCompanion.Controllers
                     return Ok(new APIResponseDto("success", 200, new { email = userInfo.Email, token = newToken, userName = user.UserName, userId = user.Id }));
 
                 }
-            }
 
+            }
+            else
+            {
+                return BadRequest(new APIResponseDto("error", 400, "No account found"));
+            }
             return BadRequest(new APIResponseDto("error", 400, "Unable to sign in"));
 
 

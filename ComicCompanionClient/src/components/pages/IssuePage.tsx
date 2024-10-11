@@ -79,6 +79,22 @@ export default function IssuePage() {
     }
   }, [apiResponse]);
 
+  const handleArrowKeys = (event: KeyboardEvent) => {
+    if (event.key === "ArrowLeft") {
+      handleMoveToPreviousPage();
+    } else if (event.key === "ArrowRight") {
+      handleMoveToNextPage();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleArrowKeys);
+
+    return () => {
+      window.removeEventListener("keydown", handleArrowKeys);
+    };
+  });
+
   const handleUpdateHistory = (pageNumber: number) => {
     if (!readingHistory.paused) {
       if (apiResponse?.pages && pageNumber <= apiResponse.pages.length) {
