@@ -22,7 +22,7 @@ public class Comic
 
     }
 
-    public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int pageNumber)
+    public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int pageNumber, string? cookie)
     {
 
 
@@ -32,7 +32,7 @@ public class Comic
         // }
         // else
         // {
-        return await XoxoComicHelper.Search(keyword, pageNumber);
+        return await BatcaveHelper.Search(keyword, pageNumber, cookie);
         // }
     }
 

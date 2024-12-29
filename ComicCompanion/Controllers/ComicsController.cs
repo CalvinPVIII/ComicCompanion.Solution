@@ -7,6 +7,11 @@ namespace ComicCompanion.Controllers;
 [ApiController]
 public class ComicsController : Controller
 {
+
+    private readonly IConfiguration _configuration;
+
+    public ComicsController(IConfiguration configuration) { _configuration = configuration; }
+
     [HttpGet("{comicId}")]
     public async Task<ActionResult<Comic>> GetComic(string comicId, int? serverNumber)
     {
@@ -19,7 +24,7 @@ public class ComicsController : Controller
 
         try
         {
-            return Ok(await Comic.Search(keyword, serverNumber, pageNumber));
+            return Ok(await Comic.Search(keyword, serverNumber, pageNumber, _configuration["CookieValue"]));
         }
         catch (Exception e)
         {
