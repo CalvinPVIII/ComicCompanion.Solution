@@ -10,16 +10,18 @@ public class Comic
     public string? Description { get; set; }
     public string? Year { get; set; }
     public string? Status { get; set; }
-    public List<string>? IssueIds { get; set; }
+    public string? Publisher { get; set; }
+    // public List<string>? IssueIds { get; set; }
+    public List<Chapter>? Chapters { get; set; }
 
 
-    public async static Task<Comic> GetComicById(string comicId, int? serverNumber)
+    public async static Task<Comic> GetComicById(string comicId, int? serverNumber, string? cookie)
     {
 
         // return await ComicExtraHelper.GetComicFromId(comicId);
 
-        return await XoxoComicHelper.GetComicFromId(comicId);
-
+        // return await XoxoComicHelper.GetComicFromId(comicId);
+        return await BatcaveHelper.GetComicById(comicId, cookie);
     }
 
     public async static Task<SearchResultDto> Search(string keyword, int? serverNumber, int pageNumber, string? cookie)
@@ -36,7 +38,7 @@ public class Comic
         // }
     }
 
-    public async static Task<SearchResultDto> Popular(int pageNumber, int? serverNumber)
+    public async static Task<SearchResultDto> Popular(int pageNumber, int? serverNumber, string? cookie)
     {
         int server;
         if (serverNumber == null || serverNumber == 0)
@@ -47,7 +49,8 @@ public class Comic
         {
             server = (int)serverNumber;
         }
-        return await XoxoComicHelper.Popular(pageNumber);
+        // return await XoxoComicHelper.Popular(pageNumber);
+        return await BatcaveHelper.Popular(pageNumber, cookie);
         // return await ComicExtraHelper.Popular(pageNumber);
 
     }

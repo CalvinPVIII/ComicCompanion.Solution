@@ -15,7 +15,7 @@ public class ComicsController : Controller
     [HttpGet("{comicId}")]
     public async Task<ActionResult<Comic>> GetComic(string comicId, int? serverNumber)
     {
-        return Ok(await Comic.GetComicById(comicId, serverNumber));
+        return Ok(await Comic.GetComicById(comicId, serverNumber, _configuration["CookieValue"]));
     }
 
     [HttpGet("search")]
@@ -37,7 +37,7 @@ public class ComicsController : Controller
     public async Task<ActionResult<Comic>> Popular(int? serverNumber, int pageNumber = 1)
     {
 
-        var results = await Comic.Popular(pageNumber, serverNumber);
+        var results = await Comic.Popular(pageNumber, serverNumber, _configuration["CookieValue"]);
         return Ok(new APIResponseDto("success", 200, results));
     }
 
