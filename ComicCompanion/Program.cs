@@ -76,18 +76,19 @@ namespace ToDoList
       builder.Services.AddHttpClient();
 
 
-      builder.Services.AddCors(options =>
-      {
-        options.AddPolicy(name: "AppCorsPolicy", policy =>
-        {
-          policy.WithOrigins("http://localhost", "https://localhost", "capacitor://localhost", "https://comiccompanion.netlify.app", "http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
-        });
+      // builder.Services.AddCors(options =>
+      // {
+      //   options.AddPolicy(name: "AppCorsPolicy", policy =>
+      //   {
+      //     policy.WithOrigins("http://localhost", "https://localhost", "capacitor://localhost", "https://comiccompanion.netlify.app", "http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+      //   });
 
-      });
+      // });
 
       WebApplication app = builder.Build();
       AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+      app.UseCors();
       // Configure the HTTP request pipeline.
       if (app.Environment.IsDevelopment())
       {
@@ -100,7 +101,6 @@ namespace ToDoList
 
       app.UseRouting();
 
-      app.UseCors();
 
       app.UseAuthentication();
       app.UseAuthorization();

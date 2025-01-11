@@ -1,8 +1,10 @@
 .item-card {
   text-align: center;
+  width: 140px;
 }
 .item-card img {
-  height: 260px;
-  width: 200px;
+  height: 200px;
+  width: 140px;
   border-radius: 2%;
+  margin: auto;
 }

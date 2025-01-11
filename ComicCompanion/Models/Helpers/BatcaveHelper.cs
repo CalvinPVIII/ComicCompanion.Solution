@@ -78,7 +78,7 @@ public class BatcaveHelper : ComicHelper
                 string id = GetIdFromUrl(node.FirstElementChild.Attributes["href"].Value);
 
                 // string fullId = node.LastElementChild.FirstElementChild.FirstElementChild.Attributes
-                string img = "https://batcave.biz/" + node.FirstElementChild.FirstElementChild.Attributes["data-src"].Value;
+                string img = "https://batcave.biz" + node.FirstElementChild.FirstElementChild.Attributes["data-src"].Value;
                 var comicInfoNode = node.Children[1];
                 string name = comicInfoNode.Children[0].TextContent;
                 string publisher = comicInfoNode.Children[1].FirstElementChild.TextContent;
@@ -115,7 +115,7 @@ public class BatcaveHelper : ComicHelper
 
         string name = document.QuerySelector("h1.flex-grow-1").TextContent;
 
-        string img = "https://batcave.biz/" + document.QuerySelector(".page__poster > img").Attributes["src"].Value;
+        string img = "https://batcave.biz" + document.QuerySelector(".page__poster > img").Attributes["src"].Value;
 
         string year = document.QuerySelector(".page__list > li:nth-child(1) > a:nth-child(2)").TextContent;
 

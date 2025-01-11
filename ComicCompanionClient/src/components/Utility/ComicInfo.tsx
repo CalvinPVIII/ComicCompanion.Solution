@@ -12,9 +12,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { comicInfoCacheSelector } from "../../redux/store";
 import { setComicInCache } from "../../redux/comicInfoCacheSlice";
 import { areSameDay } from "../../helpers/helperFunctions";
+import ChaptersList from "./ChaptersList";
 interface ComicInfoProps {
   comicId: string;
 }
+
+const imgProxy = import.meta.env.VITE_API_URL + "/ImgProxy?imgUrl=";
 
 export default function ComicInfo(props: ComicInfoProps) {
   const [apiResult, setApiResult] = useState<Comic | null>(null);
@@ -84,12 +87,13 @@ export default function ComicInfo(props: ComicInfoProps) {
           <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} itemInfo={apiResult} readingListOrComic="comic" />
           <div className="comic-info">
             <h1>{apiResult.name}</h1>
-            <img src={apiResult.coverImg} alt={apiResult.name} />
+            <img src={imgProxy + apiResult.coverImg} alt={apiResult.name} />
             <div id="add-to-library-icon" onClick={openLibraryModel}>
               <AddIcon />
               <p>Add to library</p>
             </div>
-            <IssuesList showComicNames={false} issues={issuesArray} refreshList={refreshComic} />
+            <ChaptersList />
+            {/* <IssuesList showComicNames={false} issues={issuesArray} refreshList={refreshComic} /> */}
           </div>
         </>
       ) : !loading && error ? (

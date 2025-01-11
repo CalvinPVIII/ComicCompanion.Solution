@@ -47,7 +47,7 @@ const darkTheme = createTheme({
       main: "#ffffff",
     },
     background: {
-      default: "#000000",
+      default: "#121112",
     },
   },
   typography: {

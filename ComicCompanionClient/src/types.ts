@@ -19,6 +19,7 @@ export interface Comic {
   description: string | null;
   year: string | null;
   status: string | null;
+  chapters: Chapter[];
   issueIds: string[] | null;
 }
 
@@ -34,6 +35,13 @@ interface APIResponse {
   statusCode: number;
   pageNumber: number | null;
   maxPage: number | null;
+}
+
+export interface Chapter {
+  title: "string";
+  date: "string";
+  id: number;
+  pages: number;
 }
 
 export interface ReadingListDto {

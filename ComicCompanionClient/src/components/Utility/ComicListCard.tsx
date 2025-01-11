@@ -26,8 +26,8 @@ export default function ComicListCard(props: ComicListCardProps) {
 
   return (
     <div className="item-card">
-      <div onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onMouseUp={handleClick}>
-        <img src={props.item.coverImg} alt={props.item.name} />
+      <div onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onMouseUp={handleClick} className="items-center">
+        <img src={props.item.coverImg} alt={props.item.name} className="m-auto" />
         <p>{props.item.name}</p>
       </div>
     </div>
