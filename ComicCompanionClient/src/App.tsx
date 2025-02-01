@@ -37,6 +37,8 @@ import { App as CapApp } from "@capacitor/app";
 import { useEffect } from "react";
 import { toggleModal } from "./redux/modalSlice";
 
+import "./index.css";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -47,7 +49,7 @@ const darkTheme = createTheme({
       main: "#ffffff",
     },
     background: {
-      default: "#121112",
+      default: "#121212",
     },
   },
   typography: {

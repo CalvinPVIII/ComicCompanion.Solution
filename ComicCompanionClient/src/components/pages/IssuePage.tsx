@@ -274,7 +274,7 @@ export default function IssuePage() {
               </>
             ) : (
               <>
-                <img className="hidden-issue-img" src={import.meta.env.VITE_IMG_PROXY + apiResponse.pages[currentPage + 1]} />
+                <img className="hidden-issue-img" src={apiResponse.pages[currentPage + 1]} referrerPolicy="no-referrer" />
                 <IssueImage
                   alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
                   img={apiResponse.pages[currentPage]}

@@ -31,7 +31,13 @@ export default function ReadingListHistoryIssueItem(props: ReadingListHistoryIss
     <div className="history-issue-item">
       <ListItemButton key={issue.issueId}>
         <div className="history-list-item">
-          <img className="reading-history-issue-img" alt={`${issue.comicId} issue ${issue.issueId} `} src={issue.coverImg} onClick={handleNav} />
+          <img
+            className="reading-history-issue-img"
+            alt={`${issue.comicId} issue ${issue.issueId} `}
+            src={issue.coverImg}
+            onClick={handleNav}
+            referrerPolicy="no-referrer"
+          />
           <div className="history-item-text" onClick={handleNav}>
             <p className="history-text-primary">{`${issue.comicId} issue ${issue.issueId} `}</p>
             <p className="history-text-secondary">{`Page ${issue.pagesRead}`}</p>

@@ -10,7 +10,7 @@ export default function HomePage() {
       <h1 id="homepage-header">Comic Companion</h1>
 
       <Link to="/comics" className="header-link">
-        <h2>POPULAR COMICS</h2>
+        <h2 className="font-extrabold">POPULAR COMICS</h2>
         <ArrowForwardIcon />
       </Link>
       <PopularComicsList />

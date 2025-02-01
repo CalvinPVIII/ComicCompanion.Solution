@@ -89,9 +89,9 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
         <AddToLibraryModal open={libraryModal} setClose={closeLibraryModal} readingListOrComic="readingList" itemInfo={props.readingList} />
         <div className="list-info">
           {props.readingList.coverImg ? (
-            <img src={props.readingList.coverImg} alt={props.readingList.name} />
+            <img src={props.readingList.coverImg} alt={props.readingList.name} referrerPolicy="no-referrer" />
           ) : (
-            <img src={comicCompanionImages[0]} alt={props.readingList.name} />
+            <img src={comicCompanionImages[0]} alt={props.readingList.name} referrerPolicy="no-referrer" />
           )}
           <div className="list-info-bottom-section">
             <p id="list-info-header">{props.readingList.name}</p>

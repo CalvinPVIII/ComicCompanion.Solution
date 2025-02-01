@@ -11,7 +11,7 @@ export default function ReadingListGrid(props: ReadingListGridProps) {
     <div className="grid-list">
       {props.lists.map((list, index) => (
         <Link to={list.shared ? `/lists/shared/${list.readingListId}` : `/lists/local/${list.readingListId}`} key={index} className="item-link">
-          <img src={list.coverImg} className="grid-list-img" />
+          <img src={list.coverImg} className="grid-list-img" referrerPolicy="no-referrer" />
           <div className="grid-list-text-wrapper">
             <span className="text-wrapper">
               <p className="grid-list-text">{list.name}</p>

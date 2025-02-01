@@ -1,5 +1,5 @@
 .items-list {
   display: flex;
   column-gap: 20px;
-  height: 350px;
+  overflow: auto;
 }

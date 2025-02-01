@@ -29,7 +29,7 @@ export default function ComicSearchResult(props: ComicSearchResultProps) {
             <>
               <div className="search-results" key={index} onClick={() => handleOpenModal(comic.comicId)}>
                 <div className="inner-search-results">
-                  <img src={comic.coverImg} alt={comic.name} />
+                  <img referrerPolicy="no-referrer" src={comic.coverImg} alt={comic.name} />
                   <p>{comic.name}</p>
                 </div>
               </div>
@@ -38,7 +38,7 @@ export default function ComicSearchResult(props: ComicSearchResultProps) {
             <Link to={`/comics/${comic.comicId}`}>
               <div className="search-results" key={index}>
                 <div className="inner-search-results">
-                  <img src={comic.coverImg} alt={comic.name} />
+                  <img referrerPolicy="no-referrer" src={comic.coverImg} alt={comic.name} />
                   <p>{comic.name}</p>
                 </div>
               </div>

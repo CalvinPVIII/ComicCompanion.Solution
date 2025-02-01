@@ -53,13 +53,14 @@ public class BatcaveHelper : ComicHelper
         Match pagesArrayMatch = Regex.Match(content, pagesPattern);
         string pagesArray = pagesArrayMatch.Value.Replace("\"images\":", "");
 
-        List<string> images = JsonConvert.DeserializeObject<List<string>>(pagesArray);
+        // List<string> images = JsonConvert.DeserializeObject<List<string>>(pagesArray);
+        string[] images = JsonConvert.DeserializeObject<string[]>(pagesArray);
 
         var nodes = document.QuerySelectorAll(".reader__item-wrap");
         Console.WriteLine("stop");
-        string[] pages = images.Select(image => $"https://batcave.biz{image}").ToArray();
+        // string[] pages = images.Select(image => $"https://batcave.biz{image}").ToArray();
 
-        return pages;
+        return images;
     }
 
 

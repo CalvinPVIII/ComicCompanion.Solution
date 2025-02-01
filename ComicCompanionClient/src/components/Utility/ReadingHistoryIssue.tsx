@@ -31,6 +31,7 @@ export default function ReadingHistoryIssue(props: ReadingHistoryIssueProps) {
       <ListItemButton key={issue.issue.issueId}>
         <div className="history-list-item">
           <img
+            referrerPolicy="no-referrer"
             className="reading-history-issue-img"
             alt={`${issue.issue.comicId} issue ${issue.issue.issueId} `}
             src={issue.issue.cover}

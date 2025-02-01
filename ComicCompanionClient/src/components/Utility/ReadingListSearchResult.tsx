@@ -17,9 +17,9 @@ export default function ReadingListSearchResult(props: ReadingListSearchResultPr
           <div className="search-results" key={index}>
             <div className="inner-search-results">
               {readingList.coverImg ? (
-                <img src={readingList.coverImg} alt={readingList.name} />
+                <img src={readingList.coverImg} alt={readingList.name} referrerPolicy="no-referrer" />
               ) : (
-                <img src={comicCompanionImages[0]} alt={readingList.name} />
+                <img src={comicCompanionImages[0]} alt={readingList.name} referrerPolicy="no-referrer" />
               )}
               <div className="reading-list-search-result-info">
                 <p className="reading-list-name">{readingList.name}</p>

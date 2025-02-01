@@ -155,9 +155,21 @@ export default function ConfirmReadingList() {
         <div id="confirm-basic-info">
           <div id="preview-img">
             {readingList.coverImg ? (
-              <img src={readingList.coverImg} alt="cover image" id="reading-list-cover-image" onClick={toggleDefaultImage} />
+              <img
+                referrerPolicy="no-referrer"
+                src={readingList.coverImg}
+                alt="cover image"
+                id="reading-list-cover-image"
+                onClick={toggleDefaultImage}
+              />
             ) : (
-              <img src={comicCompanionImages[defaultImageIndex]} alt="cover image" id="reading-list-cover-image" onClick={toggleDefaultImage} />
+              <img
+                referrerPolicy="no-referrer"
+                src={comicCompanionImages[defaultImageIndex]}
+                alt="cover image"
+                id="reading-list-cover-image"
+                onClick={toggleDefaultImage}
+              />
             )}
             <p id="img-helper-text">Tap an issue to change the cover image</p>
           </div>

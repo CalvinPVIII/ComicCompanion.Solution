@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Comic, Issue } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert } from "@mui/material";
+import { Alert, Tab, Tabs } from "@mui/material";
 import IssuesList from "./IssuesList";
 import Loading from "./Loading";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,23 +13,31 @@ import { comicInfoCacheSelector } from "../../redux/store";
 import { setComicInCache } from "../../redux/comicInfoCacheSlice";
 import { areSameDay } from "../../helpers/helperFunctions";
 import ChaptersList from "./ChaptersList";
+import VerticalIssueList from "../v2/Utility/VerticalIssueList";
+import ColorThief from "colorthief";
 interface ComicInfoProps {
   comicId: string;
 }
-
-const imgProxy = import.meta.env.VITE_API_URL + "/ImgProxy?imgUrl=";
 
 export default function ComicInfo(props: ComicInfoProps) {
   const [apiResult, setApiResult] = useState<Comic | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentTab, setCurrentTab] = useState<number>(1);
+
   const [issuesArray, setIssuesArray] = useState<Issue[] | null>(null);
   const [libraryModalOpen, setLibraryModalOpen] = useState(false);
   const openLibraryModel = () => setLibraryModalOpen(true);
   const closeLibraryModel = () => setLibraryModalOpen(false);
 
+  const imgRef = useRef<HTMLImageElement>(null);
+
   const comicInfoCache = useSelector(comicInfoCacheSelector);
   const dispatch = useDispatch();
+
+  const handleTabChange = (_event: React.SyntheticEvent, value: number) => {
+    setCurrentTab(value);
+  };
 
   const refreshComic = async () => {
     setLoading(true);
@@ -80,22 +88,32 @@ export default function ComicInfo(props: ComicInfoProps) {
     getData();
   }, [props.comicId]);
 
+  useEffect(() => {}, []);
+
   return (
     <>
       {!loading && apiResult ? (
-        <>
+        <div className="mx-auto max-w-prose">
           <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} itemInfo={apiResult} readingListOrComic="comic" />
-          <div className="comic-info">
-            <h1>{apiResult.name}</h1>
-            <img src={imgProxy + apiResult.coverImg} alt={apiResult.name} />
-            <div id="add-to-library-icon" onClick={openLibraryModel}>
-              <AddIcon />
-              <p>Add to library</p>
+          <div className="max-w-screen-lg">
+            <div className="md:grid md:grid-cols-3 md:grid-rows-1 border-b py-12 flex flex-col items-center">
+              <img referrerPolicy="no-referrer" src={apiResult.coverImg} alt={apiResult.name} id="comic-cover" ref={imgRef} className="max-w-80" />
+              <div className="flex flex-col items-center justify-center  cursor-pointer ml-6 w-96 md:mb-12">
+                <h1 className="font-bold text-2xl text-center">{apiResult.name}</h1>
+                <div className="flex mt-4" onClick={openLibraryModel}>
+                  <AddIcon />
+                  <p>Add to library</p>
+                </div>
+              </div>
             </div>
-            <ChaptersList />
-            {/* <IssuesList showComicNames={false} issues={issuesArray} refreshList={refreshComic} /> */}
+
+            <Tabs onChange={handleTabChange} value={currentTab} textColor="secondary" indicatorColor="secondary" centered>
+              <Tab label="Issues" value={1} />
+              <Tab label="Description" value={2} />
+            </Tabs>
+            {currentTab === 1 ? <VerticalIssueList chapters={apiResult.chapters} comicId={apiResult.comicId} /> : <p>{apiResult.description}</p>}
           </div>
-        </>
+        </div>
       ) : !loading && error ? (
         <>
           <Alert severity="error">{error} </Alert>

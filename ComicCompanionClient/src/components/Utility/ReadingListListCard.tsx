@@ -12,9 +12,9 @@ export default function ReadingListListCard(props: ReadingListListCardProps) {
     <div className="item-card">
       <Link to={`/lists/shared/${props.readingList.readingListId}`}>
         {props.readingList.coverImg && props.readingList.coverImg !== "null" ? (
-          <img src={props.readingList.coverImg} alt={props.readingList.name} />
+          <img src={props.readingList.coverImg} alt={props.readingList.name} referrerPolicy="no-referrer" />
         ) : (
-          <img src={comicCompanionImages[0]} alt={props.readingList.name} />
+          <img src={comicCompanionImages[0]} alt={props.readingList.name} referrerPolicy="no-referrer" />
         )}
         <p>{props.readingList.name}</p>
       </Link>

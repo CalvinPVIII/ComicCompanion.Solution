@@ -63,7 +63,9 @@ export default function AddToLibraryModal(props: AddToLibraryModalProps) {
           readingListOrComic={props.readingListOrComic}
         />
         <div id="add-to-library-modal">
-          <h4>Add to library</h4>
+          <div id="add-to-library-header">
+            <h4>Add to library</h4>
+          </div>
           <div className="category-options">
             <List>
               <ListSubheader id="add-category-button" onClick={handleOpenCatModal}>

@@ -60,12 +60,13 @@ export default function IssueImage(props: IssueImageProps) {
             <IssueImgPageControls leftCallback={props.leftCallback} middleCallback={props.middleCallback} rightCallback={props.rightCallback} />
             <div id="issue-wrapper">
               <img
-                src={import.meta.env.VITE_IMG_PROXY + props.img}
+                src={props.img}
                 alt={props.alt}
                 id="issue-img"
                 onLoad={loadEnd}
                 onLoadStart={loadStart}
                 onError={handleError}
+                referrerPolicy="no-referrer"
               />
             </div>
           </TransformComponent>

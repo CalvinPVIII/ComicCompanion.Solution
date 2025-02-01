@@ -23,7 +23,7 @@ export default function ComicsGrid(props: ComicsGridProps) {
           {props.openInModal ? (
             <>
               <div className="item-link" onClick={() => handleOpenModal(comic.comicId)}>
-                <img src={comic.coverImg} className="grid-list-img" />
+                <img referrerPolicy="no-referrer" src={comic.coverImg} className="grid-list-img" />
                 <div className="grid-list-text-wrapper">
                   <span className="text-wrapper">
                     <p className="grid-list-text">{comic.name}</p>
@@ -33,7 +33,7 @@ export default function ComicsGrid(props: ComicsGridProps) {
             </>
           ) : (
             <Link to={`/comics/${comic.comicId}`} className="item-link">
-              <img src={comic.coverImg} className="grid-list-img" />
+              <img referrerPolicy="no-referrer" src={comic.coverImg} className="grid-list-img" />
               <div className="grid-list-text-wrapper">
                 <span className="text-wrapper">
                   <p className="grid-list-text">{comic.name}</p>
