@@ -4,7 +4,6 @@ import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import { Alert, Tab, Tabs } from "@mui/material";
-import IssuesList from "./IssuesList";
 import Loading from "./Loading";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
@@ -12,9 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { comicInfoCacheSelector } from "../../redux/store";
 import { setComicInCache } from "../../redux/comicInfoCacheSlice";
 import { areSameDay } from "../../helpers/helperFunctions";
-import ChaptersList from "./ChaptersList";
 import VerticalIssueList from "../v2/Utility/VerticalIssueList";
-import ColorThief from "colorthief";
 interface ComicInfoProps {
   comicId: string;
 }
@@ -97,7 +94,14 @@ export default function ComicInfo(props: ComicInfoProps) {
           <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} itemInfo={apiResult} readingListOrComic="comic" />
           <div className="max-w-screen-lg">
             <div className="md:grid md:grid-cols-3 md:grid-rows-1 border-b py-12 flex flex-col items-center">
-              <img referrerPolicy="no-referrer" src={apiResult.coverImg} alt={apiResult.name} id="comic-cover" ref={imgRef} className="max-w-80" />
+              <img
+                referrerPolicy="no-referrer"
+                src={apiResult.coverImg}
+                alt={apiResult.name}
+                id="comic-cover"
+                ref={imgRef}
+                className="max-w-80 rounded-xl"
+              />
               <div className="flex flex-col items-center justify-center  cursor-pointer ml-6 w-96 md:mb-12">
                 <h1 className="font-bold text-2xl text-center">{apiResult.name}</h1>
                 <div className="flex mt-4" onClick={openLibraryModel}>

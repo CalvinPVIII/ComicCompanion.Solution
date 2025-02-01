@@ -37,7 +37,7 @@ export default function NavBar() {
         <></>
       ) : (
         <div className="bottom-nav">
-          <BottomNavigation showLabels value={value}>
+          <BottomNavigation showLabels value={value} sx={{ background: "#0f0f0f" }}>
             <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
             <BottomNavigationAction component={Link} to="/lists" label="Lists" icon={<ListAltIcon />} />
             <BottomNavigationAction component={Link} to="/comics" label="Comics" icon={<MenuBookIcon />} />
