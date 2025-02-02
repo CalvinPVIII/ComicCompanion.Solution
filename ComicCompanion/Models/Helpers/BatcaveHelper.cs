@@ -16,7 +16,8 @@ public class BatcaveHelper : ComicHelper
     public static async Task<SearchResultDto> Search(string keyword, int pageNumber, string cookie)
     {
         _client.DefaultRequestHeaders.Add("Cookie", cookie);
-        string url = $"https://batcave.biz/search/{keyword}";
+
+        string url = pageNumber == 1 ? $"https://batcave.biz/search/{keyword}" : $"https://batcave.biz/search/{keyword}/page/{pageNumber}";
 
         SearchResultDto results = await GetListOfComics(url, pageNumber);
         return results;
