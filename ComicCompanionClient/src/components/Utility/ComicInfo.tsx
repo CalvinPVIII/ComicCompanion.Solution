@@ -115,7 +115,11 @@ export default function ComicInfo(props: ComicInfoProps) {
               <Tab label="Issues" value={1} />
               <Tab label="Description" value={2} />
             </Tabs>
-            {currentTab === 1 ? <VerticalIssueList chapters={apiResult.chapters} comicId={apiResult.comicId} /> : <p>{apiResult.description}</p>}
+            {currentTab === 1 ? (
+              <VerticalIssueList chapters={apiResult.chapters} comicId={apiResult.comicId} comicTitle={apiResult.name} />
+            ) : (
+              <p>{apiResult.description}</p>
+            )}
           </div>
         </div>
       ) : !loading && error ? (

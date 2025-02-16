@@ -44,9 +44,14 @@ export interface Chapter {
   pages: number;
 }
 
+export interface ReadingListChapter extends Chapter {
+  comicId: string;
+  comicTitle: string;
+}
+
 export interface ReadingListDto {
   readingListId: number | string;
-  issues: Issue[] | null;
+  chapters: Chapter[] | null;
   shared: boolean;
   userId: string;
   name: string;
@@ -87,11 +92,11 @@ export interface ReadingListWithUserInfoAPIResponse extends APIResponse {
 }
 
 interface ICreatedReadingList {
-  [key: string]: string | Issue[] | boolean | undefined | number;
+  [key: string]: string | Chapter[] | boolean | undefined | number;
 }
 
 export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
-  issues: Issue[];
+  issues: ReadingListChapter[];
   shared: boolean;
   userId: string;
   name: string;

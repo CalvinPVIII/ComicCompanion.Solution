@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CurrentlyCreatedReadingList, Issue } from "../types";
+import { CurrentlyCreatedReadingList, ReadingListChapter } from "../types";
 
 export interface ListCreationState {
   isCreating: boolean;
@@ -23,17 +23,17 @@ const listCreationSlice = createSlice({
     setCurrentList: (state, action: PayloadAction<CurrentlyCreatedReadingList | null>) => {
       state.currentList = action.payload;
     },
-    addIssue: (state, action: PayloadAction<Issue>) => {
+    addIssue: (state, action: PayloadAction<ReadingListChapter>) => {
       state.currentList?.issues.push(action.payload);
     },
-    bulkAddIssue: (state, action: PayloadAction<Issue[]>) => {
+    bulkAddIssue: (state, action: PayloadAction<ReadingListChapter[]>) => {
       if (state.currentList) {
         state.currentList.issues = state.currentList.issues.concat(action.payload);
       }
     },
-    removeIssue: (state, action: PayloadAction<Issue>) => {
+    removeIssue: (state, action: PayloadAction<ReadingListChapter>) => {
       if (state.currentList) {
-        state.currentList.issues = state.currentList?.issues.filter((issue) => issue.readingListIssueId !== action.payload.readingListIssueId);
+        state.currentList.issues = state.currentList?.issues.filter((chapter) => chapter.id !== action.payload.id);
       }
     },
     updateProperty: (state, action: PayloadAction<UpdatePropertyPayload>) => {
