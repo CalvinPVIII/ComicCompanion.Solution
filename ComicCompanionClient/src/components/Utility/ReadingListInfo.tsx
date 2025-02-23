@@ -22,6 +22,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
 import { errorAlert } from "../../helpers/alertCreators";
+import VerticalIssueList from "../v2/Utility/VerticalIssueList";
 
 interface ReadingListInfoProps {
   readingList: ReadingListDto;
@@ -82,6 +83,8 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
       errorAlert(dispatch, error);
     }
   };
+
+  console.log(props);
 
   return (
     <>
@@ -159,7 +162,13 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           </div>
         </div>
 
-        <IssuesList issues={props.readingList.issues} showComicNames={true} readingList={props.readingList} />
+        {props.readingList.issues && (
+          <VerticalIssueList
+            chapters={props.readingList.issues}
+            readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId }}
+          />
+        )}
+        {/* <IssuesList issues={props.readingList.issues} showComicNames={true} readingList={props.readingList} /> */}
       </>
     </>
   );

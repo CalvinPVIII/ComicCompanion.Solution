@@ -49,7 +49,7 @@ export interface Chapter {
 
 export interface ReadingListDto {
   readingListId: number | string;
-  chapters: Chapter[] | null;
+  issues: Chapter[] | null;
   shared: boolean;
   userId: string;
   name: string;

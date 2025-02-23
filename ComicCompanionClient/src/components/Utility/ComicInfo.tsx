@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Comic, Issue } from "../../types";
+import { Comic } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
@@ -22,7 +22,7 @@ export default function ComicInfo(props: ComicInfoProps) {
   const [error, setError] = useState("");
   const [currentTab, setCurrentTab] = useState<number>(1);
 
-  const [issuesArray, setIssuesArray] = useState<Issue[] | null>(null);
+  // const [issuesArray, setIssuesArray] = useState<Issue[] | null>(null);
   const [libraryModalOpen, setLibraryModalOpen] = useState(false);
   const openLibraryModel = () => setLibraryModalOpen(true);
   const closeLibraryModel = () => setLibraryModalOpen(false);
@@ -36,25 +36,25 @@ export default function ComicInfo(props: ComicInfoProps) {
     setCurrentTab(value);
   };
 
-  const refreshComic = async () => {
-    setLoading(true);
-    try {
-      const comic = await ComicCompanionAPIService.getComic(props.comicId);
-      setComicInfo(comic);
-      dispatch(setComicInCache(comic));
-    } catch (error) {
-      const errorMessage = getErrorMessage(error);
-      setError(errorMessage);
-    }
-    setLoading(false);
-  };
+  // const refreshComic = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const comic = await ComicCompanionAPIService.getComic(props.comicId);
+  //     setComicInfo(comic);
+  //     dispatch(setComicInCache(comic));
+  //   } catch (error) {
+  //     const errorMessage = getErrorMessage(error);
+  //     setError(errorMessage);
+  //   }
+  //   setLoading(false);
+  // };
 
   const setComicInfo = (comic: Comic) => {
     setApiResult(comic);
-    const issuesArray: Issue[] = comic.issueIds?.map((issueId) => {
-      return { comicId: comic.comicId, issueId: issueId };
-    }) as Issue[];
-    setIssuesArray(issuesArray);
+    // const issuesArray: Issue[] = comic.issueIds?.map((issueId) => {
+    //   return { comicId: comic.comicId, issueId: issueId };
+    // }) as Issue[];
+    // setIssuesArray(issuesArray);
   };
 
   useEffect(() => {
@@ -115,11 +115,7 @@ export default function ComicInfo(props: ComicInfoProps) {
               <Tab label="Issues" value={1} />
               <Tab label="Description" value={2} />
             </Tabs>
-            {currentTab === 1 ? (
-              <VerticalIssueList chapters={apiResult.chapters} comicId={apiResult.comicId} comicTitle={apiResult.name} />
-            ) : (
-              <p>{apiResult.description}</p>
-            )}
+            {currentTab === 1 ? <VerticalIssueList chapters={apiResult.chapters} /> : <p>{apiResult.description}</p>}
           </div>
         </div>
       ) : !loading && error ? (

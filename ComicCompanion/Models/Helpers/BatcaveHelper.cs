@@ -143,9 +143,18 @@ public class BatcaveHelper : ComicHelper
 
         foreach (Chapter chapter in chapters)
         {
+            var date = chapter.Date.Split(".");
+            date[0] = date[0].Length == 1 ? $"0{date[0]}" : date[0];
+            chapter.Date = $"{date[1]}/{date[0]}/{date[2]}";
+
+            chapter.Title = chapter.Title.Replace("#", "");
+
             chapter.ComicId = comicId;
             chapter.ComicName = name;
+
         }
+
+        // var orderedChapters = chapters.OrderByDescending(obj => DateTime.ParseExact(obj.Date, "dd/MM/yyyy", null)).ToList();
 
 
         Comic comic = new Comic() { ComicId = comicId, Name = name, CoverImg = img, Publisher = publisher, Year = year, Chapters = chapters, Description = description, Status = status };

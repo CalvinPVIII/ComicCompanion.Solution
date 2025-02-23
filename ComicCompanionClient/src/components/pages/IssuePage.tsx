@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Issue } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
@@ -10,7 +10,7 @@ import Loading from "../Utility/Loading";
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateHistory, updateReadingListHistory } from "../../redux/readingHistorySlice";
-import { currentPlaylistSelector, previousPageSelector, readingHistorySelector } from "../../redux/store";
+import { currentPlaylistSelector, readingHistorySelector } from "../../redux/store";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -22,6 +22,7 @@ import IssueImgPageControls from "../Utility/IssueImgPageControls";
 
 export default function IssuePage() {
   const { comicId, issueId, listId } = useParams();
+  const location = useLocation();
 
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ export default function IssuePage() {
   const [currentPage, setCurrentPage] = useState(0);
 
   const currentPlaylist = useSelector(currentPlaylistSelector);
-  const previousPage = useSelector(previousPageSelector);
+
   const [playlistIssueInfo, setPlaylistIssueInfo] = useState({ next: 0, prev: 0, current: 0 });
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function IssuePage() {
       console.log(newPlaylistInfo);
       setPlaylistIssueInfo(newPlaylistInfo);
     }
-  }, [apiResponse]);
+  }, [apiResponse, currentPlaylist]);
 
   const handleArrowKeys = (event: KeyboardEvent) => {
     if (event.key === "ArrowLeft") {
@@ -123,6 +124,7 @@ export default function IssuePage() {
   };
 
   const handleMoveToNextPage = () => {
+    const currentRoute = location.pathname;
     const nextPage = currentPage + 1;
     handleUpdateHistory(nextPage);
     setImgLoading(true);
@@ -131,7 +133,11 @@ export default function IssuePage() {
       if (nextPage === apiResponse.pages.length + 1) {
         setCurrentPage(0);
         if (listId) {
-          nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].id}`);
+          nav(
+            `/lists/${currentRoute.includes("/lists/local") ? "local/" : "shared/"}${listId}/comics/${
+              currentPlaylist[playlistIssueInfo.next].comicId
+            }/issue/${currentPlaylist[playlistIssueInfo.next].id}`
+          );
         } else {
           nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].id}`);
         }
@@ -143,11 +149,17 @@ export default function IssuePage() {
     const nextPage = currentPage - 1;
     setCurrentPage(nextPage);
     setImgLoading(true);
+    const currentRoute = location.pathname;
 
     if (nextPage === -2) {
       setCurrentPage(0);
+
       if (listId) {
-        nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].id}`);
+        nav(
+          `/lists/${currentRoute.includes("/lists/local") ? "local/" : "shared/"}${listId}/comics/${
+            currentPlaylist[playlistIssueInfo.prev].comicId
+          }/issue/${currentPlaylist[playlistIssueInfo.prev].id}`
+        );
       } else {
         nav(`/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].id}`);
       }
@@ -196,14 +208,15 @@ export default function IssuePage() {
   };
 
   const handleBackButton = () => {
-    if (previousPage !== "") {
-      nav(previousPage);
-    } else {
-      if (listId) {
-        nav(`/lists/${listId}/comics/${comicId}`);
+    const currentRoute = location.pathname;
+    if (listId) {
+      if (currentRoute.includes("/lists/local")) {
+        nav(`/lists/local/${listId}`);
       } else {
-        nav(`/comics/${comicId}`);
+        nav(`/lists/shared/${listId}`);
       }
+    } else {
+      nav(`/comics/${comicId}`);
     }
   };
 

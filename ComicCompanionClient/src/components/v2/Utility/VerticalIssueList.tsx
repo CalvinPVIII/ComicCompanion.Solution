@@ -12,8 +12,7 @@ import { setPlaylist, setPreviousPage } from "../../../redux/readingHistorySlice
 
 interface VerticalIssueListProps {
   chapters: Chapter[];
-  comicId: string;
-  comicTitle: string;
+  readingList?: { local: boolean; id: string };
 }
 
 export default function VerticalIssueList(props: VerticalIssueListProps) {
@@ -30,12 +29,11 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
   };
 
   const handleAddToReadingListClick = (chapter: Chapter) => {
-    const issueToAdd: Chapter = { ...chapter, comicId: props.comicId, comicName: props.comicTitle };
-    dispatch(addIssue(issueToAdd));
+    dispatch(addIssue(chapter));
     addComicAlert(dispatch);
   };
 
-  const handleIssueClick = () => {};
+  // const handleIssueClick = () => {};
 
   const handleSetPlaylist = () => {
     const chapters = [...props.chapters];
@@ -46,6 +44,21 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
 
       dispatch(setPreviousPage(location.pathname));
     }
+  };
+
+  const generateLink = (chapter: Chapter) => {
+    let link = "";
+    if (props.readingList) {
+      link = link + "/lists";
+      if (props.readingList.local) {
+        link = link + `/local/${props.readingList.id}`;
+      } else {
+        link = link + `/shared/${props.readingList.id}`;
+      }
+      link + `/${props.readingList.id}`;
+    }
+    link = link + `/comics/${chapter.comicId}/issue/${chapter.id}`;
+    return link;
   };
 
   return (
@@ -63,8 +76,9 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
             sx={{ background: index % 2 === 0 ? "#1a1919" : "#121212", display: "flex", justifyContent: "space-between" }}
             onClick={handleSetPlaylist}
           >
-            <Link to={`/comics/${props.comicId}/issue/${chapter.id}`}>
-              {chapter.title} - {chapter.date}
+            <Link to={generateLink(chapter)}>
+              <p>{chapter.title}</p>
+              <p className="text-sm opacity-40">{chapter.date}</p>
             </Link>
             {isCreating && (
               <Button variant="outlined" color="success" onClick={() => handleAddToReadingListClick(chapter)}>
