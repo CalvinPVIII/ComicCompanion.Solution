@@ -7,7 +7,7 @@ import IssuesInCreatingReadingList from "./Utility/IssuesInCreatingReadingList";
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
-import { ReadingListChapter, UserReadingListPostRequest } from "../types";
+import { Chapter, UserReadingListPostRequest } from "../types";
 
 import { useDispatch } from "react-redux";
 import { updateProperty } from "../redux/listCreationSlice";
@@ -47,7 +47,7 @@ export default function ConfirmReadingList() {
     dispatch(updateProperty({ propertyName: "shared", value: e.target.checked }));
   };
 
-  const handleIssueClick = async (issue: ReadingListChapter) => {
+  const handleIssueClick = async (issue: Chapter) => {
     const id = issue.comicId + issue.id;
     if (loadedImages[id]) {
       dispatch(updateProperty({ value: loadedImages[id][0], propertyName: "coverImg" }));

@@ -67,7 +67,7 @@ export default function IssuePage() {
 
   useEffect(() => {
     if (apiResponse) {
-      const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.comicId + issue.issueId === apiResponse?.comicId + apiResponse?.issueId);
+      const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.id.toString() === apiResponse?.issueId);
       const newPlaylistInfo = { next: indexOfCurrentIssue, prev: indexOfCurrentIssue, current: indexOfCurrentIssue };
       if (currentPlaylist[indexOfCurrentIssue + 1]) {
         newPlaylistInfo.next = indexOfCurrentIssue + 1;
@@ -75,6 +75,7 @@ export default function IssuePage() {
       if (currentPlaylist[indexOfCurrentIssue - 1]) {
         newPlaylistInfo.prev = indexOfCurrentIssue - 1;
       }
+      console.log(newPlaylistInfo);
       setPlaylistIssueInfo(newPlaylistInfo);
     }
   }, [apiResponse]);
@@ -130,9 +131,9 @@ export default function IssuePage() {
       if (nextPage === apiResponse.pages.length + 1) {
         setCurrentPage(0);
         if (listId) {
-          nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
+          nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].id}`);
         } else {
-          nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].issueId}`);
+          nav(`/comics/${currentPlaylist[playlistIssueInfo.next].comicId}/issue/${currentPlaylist[playlistIssueInfo.next].id}`);
         }
       }
     }
@@ -146,9 +147,9 @@ export default function IssuePage() {
     if (nextPage === -2) {
       setCurrentPage(0);
       if (listId) {
-        nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].issueId}`);
+        nav(`/lists/${listId}/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].id}`);
       } else {
-        nav(`/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].issueId}`);
+        nav(`/comics/${currentPlaylist[playlistIssueInfo.prev].comicId}/issue/${currentPlaylist[playlistIssueInfo.prev].id}`);
       }
     }
   };
@@ -221,10 +222,8 @@ export default function IssuePage() {
                   <ArrowBackIcon onClick={handleBackButton} />
                 </p>
 
-                <p>
-                  {apiResponse.comicId} - {apiResponse.issueId}
-                </p>
-                <p></p>
+                <p>{apiResponse.name}</p>
+                <p className="spacer"></p>
               </div>
             ) : (
               <></>
@@ -245,9 +244,7 @@ export default function IssuePage() {
                   ) : (
                     <>
                       <h1>Next issue:</h1>
-                      <h2>
-                        {currentPlaylist[playlistIssueInfo.next].comicId}: #{currentPlaylist[playlistIssueInfo.next].issueId}
-                      </h2>
+                      <h2>{currentPlaylist[playlistIssueInfo.next].title}</h2>
                     </>
                   )}
                 </div>
@@ -265,9 +262,7 @@ export default function IssuePage() {
                   ) : (
                     <>
                       <h1>Next issue:</h1>
-                      <h2>
-                        {currentPlaylist[playlistIssueInfo.prev].comicId}: #{currentPlaylist[playlistIssueInfo.prev].issueId}
-                      </h2>
+                      <h2>{currentPlaylist[playlistIssueInfo.prev].title}</h2>
                     </>
                   )}
                 </div>

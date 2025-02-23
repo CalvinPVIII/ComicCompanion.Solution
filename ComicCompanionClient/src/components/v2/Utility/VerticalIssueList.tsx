@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Chapter, ReadingListChapter } from "../../../types";
+import { Chapter } from "../../../types";
 import { Button, List, ListItem } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -8,6 +8,7 @@ import { isCreatingSelector } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addComicAlert } from "../../../helpers/alertCreators";
 import { addIssue } from "../../../redux/listCreationSlice";
+import { setPlaylist, setPreviousPage } from "../../../redux/readingHistorySlice";
 
 interface VerticalIssueListProps {
   chapters: Chapter[];
@@ -29,9 +30,22 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
   };
 
   const handleAddToReadingListClick = (chapter: Chapter) => {
-    const issueToAdd: ReadingListChapter = { ...chapter, comicId: props.comicId, comicTitle: props.comicTitle };
+    const issueToAdd: Chapter = { ...chapter, comicId: props.comicId, comicName: props.comicTitle };
     dispatch(addIssue(issueToAdd));
     addComicAlert(dispatch);
+  };
+
+  const handleIssueClick = () => {};
+
+  const handleSetPlaylist = () => {
+    const chapters = [...props.chapters];
+
+    if (props.chapters) {
+      // Since the data comes back with the newest issue added first, the playlist should start with the oldest issue first. Hence needing to reverse. This may need to be tweaked when dealing with reading list chapters, and not comic chapters
+      dispatch(setPlaylist(chapters.reverse()));
+
+      dispatch(setPreviousPage(location.pathname));
+    }
   };
 
   return (
@@ -44,7 +58,11 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
       </div>
       <List>
         {chaptersList.map((chapter, index) => (
-          <ListItem key={chapter.id} sx={{ background: index % 2 === 0 ? "#1a1919" : "#121212", display: "flex", justifyContent: "space-between" }}>
+          <ListItem
+            key={chapter.id}
+            sx={{ background: index % 2 === 0 ? "#1a1919" : "#121212", display: "flex", justifyContent: "space-between" }}
+            onClick={handleSetPlaylist}
+          >
             <Link to={`/comics/${props.comicId}/issue/${chapter.id}`}>
               {chapter.title} - {chapter.date}
             </Link>

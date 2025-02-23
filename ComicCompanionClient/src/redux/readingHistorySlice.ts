@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Issue, ReadingListDto } from "../types";
+import { Chapter, Issue, ReadingListDto } from "../types";
 
 type HistoryIssue = {
   comicId: string;
@@ -40,7 +40,7 @@ interface DeleteIssueFromReadingListHistoryAction {
 export interface ReadingHistoryState {
   history: { [comicId: string]: { [issueId: string]: HistoryItem } };
   paused: boolean;
-  currentPlaylist: Issue[];
+  currentPlaylist: Chapter[];
   previousPage: string;
   readingListHistory: { [readingListId: string]: ReadingListHistoryItem };
 }
@@ -90,7 +90,7 @@ const readingHistorySlice = createSlice({
     togglePauseHistory: (state, action: PayloadAction<boolean>) => {
       state.paused = action.payload;
     },
-    setPlaylist: (state, action: PayloadAction<Issue[]>) => {
+    setPlaylist: (state, action: PayloadAction<Chapter[]>) => {
       state.currentPlaylist = action.payload;
     },
     setPreviousPage: (state, action: PayloadAction<string>) => {

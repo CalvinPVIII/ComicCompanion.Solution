@@ -27,6 +27,7 @@ export interface Issue {
   issueId: string;
   comicId: string;
   pages: string[] | null;
+  name?: string;
   readingListIssueId?: string;
 }
 
@@ -42,11 +43,8 @@ export interface Chapter {
   date: "string";
   id: number;
   pages: number;
-}
-
-export interface ReadingListChapter extends Chapter {
   comicId: string;
-  comicTitle: string;
+  comicName: string;
 }
 
 export interface ReadingListDto {
@@ -96,7 +94,7 @@ interface ICreatedReadingList {
 }
 
 export interface CurrentlyCreatedReadingList extends ICreatedReadingList {
-  issues: ReadingListChapter[];
+  issues: Chapter[];
   shared: boolean;
   userId: string;
   name: string;

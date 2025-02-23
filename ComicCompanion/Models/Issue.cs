@@ -13,14 +13,16 @@ public class Issue
 
     [JsonPropertyName("pages")]
     public string[]? Pages { get; set; }
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
 
-    public async Task<string[]> GetPagesAsync(int? serverNumber, string cookie)
+    public async Task<Issue> GetPagesAsync(int? serverNumber, string cookie)
     {
 
         // Pages = await XoxoComicHelper.GetPagesFromIssue(this);
         // Pages = await ComicExtraHelper.GetPagesFromIssue(this);
-        Pages = await BatcaveHelper.GetPagesFromIssue(this, cookie);
-        return Pages;
+        await BatcaveHelper.GetFullIssue(this, cookie);
+        return this;
     }
 
 }

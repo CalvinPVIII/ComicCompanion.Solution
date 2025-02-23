@@ -66,14 +66,14 @@ export default function IssuesList(props: IssuesListProps) {
   };
 
   const handleAddToReadingListClick = (issue: Issue) => {
-    const issueToAdd: Issue = {
-      issueId: issue.issueId,
-      comicId: issue.comicId,
-      pages: null,
-      readingListIssueId: uuidv4(),
-    };
-    dispatch(addIssue(issueToAdd));
-    addComicAlert(dispatch);
+    // const issueToAdd: Issue = {
+    //   issueId: issue.issueId,
+    //   comicId: issue.comicId,
+    //   pages: null,
+    //   readingListIssueId: uuidv4(),
+    // };
+    // // dispatch(addIssue(issueToAdd));
+    // addComicAlert(dispatch);
   };
 
   const addReadingListToHistory = () => {
@@ -90,14 +90,14 @@ export default function IssuesList(props: IssuesListProps) {
   };
 
   const handleSetPlaylist = () => {
-    if (props.issues) {
-      if (ascendOrDescend === "ascend" || props.readingList) {
-        dispatch(setPlaylist(props.issues));
-      } else {
-        dispatch(setPlaylist(props.issues.reverse()));
-      }
-      dispatch(setPreviousPage(location.pathname));
-    }
+    // if (props.issues) {
+    //   if (ascendOrDescend === "ascend" || props.readingList) {
+    //     dispatch(setPlaylist(props.issues));
+    //   } else {
+    //     dispatch(setPlaylist(props.issues.reverse()));
+    //   }
+    //   dispatch(setPreviousPage(location.pathname));
+    // }
   };
 
   const handleMouseDown = () => {
@@ -119,14 +119,14 @@ export default function IssuesList(props: IssuesListProps) {
   };
 
   const handleAddSelectedToReadingList = () => {
-    if (isCreating) {
-      const issuesToAdd = selectedIssues.map((issue) => ({
-        ...issue,
-        readingListIssueId: uuidv4(),
-      }));
-      dispatch(bulkAddIssue(issuesToAdd));
-      addComicAlert(dispatch);
-    }
+    // if (isCreating) {
+    //   const issuesToAdd = selectedIssues.map((issue) => ({
+    //     ...issue,
+    //     readingListIssueId: uuidv4(),
+    //   }));
+    // dispatch(bulkAddIssue(issuesToAdd));
+    // addComicAlert(dispatch);
+    // }
   };
 
   const closeSelectIssueMenu = () => setIsBulkSelecting(false);
