@@ -1,10 +1,13 @@
 .item-card {
   text-align: center;
-  min-width: 200px;
 }
 .item-card img {
-  height: 260px;
-  min-width: 200px;
+  height: 200px;
+  max-width: 150px;
   border-radius: 2%;
   margin: auto;
+}
+
+.item-card p {
+  max-width: 150px;
 }
