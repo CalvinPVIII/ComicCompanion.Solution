@@ -70,6 +70,7 @@ export default function SignUpForm(props: AuthProps) {
       const result = await ComicCompanionAPIService.signUp(email, userName, password);
       if (result.status === "error") {
         const errors = result.data as Array<{ code: string; description: string }>;
+        console.log(errors);
         setResponseErrors(errors.map((err) => err.description));
         setErrorMessage("There was an error creating your account");
       } else if (result.status === "success") {

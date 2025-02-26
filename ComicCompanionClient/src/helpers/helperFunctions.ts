@@ -1,4 +1,4 @@
-import { Issue, PostUserLibrarySync, ReadingListDto, UserInfo, UserReadingListPostRequest } from "../types";
+import { Chapter, PostUserLibrarySync, ReadingListDto, UserInfo, UserReadingListPostRequest } from "../types";
 import { Dispatch } from "@reduxjs/toolkit";
 import { LibraryState, removeReadingListFromAllCategories } from "../redux/librarySlice";
 import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
@@ -12,7 +12,7 @@ export const getErrorMessage = (error: unknown) => {
 };
 
 export const createLocalReadingList = (dispatch: Dispatch, readingList: UserReadingListPostRequest): ReadingListDto => {
-  const deserializedIssues: Issue[] = JSON.parse(readingList.serializedIssues);
+  const deserializedIssues: Chapter[] = JSON.parse(readingList.serializedIssues);
   const createdList: ReadingListDto = {
     name: readingList.name,
     readingListId: readingList.readingListId || uuidv4(),
@@ -76,6 +76,6 @@ export const updateLibraryAndSync = async (user: UserInfo, library: LibraryState
 export const areSameDay = (dateString: string, dateString2: string) => {
   const d1 = new Date(dateString);
   const d2 = new Date(dateString2);
-
+  // shouldnt these be and?
   return d1.getUTCFullYear() === d2.getUTCFullYear() || d1.getUTCMonth() === d2.getUTCMonth() || d1.getUTCDate() === d2.getUTCDate();
 };

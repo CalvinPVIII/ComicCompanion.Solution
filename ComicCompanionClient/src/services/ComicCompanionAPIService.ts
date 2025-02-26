@@ -86,7 +86,7 @@ export default class ComicCompanionAPIService {
     }
     const apiResponse = await fetch(fetchUrl, options);
     const jsonResponse = await apiResponse.json();
-
+    // console.log(jsonResponse);
     if (jwt) {
       return jsonResponse as unknown as ReadingListWithUserInfoAPIResponse;
     }

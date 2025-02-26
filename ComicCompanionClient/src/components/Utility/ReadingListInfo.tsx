@@ -4,7 +4,6 @@ import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { deleteLocalReadingList, getErrorMessage } from "../../helpers/helperFunctions";
 import { Button, Modal } from "@mui/material";
 import comicCompanionImages from "../../helpers/defaultImageArray";
-import IssuesList from "./IssuesList";
 
 import { useSelector } from "react-redux";
 import { userSelector } from "../../redux/store";
@@ -83,8 +82,6 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
       errorAlert(dispatch, error);
     }
   };
-
-  console.log(props);
 
   return (
     <>
@@ -165,7 +162,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
         {props.readingList.issues && (
           <VerticalIssueList
             chapters={props.readingList.issues}
-            readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId }}
+            readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId.toString() }}
           />
         )}
         {/* <IssuesList issues={props.readingList.issues} showComicNames={true} readingList={props.readingList} /> */}

@@ -83,6 +83,7 @@ public class ReadingListController : Controller
         {
 
             var list = new ReadingListDto(readingList, true);
+            Console.WriteLine("list");
             if (requestingUserId != null)
             {
                 bool favorite = _db.UserReadingListFavorites.Any(fav => fav.ReadingListId == id && fav.UserId == requestingUserId);

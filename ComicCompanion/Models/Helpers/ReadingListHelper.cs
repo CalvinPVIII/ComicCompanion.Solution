@@ -4,9 +4,9 @@ namespace ComicCompanion.Models;
 
 public class ReadingListHelper
 {
-    public static Issue[] DeserializeIssues(string serializedIssues)
+    public static ReadingListIssue[] DeserializeIssues(string serializedIssues)
     {
-        var issues = JsonSerializer.Deserialize<Issue[]>(serializedIssues);
+        var issues = JsonSerializer.Deserialize<ReadingListIssue[]>(serializedIssues);
         return issues;
     }
 }

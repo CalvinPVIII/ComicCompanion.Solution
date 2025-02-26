@@ -3,7 +3,7 @@
 }
 .item-card img {
   height: 200px;
-  max-width: 150px;
+  width: 150px;
   border-radius: 2%;
   margin: auto;
 }
