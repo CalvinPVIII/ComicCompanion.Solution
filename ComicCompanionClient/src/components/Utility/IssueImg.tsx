@@ -5,6 +5,7 @@ import IssueImgPageControls from "./IssueImgPageControls";
 import Loading from "./Loading";
 import { errorAlert } from "../../helpers/alertCreators";
 import { useDispatch } from "react-redux";
+import loadImg from "../../helpers/loadImg";
 interface IssueImageProps {
   img: string;
   alt: string;
@@ -60,7 +61,7 @@ export default function IssueImage(props: IssueImageProps) {
             <IssueImgPageControls leftCallback={props.leftCallback} middleCallback={props.middleCallback} rightCallback={props.rightCallback} />
             <div id="issue-wrapper">
               <img
-                src={props.img}
+                src={loadImg(props.img)}
                 alt={props.alt}
                 id="issue-img"
                 onLoad={loadEnd}

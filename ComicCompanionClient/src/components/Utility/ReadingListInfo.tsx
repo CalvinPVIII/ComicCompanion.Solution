@@ -163,9 +163,9 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           <VerticalIssueList
             chapters={props.readingList.issues}
             readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId.toString() }}
+            showListNumbers
           />
         )}
-        {/* <IssuesList issues={props.readingList.issues} showComicNames={true} readingList={props.readingList} /> */}
       </>
     </>
   );

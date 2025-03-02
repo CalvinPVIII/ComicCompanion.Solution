@@ -16,7 +16,7 @@ public class ImgProxyController : Controller
     public async Task<ActionResult> Get(string imgUrl)
     {
         byte[] img = await ImgProxyService.LoadImg(imgUrl, _configuration["CookieValue"]);
-        return File(img, "image/jpeg");
+        return File(img, "image/png");
     }
 
 

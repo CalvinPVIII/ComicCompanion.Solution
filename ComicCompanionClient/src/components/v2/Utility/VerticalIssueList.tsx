@@ -13,6 +13,7 @@ import { setPlaylist, setPreviousPage } from "../../../redux/readingHistorySlice
 interface VerticalIssueListProps {
   chapters: Chapter[];
   readingList?: { local: boolean; id: string };
+  showListNumbers?: boolean;
 }
 
 export default function VerticalIssueList(props: VerticalIssueListProps) {
@@ -39,8 +40,8 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
     const chapters = [...props.chapters];
 
     if (props.chapters) {
-      // Since the data comes back with the newest issue added first, the playlist should start with the oldest issue first. Hence needing to reverse. This may need to be tweaked when dealing with reading list chapters, and not comic chapters
-      dispatch(setPlaylist(chapters.reverse()));
+      // Since the data comes back with the newest issue added first, the playlist should start with the oldest issue first. Hence needing to reverse. However, a reading list will start with the first issue in the list first, so the array does not need to be reversed
+      props.readingList ? dispatch(setPlaylist(chapters)) : dispatch(setPlaylist(chapters.reverse()));
 
       dispatch(setPreviousPage(location.pathname));
     }
@@ -77,7 +78,13 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
             onClick={handleSetPlaylist}
           >
             <Link to={generateLink(chapter)}>
-              <p>{chapter.title}</p>
+              {props.showListNumbers ? (
+                <p>
+                  <span className="font-bold">#{index + 1}:</span> {chapter.title}
+                </p>
+              ) : (
+                <p>{chapter.title}</p>
+              )}
               <p className="text-sm opacity-40">{chapter.date}</p>
             </Link>
             {isCreating && (
