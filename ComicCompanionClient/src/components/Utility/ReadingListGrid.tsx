@@ -1,6 +1,7 @@
 import { ReadingListDto } from "../../types";
 import { Link } from "react-router-dom";
 import "../../styles/ItemGrid.css";
+import loadImg from "../../helpers/loadImg";
 
 interface ReadingListGridProps {
   lists: ReadingListDto[];
@@ -11,7 +12,7 @@ export default function ReadingListGrid(props: ReadingListGridProps) {
     <div className="grid-list">
       {props.lists.map((list, index) => (
         <Link to={list.shared ? `/lists/shared/${list.readingListId}` : `/lists/local/${list.readingListId}`} key={index} className="item-link">
-          <img src={list.coverImg} className="grid-list-img" referrerPolicy="no-referrer" />
+          <img src={list.coverImg ? loadImg(list.coverImg) : ""} className="grid-list-img" referrerPolicy="no-referrer" />
           <div className="grid-list-text-wrapper">
             <span className="text-wrapper">
               <p className="grid-list-text">{list.name}</p>

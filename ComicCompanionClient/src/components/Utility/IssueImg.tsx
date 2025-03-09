@@ -1,6 +1,6 @@
 import "../../styles/IssueImg.css";
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IssueImgPageControls from "./IssueImgPageControls";
 import Loading from "./Loading";
 import { errorAlert } from "../../helpers/alertCreators";
@@ -18,6 +18,7 @@ interface IssueImageProps {
 }
 export default function IssueImage(props: IssueImageProps) {
   const [panStartX, setPanStartX] = useState(0);
+  const [nonProxyLoadError, setNonProxyLoadError] = useState(false);
   const dispatch = useDispatch();
 
   const panningStart = (e: ReactZoomPanPinchRef) => {
@@ -42,9 +43,17 @@ export default function IssueImage(props: IssueImageProps) {
   };
 
   const handleError = () => {
-    errorAlert(dispatch, "Error Loading Image");
-    console.log("error loading image");
+    if (nonProxyLoadError === true) {
+      errorAlert(dispatch, "Error Loading Image");
+    } else {
+      setNonProxyLoadError(true);
+    }
   };
+
+  useEffect(() => {
+    setNonProxyLoadError(false);
+    console.log("useEffect");
+  }, [props.img]);
 
   return (
     <>
@@ -60,15 +69,27 @@ export default function IssueImage(props: IssueImageProps) {
           <TransformComponent>
             <IssueImgPageControls leftCallback={props.leftCallback} middleCallback={props.middleCallback} rightCallback={props.rightCallback} />
             <div id="issue-wrapper">
-              <img
-                src={loadImg(props.img)}
-                alt={props.alt}
-                id="issue-img"
-                onLoad={loadEnd}
-                onLoadStart={loadStart}
-                onError={handleError}
-                referrerPolicy="no-referrer"
-              />
+              {nonProxyLoadError ? (
+                <img
+                  src={loadImg(props.img)}
+                  alt={props.alt}
+                  id="issue-img"
+                  onLoad={loadEnd}
+                  onLoadStart={loadStart}
+                  onError={handleError}
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <img
+                  src={props.img}
+                  alt={props.alt}
+                  id="issue-img"
+                  onLoad={loadEnd}
+                  onLoadStart={loadStart}
+                  onError={handleError}
+                  referrerPolicy="no-referrer"
+                />
+              )}
             </div>
           </TransformComponent>
         </TransformWrapper>

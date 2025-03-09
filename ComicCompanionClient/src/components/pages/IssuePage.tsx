@@ -19,7 +19,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import IssueImage from "../Utility/IssueImg";
 import IssueImgPageControls from "../Utility/IssueImgPageControls";
-import loadImg from "../../helpers/loadImg";
+import ImgCache from "../Utility/ImgCache";
 
 export default function IssuePage() {
   const { comicId, issueId, listId } = useParams();
@@ -283,7 +283,7 @@ export default function IssuePage() {
               </>
             ) : (
               <>
-                <img className="hidden-issue-img" src={loadImg(apiResponse.pages[currentPage + 1])} referrerPolicy="no-referrer" />
+                <ImgCache img={apiResponse.pages[currentPage + 1]} />
                 <IssueImage
                   alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
                   img={apiResponse.pages[currentPage]}

@@ -17,6 +17,7 @@ import ComicCompanionAPIService from "../services/ComicCompanionAPIService";
 import comicCompanionImages from "../helpers/defaultImageArray";
 import { errorAlert } from "../helpers/alertCreators";
 import { createLocalReadingList } from "../helpers/helperFunctions";
+import loadImg from "../helpers/loadImg";
 
 interface ImageCache {
   [issueId: string]: string[];
@@ -157,7 +158,7 @@ export default function ConfirmReadingList() {
             {readingList.coverImg ? (
               <img
                 referrerPolicy="no-referrer"
-                src={readingList.coverImg}
+                src={loadImg(readingList.coverImg)}
                 alt="cover image"
                 id="reading-list-cover-image"
                 onClick={toggleDefaultImage}

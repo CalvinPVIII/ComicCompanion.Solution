@@ -22,6 +22,7 @@ import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
 import { errorAlert } from "../../helpers/alertCreators";
 import VerticalIssueList from "../v2/Utility/VerticalIssueList";
+import loadImg from "../../helpers/loadImg";
 
 interface ReadingListInfoProps {
   readingList: ReadingListDto;
@@ -89,7 +90,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
         <AddToLibraryModal open={libraryModal} setClose={closeLibraryModal} readingListOrComic="readingList" itemInfo={props.readingList} />
         <div className="list-info">
           {props.readingList.coverImg ? (
-            <img src={props.readingList.coverImg} alt={props.readingList.name} referrerPolicy="no-referrer" />
+            <img src={loadImg(props.readingList.coverImg)} alt={props.readingList.name} referrerPolicy="no-referrer" />
           ) : (
             <img src={comicCompanionImages[0]} alt={props.readingList.name} referrerPolicy="no-referrer" />
           )}
