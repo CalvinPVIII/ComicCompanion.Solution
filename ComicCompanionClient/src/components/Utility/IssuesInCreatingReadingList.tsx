@@ -26,14 +26,14 @@ export default function IssuesInCreatingReadingList(props: IssuesInCreatingReadi
     return (
       <div>
         {issues.map((issue, index) => (
-          <React.Fragment key={index}>
-            <p onClick={() => handleClick(issue)}>
+          <div className={`mb-4 pb-2 ${index !== issues.length - 1 ? "border-b" : ""}`} key={index}>
+            <p className="mb-1" onClick={() => handleClick(issue)}>
               {issue.comicName} - {issue.title}
             </p>
             <Button variant="outlined" color="error" onClick={() => handleRemove(issue)} size="small">
               Remove
             </Button>
-          </React.Fragment>
+          </div>
         ))}
       </div>
     );
