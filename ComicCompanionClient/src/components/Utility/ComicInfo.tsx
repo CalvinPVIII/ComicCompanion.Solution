@@ -3,7 +3,7 @@ import { Comic } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert, Button, Tab, Tabs } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import Loading from "./Loading";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
@@ -20,7 +20,6 @@ export default function ComicInfo(props: ComicInfoProps) {
   const [apiResult, setApiResult] = useState<Comic | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [currentTab, setCurrentTab] = useState<number>(1);
 
   // const [issuesArray, setIssuesArray] = useState<Issue[] | null>(null);
   const [libraryModalOpen, setLibraryModalOpen] = useState(false);
@@ -31,10 +30,6 @@ export default function ComicInfo(props: ComicInfoProps) {
 
   const comicInfoCache = useSelector(comicInfoCacheSelector);
   const dispatch = useDispatch();
-
-  const handleTabChange = (_event: React.SyntheticEvent, value: number) => {
-    setCurrentTab(value);
-  };
 
   // const refreshComic = async () => {
   //   setLoading(true);
