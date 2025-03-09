@@ -3,7 +3,7 @@ import { Comic } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import "../../styles/ComicInfo.css";
 import { getErrorMessage } from "../../helpers/helperFunctions";
-import { Alert, Tab, Tabs } from "@mui/material";
+import { Alert, Button, Tab, Tabs } from "@mui/material";
 import Loading from "./Loading";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
@@ -90,34 +90,30 @@ export default function ComicInfo(props: ComicInfoProps) {
   return (
     <>
       {!loading && apiResult ? (
-        <div className="mx-auto max-w-prose">
+        <>
           <AddToLibraryModal open={libraryModalOpen} setClose={closeLibraryModel} itemInfo={apiResult} readingListOrComic="comic" />
-          <div className="max-w-screen-lg">
-            <div className="md:grid md:grid-cols-3 md:grid-rows-1 border-b py-12 flex flex-col items-center">
-              <img
-                referrerPolicy="no-referrer"
-                src={apiResult.coverImg}
-                alt={apiResult.name}
-                id="comic-cover"
-                ref={imgRef}
-                className="max-w-80 rounded-xl"
-              />
-              <div className="flex flex-col items-center justify-center  cursor-pointer ml-6 w-96 md:mb-12">
-                <h1 className="font-bold text-2xl text-center">{apiResult.name}</h1>
-                <div className="flex mt-4" onClick={openLibraryModel}>
-                  <AddIcon />
-                  <p>Add to library</p>
+          <div className="flex flex-wrap m-auto gap-5 justify-center">
+            <img referrerPolicy="no-referrer" src={apiResult.coverImg} alt={apiResult.name} ref={imgRef} className="w-80" />
+            <div className="mx-4 max-w-xl">
+              <h1 className="text-3xl border-b pb-2 font-bold">{apiResult.name}</h1>
+              <div onClick={openLibraryModel} className="mt-2">
+                <Button color="secondary" variant="contained">
+                  <AddIcon /> Add to Library
+                </Button>
+                <div className="flex gap-4 opacity-50 mt-2">
+                  {apiResult.status && <p>• {apiResult.status}</p>}
+                  {apiResult.year && <p>• {apiResult.year}</p>}
+                  {apiResult.author && <p>• {apiResult.author}</p>}
                 </div>
               </div>
+              <p className="mt-2">{apiResult.description}</p>
             </div>
-
-            <Tabs onChange={handleTabChange} value={currentTab} textColor="secondary" indicatorColor="secondary" centered>
-              <Tab label="Issues" value={1} />
-              <Tab label="Description" value={2} />
-            </Tabs>
-            {currentTab === 1 ? <VerticalIssueList chapters={apiResult.chapters} /> : <p>{apiResult.description}</p>}
           </div>
-        </div>
+
+          <div className="mt-4 max-w-5xl mx-auto">
+            <VerticalIssueList chapters={apiResult.chapters} />
+          </div>
+        </>
       ) : !loading && error ? (
         <>
           <Alert severity="error">{error} </Alert>

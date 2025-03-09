@@ -161,7 +161,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
             )}
           </div>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 max-w-5xl mx-auto">
           {props.readingList.issues && (
             <VerticalIssueList
               chapters={props.readingList.issues}

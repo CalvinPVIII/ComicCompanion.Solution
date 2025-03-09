@@ -63,7 +63,7 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
   };
 
   return (
-    <>
+    <div className="w-full">
       <div className="bg-[#0f0f0f] -mb-2 p-2 grid grid-cols-4 grid-rows-1">
         <h2 className="text-md text-center col-start-2 col-span-2">{props.chapters.length} issues</h2>
         <span onClick={toggleDsc} className="col-start-4">
@@ -95,6 +95,6 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
           </ListItem>
         ))}
       </List>
-    </>
+    </div>
   );
 }
