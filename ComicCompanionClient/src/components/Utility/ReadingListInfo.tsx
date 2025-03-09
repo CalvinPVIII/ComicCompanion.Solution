@@ -94,12 +94,14 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           ) : (
             <img src={comicCompanionImages[0]} alt={props.readingList.name} referrerPolicy="no-referrer" />
           )}
-          <div className="list-info-bottom-section">
+          <div className="mx-4 max-w-xl">
             <p id="list-info-header">{props.readingList.name}</p>
 
-            <div id="rating-buttons">
-              <div className="add-to-library-button" onClick={openLibraryModal}>
-                <AddIcon />
+            <div className="flex gap-5 mt-2 items-center">
+              <div onClick={openLibraryModal}>
+                <Button color="secondary" variant="contained">
+                  <AddIcon /> Add to Library
+                </Button>
               </div>
               {props.rateReadingList ? (
                 <>
@@ -134,8 +136,8 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
               ) : null}
             </div>
 
-            <p id="list-info-author">Created by {props.readingList.createdBy}</p>
-            <p id="list-info-description">{props.readingList.description}</p>
+            <p className="mt-4 italic opacity-50">Created by {props.readingList.createdBy}</p>
+            <p className="mb-4">{props.readingList.description}</p>
             {currentUser?.userId === props.readingList.userId || props.readingList.shared === false ? (
               <>
                 <Modal open={confirmDeleteModalOpen} onClose={toggleConfirmDeleteModal}>
@@ -159,14 +161,15 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
             )}
           </div>
         </div>
-
-        {props.readingList.issues && (
-          <VerticalIssueList
-            chapters={props.readingList.issues}
-            readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId.toString() }}
-            showListNumbers
-          />
-        )}
+        <div className="mt-4">
+          {props.readingList.issues && (
+            <VerticalIssueList
+              chapters={props.readingList.issues}
+              readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId.toString() }}
+              showListNumbers
+            />
+          )}
+        </div>
       </>
     </>
   );

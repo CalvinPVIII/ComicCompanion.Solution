@@ -1,16 +1,10 @@
 #add-to-library-modal {
-  width: 50vw;
-  min-width: 350px;
-  display: flex;
-  flex-flow: column;
-  padding-bottom: 40px;
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #222222;
-
-  border: 0.2px solid black;
+  overflow-y: scroll;
+  max-height: 600px;
 }
 
 #add-to-library-modal > p {

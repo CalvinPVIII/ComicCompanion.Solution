@@ -5,7 +5,6 @@
   width: fit-content;
   gap: 20px;
   justify-content: center;
-  max-width: 75%;
 }
 
 #list-info-header {
@@ -21,10 +20,6 @@
 }
 .list-info > img {
   width: 300px;
-}
-
-.list-info-bottom-section {
-  max-width: 50%;
 }
 
 #confirm-delete-modal {
@@ -55,14 +50,6 @@
 .rating-number {
   font-size: 16px;
   margin-top: -1px;
-}
-
-#rating-buttons {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100px;
 }
 
 .active-dislike {
