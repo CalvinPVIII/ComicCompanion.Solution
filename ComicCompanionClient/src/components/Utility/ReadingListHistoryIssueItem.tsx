@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { deleteIssueFromReadingListHistory } from "../../redux/readingHistorySlice";
 import "../../styles/ReadingHistoryIssue.css";
 import { useNavigate } from "react-router-dom";
+import loadImg from "../../helpers/loadImg";
 
 interface ReadingListHistoryIssueItemProps {
   issue: ReadingListHistoryIssue;
@@ -34,12 +35,12 @@ export default function ReadingListHistoryIssueItem(props: ReadingListHistoryIss
           <img
             className="reading-history-issue-img"
             alt={`${issue.comicId} issue ${issue.issueId} `}
-            src={issue.coverImg}
+            src={loadImg(issue.coverImg)}
             onClick={handleNav}
             referrerPolicy="no-referrer"
           />
           <div className="history-item-text" onClick={handleNav}>
-            <p className="history-text-primary">{`${issue.comicId} issue ${issue.issueId} `}</p>
+            <p className="history-text-primary">{`${issue.issueName} `}</p>
             <p className="history-text-secondary">{`Page ${issue.pagesRead}`}</p>
           </div>
 

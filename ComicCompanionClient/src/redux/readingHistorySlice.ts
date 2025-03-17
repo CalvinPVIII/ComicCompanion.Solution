@@ -5,6 +5,7 @@ type HistoryIssue = {
   comicId: string;
   issueId: string;
   cover: string;
+  issueName?: string;
 };
 
 export type HistoryItem = {
@@ -19,6 +20,7 @@ export interface ReadingListHistoryIssue {
   coverImg: string;
   pagesRead: number;
   completed: boolean;
+  issueName?: string;
 }
 
 interface ReadingListHistoryIssueAction extends ReadingListHistoryIssue {
@@ -103,7 +105,6 @@ const readingHistorySlice = createSlice({
 
     updateReadingListHistory: (state, action: PayloadAction<ReadingListHistoryIssueAction>) => {
       const { listId, comicId, issueId } = action.payload;
-
       if (state.readingListHistory[listId]) {
         // if the issue isnt in the history then created
         if (!state.readingListHistory[listId].readIssues[comicId + issueId]) {

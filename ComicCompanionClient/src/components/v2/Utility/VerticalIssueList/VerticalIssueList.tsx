@@ -1,18 +1,18 @@
-import { Link } from "react-router-dom";
-import { Chapter } from "../../../types";
-import { Button, List, ListItem } from "@mui/material";
+import { Chapter, ReadingListDto } from "../../../../types";
+import { List, ListItem } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { useState } from "react";
-import { isCreatingSelector } from "../../../redux/store";
+import { isCreatingSelector } from "../../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addComicAlert } from "../../../helpers/alertCreators";
-import { addIssue } from "../../../redux/listCreationSlice";
-import { setPlaylist, setPreviousPage } from "../../../redux/readingHistorySlice";
+import { addComicAlert } from "../../../../helpers/alertCreators";
+import { addIssue } from "../../../../redux/listCreationSlice";
+import { createReadingListHistoryItem, setPlaylist, setPreviousPage } from "../../../../redux/readingHistorySlice";
+import IssueInfo from "./IssueInfo";
 
 interface VerticalIssueListProps {
   chapters: Chapter[];
-  readingList?: { local: boolean; id: string };
+  readingList?: ReadingListDto;
   showListNumbers?: boolean;
 }
 
@@ -34,8 +34,6 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
     addComicAlert(dispatch);
   };
 
-  // const handleIssueClick = () => {};
-
   const handleSetPlaylist = () => {
     const chapters = [...props.chapters];
 
@@ -51,15 +49,28 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
     let link = "";
     if (props.readingList) {
       link = link + "/lists";
-      if (props.readingList.local) {
-        link = link + `/local/${props.readingList.id}`;
+      if (props.readingList.shared) {
+        link = link + `/shared/${props.readingList.readingListId}`;
       } else {
-        link = link + `/shared/${props.readingList.id}`;
+        link = link + `/local/${props.readingList.readingListId}`;
       }
-      link + `/${props.readingList.id}`;
+      link + `/${props.readingList.readingListId}`;
     }
     link = link + `/comics/${chapter.comicId}/issue/${chapter.id}`;
     return link;
+  };
+
+  const handleIssueClick = () => {
+    if (props.readingList) {
+      dispatch(
+        createReadingListHistoryItem({
+          name: props.readingList.name,
+          listId: props.readingList.readingListId,
+          coverImg: props.readingList.coverImg || "",
+          readIssues: {},
+        })
+      );
+    }
   };
 
   return (
@@ -77,21 +88,16 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
             sx={{ background: index % 2 === 0 ? "#1a1919" : "#121212", display: "flex", justifyContent: "space-between" }}
             onClick={handleSetPlaylist}
           >
-            <Link to={generateLink(chapter)}>
-              {props.showListNumbers ? (
-                <p>
-                  <span className="font-bold">#{index + 1}:</span> {chapter.title}
-                </p>
-              ) : (
-                <p>{chapter.title}</p>
-              )}
-              <p className="text-sm opacity-40">{chapter.date}</p>
-            </Link>
-            {isCreating && (
-              <Button variant="outlined" color="success" onClick={() => handleAddToReadingListClick(chapter)}>
-                add to list
-              </Button>
-            )}
+            <IssueInfo
+              handleIssueClick={handleIssueClick}
+              generateLink={generateLink}
+              isCreating={isCreating}
+              chapter={chapter}
+              showListNumbers={props.showListNumbers}
+              handleAddToReadingListClick={handleAddToReadingListClick}
+              index={index}
+              readingListId={props.readingList?.readingListId.toString()}
+            />
           </ListItem>
         ))}
       </List>

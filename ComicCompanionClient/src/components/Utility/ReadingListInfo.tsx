@@ -21,7 +21,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AddIcon from "@mui/icons-material/Add";
 import AddToLibraryModal from "./AddToLibraryModal";
 import { errorAlert } from "../../helpers/alertCreators";
-import VerticalIssueList from "../v2/Utility/VerticalIssueList";
+import VerticalIssueList from "../v2/Utility/VerticalIssueList/VerticalIssueList";
 import loadImg from "../../helpers/loadImg";
 
 interface ReadingListInfoProps {
@@ -162,13 +162,7 @@ export default function ReadingListInfo(props: ReadingListInfoProps) {
           </div>
         </div>
         <div className="mt-4 max-w-5xl mx-auto">
-          {props.readingList.issues && (
-            <VerticalIssueList
-              chapters={props.readingList.issues}
-              readingList={{ local: !props.readingList.shared, id: props.readingList.readingListId.toString() }}
-              showListNumbers
-            />
-          )}
+          {props.readingList.issues && <VerticalIssueList chapters={props.readingList.issues} readingList={props.readingList} showListNumbers />}
         </div>
       </>
     </>

@@ -2,6 +2,7 @@ import { ReadingListDto } from "../../types";
 import "../../styles/ItemListCard.css";
 import { Link } from "react-router-dom";
 import comicCompanionImages from "../../helpers/defaultImageArray";
+import loadImg from "../../helpers/loadImg";
 
 interface ReadingListListCardProps {
   readingList: ReadingListDto;
@@ -12,7 +13,7 @@ export default function ReadingListListCard(props: ReadingListListCardProps) {
     <div className="item-card">
       <Link to={`/lists/shared/${props.readingList.readingListId}`}>
         {props.readingList.coverImg && props.readingList.coverImg !== "null" ? (
-          <img src={props.readingList.coverImg} alt={props.readingList.name} referrerPolicy="no-referrer" />
+          <img src={loadImg(props.readingList.coverImg)} alt={props.readingList.name} referrerPolicy="no-referrer" />
         ) : (
           <img src={comicCompanionImages[0]} alt={props.readingList.name} referrerPolicy="no-referrer" />
         )}

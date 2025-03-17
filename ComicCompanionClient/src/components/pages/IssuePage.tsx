@@ -77,7 +77,6 @@ export default function IssuePage() {
       if (currentPlaylist[indexOfCurrentIssue - 1]) {
         newPlaylistInfo.prev = indexOfCurrentIssue - 1;
       }
-      console.log(newPlaylistInfo);
       setPlaylistIssueInfo(newPlaylistInfo);
     }
   }, [apiResponse, currentPlaylist]);
@@ -97,13 +96,12 @@ export default function IssuePage() {
       window.removeEventListener("keydown", handleArrowKeys);
     };
   });
-
   const handleUpdateHistory = (pageNumber: number) => {
     if (!readingHistory.paused) {
       if (apiResponse?.pages && pageNumber <= apiResponse.pages.length) {
         dispatch(
           updateHistory({
-            issue: { comicId: apiResponse.comicId, issueId: apiResponse.issueId, cover: apiResponse.pages[0] },
+            issue: { comicId: apiResponse.comicId, issueId: apiResponse.issueId, cover: apiResponse.pages[0], issueName: apiResponse.name },
             completed: pageNumber >= apiResponse.pages.length - 2,
             pagesRead: pageNumber,
           })
@@ -117,6 +115,7 @@ export default function IssuePage() {
               pagesRead: pageNumber,
               coverImg: apiResponse.pages[0],
               completed: pageNumber >= apiResponse.pages.length - 2,
+              issueName: apiResponse.name,
             })
           );
         }

@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { comicInfoCacheSelector } from "../../redux/store";
 import { setComicInCache } from "../../redux/comicInfoCacheSlice";
 import { areSameDay } from "../../helpers/helperFunctions";
-import VerticalIssueList from "../v2/Utility/VerticalIssueList";
+import VerticalIssueList from "../v2/Utility/VerticalIssueList/VerticalIssueList";
 interface ComicInfoProps {
   comicId: string;
 }
