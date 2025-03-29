@@ -40,10 +40,10 @@ public class BatcaveHelper : ComicHelper
         return results;
     }
 
-    public static async Task<Issue> GetFullIssue(Issue issue, string cookie)
+    public static async Task<Chapter> GetFullChapter(string comicId, string issueId, string cookie)
     {
         _client.DefaultRequestHeaders.Add("Cookie", cookie);
-        string url = $"https://batcave.biz/reader/{issue.ComicId}/{issue.IssueId}";
+        string url = $"https://batcave.biz/reader/{comicId}/{issueId}";
         var response = await _client.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
         var document = await _context.OpenAsync(req => req.Content(content));
@@ -58,10 +58,10 @@ public class BatcaveHelper : ComicHelper
         string[] images = JsonConvert.DeserializeObject<string[]>(pagesArray);
 
         string issueName = document.QuerySelector(".chapter__selector-trigger__title").InnerHtml;
+        string comicName = document.QuerySelector(".header__post-title").InnerHtml;
+        var chapter = new Chapter(){Title=issueName, Images=images,Id=issueId, ComicId=comicId, Pages=images.Length};
 
-        issue.Name = issueName;
-        issue.Pages = images;
-        return issue;
+        return chapter;
     }
 
 
@@ -154,9 +154,6 @@ public class BatcaveHelper : ComicHelper
 
         }
 
-        // var orderedChapters = chapters.OrderByDescending(obj => DateTime.ParseExact(obj.Date, "dd/MM/yyyy", null)).ToList();
-
-
         Comic comic = new Comic() { ComicId = comicId, Name = name, CoverImg = img, Publisher = publisher, Year = year, Chapters = chapters, Description = description, Status = status };
 
         return comic;
@@ -170,14 +167,4 @@ public class BatcaveHelper : ComicHelper
     }
 }
 
-
-public class Chapter
-{
-    public int Pages { get; set; }
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Date { get; set; }
-    public string ComicId { get; set; }
-    public string ComicName { get; set; }
-}
 

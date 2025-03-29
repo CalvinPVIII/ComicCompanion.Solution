@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { deleteReadingListFromHistory } from "../../redux/readingHistorySlice";
 import ClearIcon from "@mui/icons-material/Clear";
 import ReadingListHistoryIssuesList from "./ReadingListHistoryIssuesList";
+import loadImg from "../../helpers/loadImg";
 
 interface ReadingListHistoryListProps {
   list: ReadingListHistoryItem;
@@ -42,7 +43,7 @@ export default function ReadingListHistoryList(props: ReadingListHistoryListProp
         }
       >
         <ListItemAvatar>
-          <Avatar src={props.list.coverImg} />
+          <Avatar src={loadImg(props.list.coverImg)} />
         </ListItemAvatar>
         <ListItemText primary={props.list.name} secondary={`${Object.values(props.list.readIssues).length} issues read`} onClick={toggleIssuesList} />
       </ListItem>

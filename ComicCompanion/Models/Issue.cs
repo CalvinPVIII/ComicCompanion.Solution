@@ -16,13 +16,13 @@ public class Issue
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    public async Task<Issue> GetPagesAsync(int? serverNumber, string cookie)
-    {
+    // public async Task<Issue> GetPagesAsync(int? serverNumber, string cookie)
+    // {
 
-        // Pages = await XoxoComicHelper.GetPagesFromIssue(this);
-        // Pages = await ComicExtraHelper.GetPagesFromIssue(this);
-        await BatcaveHelper.GetFullIssue(this, cookie);
-        return this;
-    }
+    //     // Pages = await XoxoComicHelper.GetPagesFromIssue(this);
+    //     // Pages = await ComicExtraHelper.GetPagesFromIssue(this);
+    //     await BatcaveHelper.GetFullIssue(this, cookie);
+    //     return this;
+    // }
 
 }

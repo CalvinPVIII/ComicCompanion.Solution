@@ -1,6 +1,6 @@
 import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Issue } from "../../types";
+import { Chapter } from "../../types";
 import ComicCompanionAPIService from "../../services/ComicCompanionAPIService";
 import { getErrorMessage } from "../../helpers/helperFunctions";
 import { Alert, Slider } from "@mui/material";
@@ -29,7 +29,7 @@ export default function IssuePage() {
   const dispatch = useDispatch();
   const readingHistory = useSelector(readingHistorySelector);
 
-  const [apiResponse, setApiResponse] = useState<Issue | null>();
+  const [apiResponse, setApiResponse] = useState<Chapter | null>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const [imgLoading, setImgLoading] = useState<boolean>(true);
@@ -69,7 +69,7 @@ export default function IssuePage() {
 
   useEffect(() => {
     if (apiResponse) {
-      const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.id.toString() === apiResponse?.issueId);
+      const indexOfCurrentIssue = currentPlaylist.findIndex((issue) => issue.id === apiResponse?.id);
       const newPlaylistInfo = { next: indexOfCurrentIssue, prev: indexOfCurrentIssue, current: indexOfCurrentIssue };
       if (currentPlaylist[indexOfCurrentIssue + 1]) {
         newPlaylistInfo.next = indexOfCurrentIssue + 1;
@@ -98,11 +98,11 @@ export default function IssuePage() {
   });
   const handleUpdateHistory = (pageNumber: number) => {
     if (!readingHistory.paused) {
-      if (apiResponse?.pages && pageNumber <= apiResponse.pages.length) {
+      if (apiResponse?.pages && pageNumber <= apiResponse.pages && apiResponse.images) {
         dispatch(
           updateHistory({
-            issue: { comicId: apiResponse.comicId, issueId: apiResponse.issueId, cover: apiResponse.pages[0], issueName: apiResponse.name },
-            completed: pageNumber >= apiResponse.pages.length - 2,
+            issue: { comicId: apiResponse.comicId, issueId: apiResponse.id, cover: apiResponse.images[0], issueName: apiResponse.title },
+            completed: pageNumber >= apiResponse.pages - 2,
             pagesRead: pageNumber,
           })
         );
@@ -111,11 +111,11 @@ export default function IssuePage() {
             updateReadingListHistory({
               listId: listId,
               comicId: apiResponse.comicId,
-              issueId: apiResponse.issueId,
+              issueId: apiResponse.id,
               pagesRead: pageNumber,
-              coverImg: apiResponse.pages[0],
-              completed: pageNumber >= apiResponse.pages.length - 2,
-              issueName: apiResponse.name,
+              coverImg: apiResponse.images[0],
+              completed: pageNumber >= apiResponse.pages - 2,
+              issueName: apiResponse.title,
             })
           );
         }
@@ -130,7 +130,7 @@ export default function IssuePage() {
     setImgLoading(true);
     setCurrentPage(nextPage);
     if (apiResponse && apiResponse.pages) {
-      if (nextPage === apiResponse.pages.length + 1) {
+      if (nextPage === apiResponse.pages + 1) {
         setCurrentPage(0);
         if (listId) {
           nav(
@@ -226,7 +226,7 @@ export default function IssuePage() {
         <Loading />
       ) : !loading && error ? (
         <Alert severity="error">{error}</Alert>
-      ) : apiResponse && apiResponse.pages ? (
+      ) : apiResponse && apiResponse.images ? (
         <>
           <div className="page-header-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handelMouseLeave}>
             {pageMenuVisible ? (
@@ -235,7 +235,7 @@ export default function IssuePage() {
                   <ArrowBackIcon onClick={handleBackButton} />
                 </p>
 
-                <p>{apiResponse.name}</p>
+                <p>{apiResponse.title}</p>
                 <p className="spacer"></p>
               </div>
             ) : (
@@ -244,7 +244,7 @@ export default function IssuePage() {
           </div>
 
           <div className="page-wrapper">
-            {currentPage + 1 > apiResponse.pages.length ? (
+            {currentPage + 1 > apiResponse.pages ? (
               <>
                 <IssueImgPageControls
                   leftCallback={handleMoveToPreviousPage}
@@ -282,10 +282,10 @@ export default function IssuePage() {
               </>
             ) : (
               <>
-                <ImgCache img={apiResponse.pages[currentPage + 1]} />
+                <ImgCache img={apiResponse.images[currentPage + 1]} />
                 <IssueImage
-                  alt={`${apiResponse.comicId} issue ${apiResponse.issueId} page ${currentPage}`}
-                  img={apiResponse.pages[currentPage]}
+                  alt={`${apiResponse.title} page ${currentPage}`}
+                  img={apiResponse.images[currentPage]}
                   leftCallback={handleMoveToPreviousPage}
                   middleCallback={handleMiddlePageClick}
                   rightCallback={handleMoveToNextPage}
@@ -307,7 +307,7 @@ export default function IssuePage() {
                   <div id="slider-wrapper">
                     <Slider
                       min={1}
-                      max={apiResponse.pages.length}
+                      max={apiResponse.pages}
                       step={1}
                       valueLabelDisplay="auto"
                       marks
@@ -317,7 +317,7 @@ export default function IssuePage() {
                     />
                   </div>
                   <p className="slider-number">
-                    {apiResponse.pages.length} <ArrowForwardIosIcon onClick={handleMoveToNextPage} />
+                    {apiResponse.pages} <ArrowForwardIosIcon onClick={handleMoveToNextPage} />
                   </p>
                 </div>
               </>

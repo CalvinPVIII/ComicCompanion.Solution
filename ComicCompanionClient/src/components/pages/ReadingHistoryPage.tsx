@@ -17,6 +17,8 @@ export default function ReadingHistoryPage() {
   const [listHistoryOpen, setListHistoryOpen] = useState(false);
   const toggleReadingListCollapse = () => setListHistoryOpen(!listHistoryOpen);
 
+  console.log(history);
+
   return (
     <>
       <div className="settings-header">

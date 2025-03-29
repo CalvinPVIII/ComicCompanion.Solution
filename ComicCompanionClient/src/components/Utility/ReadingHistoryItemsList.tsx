@@ -6,6 +6,7 @@ import { HistoryItem } from "../../redux/readingHistorySlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeComicFromHistory } from "../../redux/readingHistorySlice";
+import loadImg from "../../helpers/loadImg";
 interface ReadingHistoryItemsListProps {
   history: {
     [issueId: string]: HistoryItem;
@@ -26,6 +27,7 @@ export default function ReadingHistoryItemsList(props: ReadingHistoryItemsListPr
     dispatch(removeComicFromHistory(comic));
     toggleConfirmDelete();
   };
+  console.log(history);
 
   return (
     <>
@@ -48,7 +50,7 @@ export default function ReadingHistoryItemsList(props: ReadingHistoryItemsListPr
         }
       >
         <ListItemAvatar onClick={toggleIssuesList}>
-          <Avatar src={Object.values(history)[0].issue.cover} />
+          <Avatar src={loadImg(Object.values(history)[0].issue.cover)} />
         </ListItemAvatar>
         <ListItemText primary={comic} secondary={`${Object.values(history).length} issues read`} onClick={toggleIssuesList} />
       </ListItem>

@@ -1,18 +1,18 @@
-import { Autocomplete, TextField, List, ListItem, ListItemButton, ListSubheader, Button } from "@mui/material";
+import { Autocomplete, TextField, List, ListItem, ListItemButton, ListSubheader } from "@mui/material";
 import "../../styles/IssuesList.css";
 import { SyntheticEvent, useRef, useState } from "react";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 import { useSelector, useDispatch } from "react-redux";
 import { isCreatingSelector } from "../../redux/store";
-import { addIssue, bulkAddIssue } from "../../redux/listCreationSlice";
-import { setPlaylist, setPreviousPage } from "../../redux/readingHistorySlice";
+// import { addIssue, bulkAddIssue } from "../../redux/listCreationSlice";
+// import { setPlaylist, setPreviousPage } from "../../redux/readingHistorySlice";
 import { Issue, ReadingListDto } from "../../types";
-import { addComicAlert } from "../../helpers/alertCreators";
+// import { addComicAlert } from "../../helpers/alertCreators";
 import { createReadingListHistoryItem, bulkAddIssuesToHistory, bulkAddIssuesToReadingListHistory } from "../../redux/readingHistorySlice";
 import React from "react";
 import IssueListText from "./IssueListText";
@@ -35,7 +35,7 @@ export default function IssuesList(props: IssuesListProps) {
   const [selectedIssues, setSelectedIssues] = useState<Issue[]>([]);
   const mouseDownTimeStamp = useRef(0);
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
 
   const isCreating = useSelector(isCreatingSelector);
 
@@ -65,16 +65,16 @@ export default function IssuesList(props: IssuesListProps) {
     setIssueList(flippedList);
   };
 
-  const handleAddToReadingListClick = (issue: Issue) => {
-    // const issueToAdd: Issue = {
-    //   issueId: issue.issueId,
-    //   comicId: issue.comicId,
-    //   pages: null,
-    //   readingListIssueId: uuidv4(),
-    // };
-    // // dispatch(addIssue(issueToAdd));
-    // addComicAlert(dispatch);
-  };
+  // const handleAddToReadingListClick = () => {
+  //   // const issueToAdd: Issue = {
+  //   //   issueId: issue.issueId,
+  //   //   comicId: issue.comicId,
+  //   //   pages: null,
+  //   //   readingListIssueId: uuidv4(),
+  //   // };
+  //   // // dispatch(addIssue(issueToAdd));
+  //   // addComicAlert(dispatch);
+  // };
 
   const addReadingListToHistory = () => {
     if (props.readingList) {
@@ -205,9 +205,9 @@ export default function IssuesList(props: IssuesListProps) {
 
                     {isCreating ? (
                       <>
-                        <Button variant="outlined" color="success" onClick={() => handleAddToReadingListClick(issue)}>
+                        {/* <Button variant="outlined" color="success" onClick={() => handleAddToReadingListClick(issue)}>
                           add to list
-                        </Button>
+                        </Button> */}
                       </>
                     ) : (
                       <></>

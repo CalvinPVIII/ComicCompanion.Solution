@@ -4,7 +4,7 @@ import {
   Comic,
   ComicSearchResultAPIResponse,
   FavoriteReadingListResponse,
-  Issue,
+  Chapter,
   PostLibrarySyncResponse,
   PostUserLibrarySync,
   RateReadingListAPIResponse,
@@ -86,19 +86,18 @@ export default class ComicCompanionAPIService {
     }
     const apiResponse = await fetch(fetchUrl, options);
     const jsonResponse = await apiResponse.json();
-    // console.log(jsonResponse);
     if (jwt) {
       return jsonResponse as unknown as ReadingListWithUserInfoAPIResponse;
     }
     return jsonResponse as unknown as ReadingListAPIResponse;
   }
 
-  static async getIssue(comicId: string, issueId: string, serverNumber?: number): Promise<Issue> {
+  static async getIssue(comicId: string, issueId: string, serverNumber?: number): Promise<Chapter> {
     let fetchUrl = `${import.meta.env.VITE_API_URL}/comics/${comicId}/issues/${issueId}`;
     if (serverNumber) fetchUrl += `?serverNumber=${serverNumber}`;
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
-    return jsonResponse as Issue;
+    return jsonResponse as Chapter;
   }
 
   static async signIn(email: string, password: string): Promise<UserAuthResponse> {

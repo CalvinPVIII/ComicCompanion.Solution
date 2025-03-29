@@ -3,6 +3,7 @@ import comicCompanionImages from "../../helpers/defaultImageArray";
 import { Link } from "react-router-dom";
 import "../../styles/ReadingListSearchResult.css";
 import "../../styles/SearchResult.css";
+import loadImg from "../../helpers/loadImg";
 
 interface ReadingListSearchResultProps {
   readingLists: ReadingListDto[];
@@ -17,7 +18,7 @@ export default function ReadingListSearchResult(props: ReadingListSearchResultPr
           <div className="search-results" key={index}>
             <div className="inner-search-results">
               {readingList.coverImg ? (
-                <img src={readingList.coverImg} alt={readingList.name} referrerPolicy="no-referrer" />
+                <img src={loadImg(readingList.coverImg)} alt={readingList.name} referrerPolicy="no-referrer" />
               ) : (
                 <img src={comicCompanionImages[0]} alt={readingList.name} referrerPolicy="no-referrer" />
               )}

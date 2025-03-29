@@ -41,10 +41,11 @@ interface APIResponse {
 export interface Chapter {
   title: "string";
   date: "string";
-  id: number;
+  id: string;
   pages: number;
   comicId: string;
   comicName: string;
+  images?: string[];
 }
 
 export interface ReadingListDto {
