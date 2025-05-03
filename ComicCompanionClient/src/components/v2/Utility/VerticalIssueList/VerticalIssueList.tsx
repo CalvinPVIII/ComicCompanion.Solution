@@ -7,7 +7,7 @@ import { isCreatingSelector } from "../../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addComicAlert } from "../../../../helpers/alertCreators";
 import { addIssue } from "../../../../redux/listCreationSlice";
-import { createReadingListHistoryItem, setPlaylist, setPreviousPage } from "../../../../redux/readingHistorySlice";
+import { addItemToHistory, setPlaylist, setPreviousPage } from "../../../../redux/readingHistorySlice";
 import IssueInfo from "./IssueInfo";
 
 interface VerticalIssueListProps {
@@ -63,11 +63,14 @@ export default function VerticalIssueList(props: VerticalIssueListProps) {
   const handleIssueClick = () => {
     if (props.readingList) {
       dispatch(
-        createReadingListHistoryItem({
-          name: props.readingList.name,
-          listId: props.readingList.readingListId,
-          coverImg: props.readingList.coverImg || "",
-          readIssues: {},
+        addItemToHistory({
+          addToReadingList: true,
+          item: {
+            historyItemId: props.readingList.readingListId.toString(),
+            historyItemName: props.readingList.name,
+            img: props.readingList.coverImg,
+            issuesRead: {},
+          },
         })
       );
     }

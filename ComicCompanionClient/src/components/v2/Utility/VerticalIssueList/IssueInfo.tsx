@@ -20,13 +20,13 @@ export default function IssueInfo(props: IssueInfoProps) {
 
   const readingHistory = useSelector(readingHistorySelector);
 
-  const issueInReadingHistory = readingHistory.history[props.chapter.comicId]
-    ? readingHistory.history[props.chapter.comicId][props.chapter.id]
+  const issueInReadingHistory = readingHistory.comicHistory[props.chapter.comicId]
+    ? readingHistory.comicHistory[props.chapter.comicId].issuesRead[props.chapter.id]
     : false;
 
   const issueInReadingListHistory =
     props.readingListId && readingHistory.readingListHistory[props.readingListId]
-      ? readingHistory.readingListHistory[props.readingListId].readIssues[props.chapter.comicId + props.chapter.id]
+      ? readingHistory.readingListHistory[props.readingListId].issuesRead[props.chapter.comicId + props.chapter.id]
       : false;
 
   const readingHistoryText = () => {

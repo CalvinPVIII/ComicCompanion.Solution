@@ -9,7 +9,7 @@ import "../../styles/IssuePage.css";
 import Loading from "../Utility/Loading";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateHistory, updateReadingListHistory } from "../../redux/readingHistorySlice";
+import { updateHistoryItem, addItemToHistory } from "../../redux/readingHistorySlice";
 import { currentPlaylistSelector, readingHistorySelector } from "../../redux/store";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -96,32 +96,42 @@ export default function IssuePage() {
       window.removeEventListener("keydown", handleArrowKeys);
     };
   });
+
   const handleUpdateHistory = (pageNumber: number) => {
     if (!readingHistory.paused) {
       if (apiResponse?.pages && pageNumber <= apiResponse.pages && apiResponse.images) {
         dispatch(
-          updateHistory({
-            issue: { comicId: apiResponse.comicId, issueId: apiResponse.id, cover: apiResponse.images[0], issueName: apiResponse.title },
-            completed: pageNumber >= apiResponse.pages - 2,
+          updateHistoryItem({
+            isReadingListItem: listId ? true : false,
+            issueId: apiResponse.id,
             pagesRead: pageNumber,
+            completed: pageNumber >= apiResponse.pages - 2,
+            historyItemId: listId ? listId : apiResponse.comicId,
           })
         );
-        if (listId) {
-          dispatch(
-            updateReadingListHistory({
-              listId: listId,
-              comicId: apiResponse.comicId,
-              issueId: apiResponse.id,
-              pagesRead: pageNumber,
-              coverImg: apiResponse.images[0],
-              completed: pageNumber >= apiResponse.pages - 2,
-              issueName: apiResponse.title,
-            })
-          );
-        }
       }
     }
   };
+
+  useEffect(() => {
+    if (apiResponse) {
+      const isInReadingHistory = readingHistory.comicHistory[apiResponse?.comicId];
+
+      if (!isInReadingHistory) {
+        dispatch(
+          addItemToHistory({
+            addToReadingList: false,
+            item: {
+              historyItemId: apiResponse.comicId,
+              historyItemName: apiResponse.comicName,
+              issuesRead: {},
+              img: apiResponse.images ? apiResponse.images[0] : undefined,
+            },
+          })
+        );
+      }
+    }
+  }, [apiResponse, readingHistory.comicHistory]);
 
   const handleMoveToNextPage = () => {
     const currentRoute = location.pathname;

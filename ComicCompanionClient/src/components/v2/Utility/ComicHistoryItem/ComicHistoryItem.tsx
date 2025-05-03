@@ -1,22 +1,19 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemText, Collapse, Button } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import ReadingHistoryIssuesList from "./ReadingHistoryIssuesList";
-import { HistoryItem } from "../../redux/readingHistorySlice";
+// import ReadingHistoryIssuesList from "./ReadingHistoryIssuesList";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeComicFromHistory } from "../../redux/readingHistorySlice";
-import loadImg from "../../helpers/loadImg";
+import { deleteHistoryItem, HistoryItem } from "../../../../redux/readingHistorySlice";
+import loadImg from "../../../../helpers/loadImg";
 interface ReadingHistoryItemsListProps {
-  history: {
-    [issueId: string]: HistoryItem;
-  };
-  comic: string;
+  historyItem: HistoryItem;
+  isReadingList: boolean;
 }
 
-export default function ReadingHistoryItemsList(props: ReadingHistoryItemsListProps) {
+export default function ComicHistoryItem(props: ReadingHistoryItemsListProps) {
   const dispatch = useDispatch();
-  const { history, comic } = props;
+  const { historyItem, isReadingList } = props;
   const [issuesListOpen, setIssuesListOpen] = useState(false);
   const toggleIssuesList = () => setIssuesListOpen(!issuesListOpen);
 
@@ -24,10 +21,10 @@ export default function ReadingHistoryItemsList(props: ReadingHistoryItemsListPr
   const toggleConfirmDelete = () => setConfirmDelete(!confirmDelete);
 
   const handleDelete = () => {
-    dispatch(removeComicFromHistory(comic));
+    dispatch(deleteHistoryItem({ isReadingListItem: isReadingList, itemId: historyItem.historyItemId }));
     toggleConfirmDelete();
   };
-  console.log(history);
+  console.log(historyItem);
 
   return (
     <>
@@ -50,12 +47,12 @@ export default function ReadingHistoryItemsList(props: ReadingHistoryItemsListPr
         }
       >
         <ListItemAvatar onClick={toggleIssuesList}>
-          <Avatar src={loadImg(Object.values(history)[0].issue.cover)} />
+          <Avatar src={loadImg(historyItem.img || "")} />
         </ListItemAvatar>
-        <ListItemText primary={comic} secondary={`${Object.values(history).length} issues read`} onClick={toggleIssuesList} />
+        <ListItemText primary={historyItem.historyItemName} secondary={`${Object.values(history).length} issues read`} onClick={toggleIssuesList} />
       </ListItem>
       <Collapse in={issuesListOpen} timeout="auto" unmountOnExit>
-        <ReadingHistoryIssuesList issues={Object.values(history)} />
+        {/* <ReadingHistoryIssuesList issues={Object.values(history)} /> */}
       </Collapse>
     </>
   );

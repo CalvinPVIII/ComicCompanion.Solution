@@ -7,17 +7,15 @@ import { List, Collapse, ListItem, ListItemText } from "@mui/material";
 import { useState } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
-import ReadingHistoryItemsList from "../Utility/ReadingHistoryItemsList";
-import ReadingListHistoryList from "../Utility/ReadingListHistoryList";
+import ComicHistoryItem from "../v2/Utility/ComicHistoryItem/ComicHistoryItem";
+
 export default function ReadingHistoryPage() {
-  const history = useSelector(readingHistorySelector).history;
+  const comicHistory = useSelector(readingHistorySelector).comicHistory;
   const listHistory = useSelector(readingHistorySelector).readingListHistory;
   const [comicHistoryOpen, setComicHistoryOpen] = useState(false);
   const toggleComicCollapse = () => setComicHistoryOpen(!comicHistoryOpen);
   const [listHistoryOpen, setListHistoryOpen] = useState(false);
   const toggleReadingListCollapse = () => setListHistoryOpen(!listHistoryOpen);
-
-  console.log(history);
 
   return (
     <>
@@ -35,8 +33,8 @@ export default function ReadingHistoryPage() {
           {comicHistoryOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={comicHistoryOpen} unmountOnExit timeout="auto">
-          {Object.keys(history).map((comic) => (
-            <ReadingHistoryItemsList history={history[comic]} comic={comic} key={comic} />
+          {Object.keys(comicHistory).map((comic) => (
+            <ComicHistoryItem historyItem={comicHistory[comic]} isReadingList={false} />
           ))}
         </Collapse>
         <ListItem onClick={toggleReadingListCollapse}>
@@ -47,8 +45,8 @@ export default function ReadingHistoryPage() {
         </ListItem>
 
         <Collapse in={listHistoryOpen} unmountOnExit timeout="auto">
-          {Object.values(listHistory).map((readingListItem, index) => (
-            <ReadingListHistoryList list={readingListItem} key={index} />
+          {Object.keys(listHistory).map((readingListItem) => (
+            <ComicHistoryItem historyItem={listHistory[readingListItem]} isReadingList={false} />
           ))}
         </Collapse>
       </List>

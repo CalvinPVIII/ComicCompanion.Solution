@@ -12,13 +12,13 @@ interface IssueListTextProps {
 export default function IssueListText(props: IssueListTextProps) {
   const readingHistory = useSelector(readingHistorySelector);
 
-  const isIssueInReadingHistory = readingHistory.history[props.issue.comicId]
-    ? readingHistory.history[props.issue.comicId][props.issue.issueId]
+  const isIssueInReadingHistory = readingHistory.comicHistory[props.issue.comicId]
+    ? readingHistory.comicHistory[props.issue.comicId].issuesRead[props.issue.issueId]
     : false;
 
   const isIssueInReadingListHistory =
     props.readingListId && readingHistory.readingListHistory[props.readingListId]
-      ? readingHistory.readingListHistory[props.readingListId].readIssues[props.issue.comicId + props.issue.issueId]
+      ? readingHistory.readingListHistory[props.readingListId].issuesRead[props.issue.comicId + props.issue.issueId]
       : false;
 
   if (isIssueInReadingListHistory) {
