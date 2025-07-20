@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, createMigrate } from "redux-persist";
 // @ts-expect-error no type declaration
 import storage from "redux-persist-indexeddb-storage";
 
@@ -15,10 +15,27 @@ import settingsReducer, { SettingsState } from "./settingsSlice";
 import appInfoReducer, { AppInfoState } from "./appInfoSlice";
 import comicInfoCacheReducer, { ComicInfoCacheState } from "./comicInfoCacheSlice";
 
+const migrations = {
+  1: (state: ApplicationState) => {
+    return {
+      ...state,
+      readingHistory: {
+        comicHistory: [],
+        readingListHistory: [],
+        paused: state?.readingHistory?.paused ?? false,
+        currentPlaylist: [],
+        previousPage: "",
+      },
+    };
+  },
+};
+
 const persistConfig = {
   key: "root",
   storage: storage("comicCompanion"),
   blacklist: ["modal", "alert", "apiCache"],
+  version: 2,
+  migrate: createMigrate(migrations as never, { debug: false }), // state is typed as ApplicationState above for type safety when building migrations, but as `never` here for type compatibility for the createMigrate function
 };
 
 export interface ApplicationState {

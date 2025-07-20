@@ -115,6 +115,7 @@ export default function IssuePage() {
 
   useEffect(() => {
     if (apiResponse) {
+      console.log(apiResponse)
       const isInReadingHistory = readingHistory.comicHistory[apiResponse?.comicId];
 
       if (!isInReadingHistory) {
