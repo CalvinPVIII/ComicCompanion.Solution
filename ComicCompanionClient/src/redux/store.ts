@@ -20,8 +20,8 @@ const migrations = {
     return {
       ...state,
       readingHistory: {
-        comicHistory: [],
-        readingListHistory: [],
+        comicHistory: {},
+        readingListHistory: {},
         paused: state?.readingHistory?.paused ?? false,
         currentPlaylist: [],
         previousPage: "",

@@ -13,7 +13,6 @@ export default function ImgCache(props: ImgCacheProps) {
 
   useEffect(() => {
     setNonProxyLoadError(false);
-    console.log("useEffect");
   }, [props.img]);
 
   return (

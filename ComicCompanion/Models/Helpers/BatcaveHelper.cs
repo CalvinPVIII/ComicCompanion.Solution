@@ -59,7 +59,7 @@ public class BatcaveHelper : ComicHelper
 
         string issueName = document.QuerySelector(".chapter__selector-trigger__title").InnerHtml;
         string comicName = document.QuerySelector(".header__post-title").InnerHtml;
-        var chapter = new Chapter(){Title=issueName, Images=images,Id=issueId, ComicId=comicId, Pages=images.Length};
+        var chapter = new Chapter(){Title=issueName, Images=images,Id=issueId, ComicId=comicId, Pages=images.Length, ComicName=comicName};
 
         return chapter;
     }

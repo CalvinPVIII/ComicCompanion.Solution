@@ -52,7 +52,6 @@ export default function IssueImage(props: IssueImageProps) {
 
   useEffect(() => {
     setNonProxyLoadError(false);
-    console.log("useEffect");
   }, [props.img]);
 
   return (

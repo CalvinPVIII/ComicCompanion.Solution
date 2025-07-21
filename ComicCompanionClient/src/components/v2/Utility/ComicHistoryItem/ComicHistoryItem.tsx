@@ -24,7 +24,6 @@ export default function ComicHistoryItem(props: ReadingHistoryItemsListProps) {
     dispatch(deleteHistoryItem({ isReadingListItem: isReadingList, itemId: historyItem.historyItemId }));
     toggleConfirmDelete();
   };
-  console.log(historyItem);
 
   return (
     <>

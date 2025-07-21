@@ -50,7 +50,7 @@ export default class ComicCompanionAPIService {
     }
     const apiResponse = await fetch(fetchUrl);
     const jsonResponse = await apiResponse.json();
-    console.log(jsonResponse);
+
     return jsonResponse as unknown as Comic;
   }
 

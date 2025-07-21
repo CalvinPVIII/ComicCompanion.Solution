@@ -94,7 +94,6 @@ export default function ConfirmReadingList() {
     const errors = errorChecker();
     if (errors) return;
     if (!readingList) return;
-    console.log(JSON.stringify(readingList.issues));
     const list: UserReadingListPostRequest = {
       readingListId: readingList.readingListId || 0,
       serializedIssues: JSON.stringify(readingList.issues),

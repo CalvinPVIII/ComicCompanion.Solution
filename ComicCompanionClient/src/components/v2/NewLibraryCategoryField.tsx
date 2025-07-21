@@ -22,7 +22,6 @@ export default function NewLibraryCategoryField(props: NewLibraryCategoryFieldPr
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("click");
     setInputError(false);
     if (inputValue.length <= 0) {
       setInputError(true);
