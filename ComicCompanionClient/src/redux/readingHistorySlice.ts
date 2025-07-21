@@ -25,6 +25,8 @@ interface UpdateHistoryAction {
   pagesRead: number;
   completed: boolean;
   isReadingListItem: boolean;
+  issueName: string;
+  issueImg?: string;
 }
 
 interface DeleteHistoryIssueAction {
@@ -78,16 +80,15 @@ const readingHistorySlice = createSlice({
       }
     },
     updateHistoryItem: (state, action: PayloadAction<UpdateHistoryAction>) => {
-      const item = action.payload.isReadingListItem
-        ? state.readingListHistory[action.payload.historyItemId]?.issuesRead[action.payload.issueId]
-        : state.comicHistory[action.payload.historyItemId]?.issuesRead[action.payload.issueId];
+      const historySlice = action.payload.isReadingListItem ? state.readingListHistory : state.comicHistory;
 
-      if (item) {
-        item.pagesRead = action.payload.pagesRead;
-        if (action.payload.completed) {
-          item.completed = true;
-        }
-      }
+      const { pagesRead, completed, issueName, issueImg } = action.payload;
+      historySlice[action.payload.historyItemId].issuesRead[action.payload.issueId] = {
+        pagesRead,
+        completed,
+        issueName,
+        issueImg,
+      };
     },
 
     deleteHistoryIssue: (state, action: PayloadAction<DeleteHistoryIssueAction>) => {

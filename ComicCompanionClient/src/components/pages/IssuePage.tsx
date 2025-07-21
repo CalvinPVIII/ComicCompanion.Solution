@@ -104,9 +104,11 @@ export default function IssuePage() {
           updateHistoryItem({
             isReadingListItem: listId ? true : false,
             issueId: apiResponse.id,
+            issueName: apiResponse.title,
             pagesRead: pageNumber,
             completed: pageNumber >= apiResponse.pages - 2,
             historyItemId: listId ? listId : apiResponse.comicId,
+            issueImg: apiResponse.images[0]
           })
         );
       }
